@@ -1,0 +1,21 @@
+[NetDev]
+Name={{ wireguard_interface }}
+Kind=wireguard
+Description={{ wireguard_description }}
+
+[WireGuard]
+{% if wireguard_listen_port %}
+ListenPort={{ wireguard_listen_port }}
+{% endif %}
+PrivateKeyFile={{ wireguard_path }}/wireguard.key
+
+{% for peer in wireguard_peers %}
+[WireGuardPeer]
+{% for addr in peer.allowed_ips %}
+AllowedIPs={{ addr }}
+{% endfor %}
+PublicKey={{ peer.public_key }}
+{% if endpoint %}
+Endpoint={{ peer.endpoint }}
+{% endif %}
+{% endfor %}

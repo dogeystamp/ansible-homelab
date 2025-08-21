@@ -1,0 +1,13 @@
+[Match]
+Name={{ wireguard_interface }}
+
+[Network]
+{% for addr in wireguard_addresses %}
+Address={{ addr }}
+{% endfor %}
+{% if wireguard_masquerade %}
+IPMasquerade=both
+{% endif %}
+{% for addr in wireguard_dns %}
+DNS={{ addr }}
+{% endfor %}

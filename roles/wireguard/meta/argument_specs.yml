@@ -1,0 +1,75 @@
+---
+argument_specs:
+  main:
+    short_description: "Configure WireGuard VPN through systemd-networkd"
+    description:
+      - 'This role configures a WireGuard interface for a given host.'
+      - 'It will generate a key if it does not exist.
+        Public keys will be stored in the C(wireguard_public_keys) dictionary on localhost as an Ansible fact.
+        Key generation happens on the Ansible controller host; it requires the C(wireguard-tools) package.
+        Once the key is generated, it is stored on the remote host.'
+      - "The role will immediately start the VPN interface on the remote host.
+        A working systemd-networkd setup is required on the remote host for this role to work.
+        To prevent automatic start, disable O(wireguard_immediate)."
+    author:
+      - "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      wireguard_interface:
+        description: 'Name of the network interface to use for the VPN, e.g. C(wg0).'
+        type: 'str'
+        required: true
+      wireguard_addresses:
+        description:
+          - "This peer's addresses within the VPN."
+          - "Use CIDR notation to show the VPN's subnet, e.g. C(10.0.0.1/24) for a host with IP C(10.0.0.1), and in the C(10.0.0.x) VPN subnet."
+        type: 'list'
+        elements: "str"
+        required: true
+      wireguard_listen_port:
+        description: 'UDP port for WireGuard to listen on. A typical port is C(51820).'
+        type: 'int'
+      wireguard_description:
+        description: "Description for the network interface."
+        type: 'str'
+      wireguard_dns:
+        description: "IP addresses of the DNS servers to use within the VPN."
+        type: "list"
+        elements: "str"
+      wireguard_peers:
+        description: "List of peers."
+        type: "list"
+        default: []
+        options:
+          public_key:
+            description: "WireGuard public key for a this peer."
+            type: "str"
+            required: true
+          allowed_ips:
+            description: "Allowed IP addresses for crypto-key routing (use CIDR notation)."
+            type: "list"
+            elements: "str"
+            required: true
+          endpoint:
+            description: "IP address and port to reach this peer outside the VPN."
+            type: "str"
+      wireguard_masquerade:
+        description: "Enable IP masquerading so that this host can act like a router for its peers."
+        type: "bool"
+        default: false
+      wireguard_path:
+        description:
+          - "Path to the folder to place the systemd-networkd configuration in. (Do not add a trailing slash.)"
+          - "This option may be useful to generate a configuration without applying it to the system."
+        type: "str"
+        default: "/etc/systemd/network"
+      wireguard_host:
+        description: "Name within Ansible of the host being configured. This is used to set the public key fact for the right host."
+        type: "str"
+      wireguard_file_owner:
+        description: "Username of the UNIX owner of the configuration and key files."
+        type: "str"
+        default: "systemd-network"
+      wireguard_immediate:
+        description: "Immediately reset systemd-networkd to start the VPN interface."
+        type: "bool"
+        default: true

@@ -1,0 +1,11 @@
+---
+# See meta/argument_specs.yml for information on how to use this role.
+
+wireguard_description: "WireGuard VPN tunnel"
+wireguard_peers: []
+wireguard_dns: []
+wireguard_masquerade: false
+wireguard_immediate: true
+wireguard_path: "/etc/systemd/network"
+wireguard_file_owner: "systemd-network"
+wireguard_host: "{{ inventory_hostname }}"

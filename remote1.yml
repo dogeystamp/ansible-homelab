@@ -1,0 +1,15 @@
+---
+
+- name: Pre-VM remote setup
+  hosts: real
+  tasks:
+    - name: Configure WireGuard server-side
+      ansible.builtin.include_role:
+        name: wireguard
+      vars:
+        wireguard_interface: "wg1"
+        wireguard_listen_port: 51820
+        wireguard_description: "VPN ONE — WireGuard tunnel"
+        wireguard_addresses:
+          - 10.55.55.1/24
+        wireguard_masquerade: true
