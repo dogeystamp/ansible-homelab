@@ -4,18 +4,18 @@ Kind=wireguard
 Description={{ wireguard_description }}
 
 [WireGuard]
-{% if wireguard_listen_port %}
+{% if wireguard_listen_port is defined %}
 ListenPort={{ wireguard_listen_port }}
 {% endif %}
 PrivateKeyFile={{ wireguard_path }}/wireguard.key
 
 {% for peer in wireguard_peers %}
 [WireGuardPeer]
-{% for addr in peer.allowed_ips %}
+{% for addr in (peer.allowed_ips | default([])) %}
 AllowedIPs={{ addr }}
 {% endfor %}
 PublicKey={{ peer.public_key }}
-{% if endpoint %}
+{% if endpoint is defined %}
 Endpoint={{ peer.endpoint }}
 {% endif %}
 {% endfor %}

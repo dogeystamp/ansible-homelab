@@ -1,0 +1,8 @@
+---
+# Default options for the entire playbook.
+
+# Username for administrative users (used on all hosts)
+admin_username: erus
+
+# Base image for VMs
+libvirt_clean_image: "/usr/share/debian.qcow2"

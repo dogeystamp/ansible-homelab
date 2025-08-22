@@ -1,0 +1,127 @@
+---
+# See meta/argument_specs.yml for information on how to use this role.
+
+- name: Create VM directory
+  ansible.builtin.file:
+    name: "{{ libvirt_vm_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "u=rwx,g=x,o=x"
+
+- name: Create VM user
+  ansible.builtin.user:
+    name: "{{ libvirt_vm_name }}"
+    state: present
+    create_home: true
+    home: "{{ libvirt_vm_directory }}/{{ libvirt_vm_name }}"
+    system: true
+    shell: "/usr/sbin/nologin"
+  register: vm_user
+
+- name: Create VM directory
+  ansible.builtin.file:
+    path: "{{ vm_user.home }}/machine"
+    state: directory
+    owner: "{{ vm_user.uid }}"
+    group: root
+    mode: "u=rwx,g=,o="
+  register: vm_dir
+
+- name: List VMs
+  community.libvirt.virt:
+    uri: "qemu:///session"
+    command: list_vms
+  register: current_vms
+  changed_when: false
+  become_user: "{{ vm_user.name }}"
+  become: true
+
+- name: Create VM first-boot image
+  when: "libvirt_vm_name not in current_vms.list_vms"
+  block:
+    - name: Copy clean VM disk image
+      ansible.builtin.copy:
+        src: "{{ libvirt_clean_image }}"
+        remote_src: true
+        dest: "{{ vm_dir.path }}/"
+        owner: "{{ vm_user.uid }}"
+        group: root
+        force: false
+        mode: "u=rw,g=,o="
+      register: vm_image
+
+    - name: Deploy first-boot provision script
+      ansible.builtin.template:
+        src: "provision.sh.j2"
+        dest: "{{ vm_dir.path }}/provision.sh"
+        owner: "{{ vm_user.uid }}"
+        group: root
+        mode: "u=rw,g=,o="
+      register: vm_provision_script
+
+    - name: Customize VM disk image
+      ansible.builtin.command:
+        argv:
+          - "virt-customize"
+          - "-a"
+          - "{{ vm_image.dest }}"
+          - "--firstboot"
+          - "{{ vm_provision_script.dest }}"
+      become_user: "{{ vm_user.name }}"
+      become: true
+      changed_when: true
+
+    - name: Create WireGuard configuration directory
+      ansible.builtin.file:
+        path: "{{ vm_dir.path }}/vpn"
+        state: directory
+        owner: "{{ vm_user.uid }}"
+        group: root
+        mode: "u=rwx,g=,o="
+      register: vpn_dir
+
+    - name: Create VM WireGuard setup
+      ansible.builtin.import_role:
+        name: wireguard
+      vars:
+        wireguard_interface: "wg1"
+        wireguard_addresses: "{{ libvirt_vpn_addresses }}"
+        wireguard_description: "VPN ONE — {{ libvirt_vm_name }}"
+        wireguard_file_owner: "{{ vm_user.name }}"
+        wireguard_peers:
+          - public_key: "{{ hostvars['localhost']['wireguard_public_keys'][inventory_hostname] }}"
+            allowed_ips: "0.0.0.0/0"
+          # hardcoded QEMU host IP (in rootless networking)
+            endpoint: "10.0.2.2"
+        wireguard_path: "{{ vpn_dir.path }}"
+        wireguard_immediate: false
+
+    - name: Deploy WireGuard configuration to VM
+      ansible.builtin.command:
+        argv:
+          - "virt-customize"
+          - "-a"
+          - "{{ vm_image.dest }}"
+          - "--copy-in"
+          - "{{ vpn_dir.path }}:/root/"
+      become_user: "{{ vm_user.name }}"
+      become: true
+      changed_when: true
+
+    - name: Define VM
+      community.libvirt.virt:
+        uri: "qemu:///session"
+        autostart: "{{ libvirt_autostart }}"
+        command: "define"
+        xml: "{{ lookup('template', 'vm.xml.j2') }}"
+      become_user: "{{ vm_user.name }}"
+      become: true
+
+    - name: Start VM
+      community.libvirt.virt:
+        uri: "qemu:///session"
+        name: "{{ libvirt_vm_name }}"
+        state: running
+      become_user: "{{ vm_user.name }}"
+      become: true

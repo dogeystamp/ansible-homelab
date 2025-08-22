@@ -1,0 +1,14 @@
+---
+# Install necessary dependencies for the libvirt role.
+
+- name: Install packages for libvirt
+  community.general.zypper:
+    name:
+      - libvirt
+      - python311-libvirt-python
+      - python311-lxml
+      - libvirt-client
+      - systemd-container
+      - guestfs-tools
+    state: present
+  when: ansible_pkg_mgr == "zypper"

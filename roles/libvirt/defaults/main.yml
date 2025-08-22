@@ -1,0 +1,6 @@
+---
+# See meta/argument_specs.yml for information on how to use this role.
+
+libvirt_agent_user: "admin"
+libvirt_vm_directory: "/var/lib/vms"
+libvirt_autostart: true

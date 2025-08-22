@@ -1,0 +1,31 @@
+#!/bin/sh
+# Provision a newly booted virtual machine image.
+# This script was written for Debian Trixie.
+
+set -e
+
+apt-get update
+apt-get --yes install ssh
+
+useradd -m --groups wheel {{ libvirt_agent_user }}
+
+# enable passwordless run0 access for the agent
+cat << "EOF"
+polkit.addRule(function(action, subject) {
+  if (action.id == "org.freedesktop.systemd1.manage-units") {
+    if (subject.isInGroup("wheel") && subject.user == "{{ libvirt_agent_user }}") {
+      return polkit.Result.YES;
+    }
+  }
+})
+EOF
+
+# inject SSH pubkey
+mkdir ~{{ libvirt_agent_user }}/.ssh
+printf '%s' '{{ libvirt_agent_pubkey }}' > ~{{ libvirt_agent_user }}/.ssh/authorized_keys
+
+# copy wireguard configuration
+mv /root/vpn/. /etc/systemd/network/
+systemctl restart systemd-networkd
+
+systemctl enable --now sshd

@@ -1,0 +1,70 @@
+<domain type='kvm'>
+  <name>{{ libvirt_vm_name }}</name>
+  <memory unit='MiB'>{{ libvirt_memory_mib | default(1024, true) }}</memory>
+  <vcpu placement='static'>{{ libvirt_cpu_count | default(1, true) }}</vcpu>
+  <os>
+	<type>hvm</type>
+	<boot dev='hd'/>
+  </os>
+  <features>
+	<acpi/>
+	<apic/>
+  </features>
+  <cpu mode='host-passthrough' check='none' migratable='on'/>
+  <clock offset='utc'>
+	<timer name='rtc' tickpolicy='catchup'/>
+	<timer name='pit' tickpolicy='delay'/>
+	<timer name='hpet' present='no'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <pm>
+	<suspend-to-mem enabled='no'/>
+	<suspend-to-disk enabled='no'/>
+  </pm>
+  <devices>
+	<disk type='file' device='disk'>
+	  <driver name='qemu' type='qcow2'/>
+	  <source file='{{ vm_image.dest }}' index='1'/>
+	  <backingStore/>
+	  <target dev='vda' bus='virtio'/>
+	  <alias name='virtio-disk0'/>
+	  <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
+	</disk>
+	<controller type='pci' index='0' model='pci-root'>
+	  <alias name='pci.0'/>
+	</controller>
+	<interface type='user'>
+	  <mac address='{{ libvirt_mac_address }}'/>
+	  <model type='virtio'/>
+	  <address type='pci' domain='0x0000' bus='0x00' slot='0x00' function='0x0'/>
+	</interface>
+	<serial type='pty'>
+	  <source path='/dev/pts/0'/>
+	  <target type='isa-serial' port='0'>
+		<model name='isa-serial'/>
+	  </target>
+	  <alias name='serial0'/>
+	</serial>
+	<console type='pty' tty='/dev/pts/0'>
+	  <source path='/dev/pts/0'/>
+	  <target type='serial' port='0'/>
+	  <alias name='serial0'/>
+	</console>
+	<input type='keyboard' bus='ps2'>
+	  <alias name='input2'/>
+	</input>
+	<audio id='1' type='none'/>
+	<video>
+	  <model type='vga' vram='16384' heads='1' primary='yes'/>
+	  <alias name='video0'/>
+	  <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
+	</video>
+	<memballoon model='virtio'>
+	  <alias name='balloon0'/>
+	  <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0'/>
+	</memballoon>
+  </devices>
+</domain>
+

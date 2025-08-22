@@ -1,0 +1,53 @@
+---
+argument_specs:
+  main:
+    short_description: "Create virtual machines based on Ansible inventory."
+    description:
+      - "This role provisions new rootless virtual machines. Each VM has its own user."
+      - "Virtual machines are provisioned with an Ansible agent, SSH server and VPN configuration."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      libvirt_vm_name:
+        description:
+          - "VM's name in libvirt (its hostname has to be set separately)."
+        type: "str"
+        required: true
+      libvit_vm_directory:
+        description: "Directory to store VM information in. (The VM user's home directory will be created here.)"
+        type: "path"
+        default: "/var/lib/vms"
+      libvirt_clean_image:
+        description: "An original unmodified qcow2 image (already on the remote host) to copy to VMs."
+        type: "path"
+        required: true
+      libvirt_mac_address:
+        description:
+          - "MAC address to assign to this VM."
+          - "Consider using the C(52:54:00) prefix (QEMU virtual)."
+        type: "str"
+        required: true
+      libvirt_vpn_addresses:
+        description: "IP addresses within the VPN that this VM has (use CIDR)."
+        type: "list"
+        elements: "str"
+        required: true
+      libvirt_memory_mib:
+        description: "Amount of memory to allocate for this VM (in MiB)."
+        type: "int"
+        default: 1024
+      libvirt_cpu_count:
+        description: "Number of virtual CPUs to allocate for this VM."
+        type: "int"
+        default: 1
+      libvirt_agent_user:
+        description: "Username for the admin user to provision in the VM. Only use alphanumeric characters."
+        type: "str"
+        default: "admin"
+      libvirt_agent_pubkey:
+        description: "SSH public key to log into the admin agent."
+        type: "str"
+        required: true
+      libvirt_autostart:
+        description: "Whether to start the VM at boot."
+        type: "bool"
+        default: true
