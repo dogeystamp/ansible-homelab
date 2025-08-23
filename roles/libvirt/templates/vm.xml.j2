@@ -26,7 +26,7 @@
   <devices>
 	<disk type='file' device='disk'>
 	  <driver name='qemu' type='qcow2'/>
-	  <source file='{{ vm_image.dest }}' index='1'/>
+	  <source file='{{ vm_image_path }}' index='1'/>
 	  <backingStore/>
 	  <target dev='vda' bus='virtio'/>
 	  <alias name='virtio-disk0'/>
@@ -36,6 +36,7 @@
 	  <alias name='pci.0'/>
 	</controller>
 	<interface type='user'>
+		<backend type='passt'>
 	  <mac address='{{ libvirt_mac_address }}'/>
 	  <model type='virtio'/>
 	  <address type='pci' domain='0x0000' bus='0x00' slot='0x00' function='0x0'/>
