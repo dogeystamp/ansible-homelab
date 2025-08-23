@@ -60,7 +60,16 @@
     wireguard_path: "{{ vpn_dir.path }}"
     wireguard_immediate: false
 
-- name: List VMs
+- name: Get VM image path
+  ansible.builtin.set_fact:
+    vm_image_path: "{{ vm_dir.path }}/{{ libvirt_clean_image | basename }}"
+
+- name: Check if VM image already exists
+  ansible.builtin.stat:
+    path: "{{ vm_image_path }}"
+  register: vm_image
+
+- name: List existing VMs
   community.libvirt.virt:
     uri: "qemu:///session"
     command: list_vms
@@ -70,18 +79,17 @@
   become: true
 
 - name: Create VM first-boot image
-  when: "libvirt_vm_name not in current_vms.list_vms"
+  when: "libvirt_vm_name not in current_vms.list_vms or not vm_image.stat.exists"
   block:
     - name: Copy clean VM disk image
       ansible.builtin.copy:
         src: "{{ libvirt_clean_image }}"
         remote_src: true
-        dest: "{{ vm_dir.path }}/"
+        dest: "{{ vm_image_path }}"
         owner: "{{ vm_user.uid }}"
         group: root
         force: false
         mode: "u=rw,g=,o="
-      register: vm_image
 
     - name: Deploy first-boot provision script
       ansible.builtin.template:
@@ -118,6 +126,9 @@
       become: true
       changed_when: true
 
+- name: Register VM in libvirt
+  when: "libvirt_vm_name not in current_vms.list_vms"
+  block:
     - name: Define VM
       community.libvirt.virt:
         uri: "qemu:///session"
