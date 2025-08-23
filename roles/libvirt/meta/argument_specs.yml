@@ -9,7 +9,7 @@ argument_specs:
     options:
       libvirt_vm_name:
         description:
-          - "VM's name in libvirt (its hostname has to be set separately)."
+          - "VM's hostname."
         type: "str"
         required: true
       libvit_vm_directory:
@@ -30,6 +30,9 @@ argument_specs:
         description: "IP addresses within the VPN that this VM has (use CIDR)."
         type: "list"
         elements: "str"
+        required: true
+      libvirt_vpn_interface:
+        type: "str"
         required: true
       libvirt_memory_mib:
         description: "Amount of memory to allocate for this VM (in MiB)."

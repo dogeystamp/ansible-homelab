@@ -7,6 +7,7 @@ set -e
 apt-get update
 apt-get --yes install ssh
 
+groupadd -f wheel
 useradd -m --groups wheel {{ libvirt_agent_user }}
 
 # enable passwordless run0 access for the agent
@@ -25,7 +26,8 @@ mkdir ~{{ libvirt_agent_user }}/.ssh
 printf '%s' '{{ libvirt_agent_pubkey }}' > ~{{ libvirt_agent_user }}/.ssh/authorized_keys
 
 # copy wireguard configuration
-mv /root/vpn/. /etc/systemd/network/
+chown -R root:systemd-network /root/vpn
+chmod -R 640 /root/vpn
+mv /root/vpn/* /etc/systemd/network/
 systemctl restart systemd-networkd
-
 systemctl enable --now sshd

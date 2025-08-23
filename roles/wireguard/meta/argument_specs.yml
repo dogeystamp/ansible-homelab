@@ -4,10 +4,6 @@ argument_specs:
     short_description: "Configure WireGuard VPN through systemd-networkd"
     description:
       - 'This role configures a WireGuard interface for a given host.'
-      - 'It will generate a key if it does not exist.
-        Public keys will be stored in the C(wireguard_public_keys) dictionary on localhost as an Ansible fact.
-        Key generation happens on the Ansible controller host; it requires the C(wireguard-tools) package.
-        Once the key is generated, it is stored on the remote host.'
       - "The role will immediately start the VPN interface on the remote host.
         A working systemd-networkd setup is required on the remote host for this role to work.
         To prevent automatic start, disable O(wireguard_immediate)."
@@ -67,6 +63,10 @@ argument_specs:
         type: "str"
       wireguard_file_owner:
         description: "Username of the UNIX owner of the configuration and key files."
+        type: "str"
+        default: "root"
+      wireguard_file_group:
+        description: "Group name of the UNIX group of the configuration and key files."
         type: "str"
         default: "systemd-network"
       wireguard_immediate:

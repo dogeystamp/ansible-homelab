@@ -1,0 +1,6 @@
+---
+
+wireguard_host: "{{ inventory_hostname }}"
+wireguard_path: "/etc/systemd/network"
+wireguard_file_owner: "root"
+wireguard_file_group: "systemd-network"

@@ -1,0 +1,92 @@
+---
+# See meta/argument_specs.yml to see how to use this role.
+
+- name: Set paths
+  ansible.builtin.set_fact:
+    privkey_path: "{{ wireguard_path }}/network.wireguard.private.{{ wireguard_interface }}"
+    privkey_path_absolute: "/etc/systemd/network/network.wireguard.private.{{ wireguard_interface }}"
+    pubkey_path: "{{ wireguard_path }}/network.wireguard.public.{{ wireguard_interface }}"
+
+- name: Check that WireGuard private key exists
+  ansible.builtin.stat:
+    path: "{{ privkey_path }}"
+  register: privkey
+
+- name: Check that WireGuard public key exists
+  ansible.builtin.stat:
+    path: "{{ pubkey_path }}"
+  register: pubkey
+
+- name: Decide whether to regenerate WireGuard key pair
+  set_fact:
+    do_regenerate_wg_keypair: "{{ not privkey.stat.exists or not pubkey.stat.exists }}"
+
+- name: Configure WireGuard
+  when: do_regenerate_wg_keypair
+  block:
+    - name: Generate WireGuard private key
+      ansible.builtin.command:
+        expand_argument_vars: false
+        argv:
+          - "wg"
+          - "genkey"
+      register: privkey_cmd
+      changed_when: true
+      delegate_to: localhost
+      become: false
+      no_log: true
+
+    - name: Generate WireGuard public key
+      ansible.builtin.command:
+        expand_argument_vars: false
+        argv:
+          - "wg"
+          - "pubkey"
+        stdin: "{{ privkey_cmd.stdout }}"
+      register: pubkey_cmd
+      changed_when: true
+      become: false
+      delegate_to: localhost
+
+    - name: Assign public key variable (newly generated)
+      ansible.builtin.set_fact:
+        current_pubkey: "{{ pubkey_cmd.stdout }}"
+
+    - name: Write WireGuard private key to remote host
+      ansible.builtin.template:
+        dest: "{{ privkey_path }}"
+        src: wgx.key.j2
+        owner: "{{ wireguard_file_owner }}"
+        group: "{{ wireguard_file_group }}"
+        mode: u=rw,g=r,o=
+      no_log: true
+      notify: Reload systemd-networkd
+
+    - name: Write WireGuard public key to remote host
+      ansible.builtin.template:
+        dest: "{{ pubkey_path }}"
+        src: wgx.pub.j2
+        owner: "{{ wireguard_file_owner }}"
+        group: "{{ wireguard_file_group }}"
+        mode: u=rw,g=r,o=
+      notify: Reload systemd-networkd
+
+- name: Read existing WireGuard configuration
+  when: not do_regenerate_wg_keypair
+  block:
+    - name: Read WireGuard existing public key from remote host
+      ansible.builtin.slurp:
+        src: "{{ pubkey_path }}"
+      register: pubkey_slurp
+
+    - name: Assign public key variable (exists already)
+      ansible.builtin.set_fact:
+        current_pubkey: "{{ pubkey_slurp.content | b64decode }}"
+
+- name: Save public key for future use
+  ansible.builtin.set_fact: {
+    "{{ 'wireguard_public_keys_' + wireguard_interface }}":
+      "{{ hostvars.localhost['wireguard_public_keys_' + wireguard_interface] | default({}) | combine({ wireguard_host : current_pubkey | trim }) }}"
+  }
+  delegate_to: localhost
+  delegate_facts: true

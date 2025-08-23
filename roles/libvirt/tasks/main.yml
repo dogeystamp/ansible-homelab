@@ -28,6 +28,38 @@
     mode: "u=rwx,g=,o="
   register: vm_dir
 
+# WireGuard configuration is created and never deleted, because
+# otherwise we can't read the public key out of the VM easily. This
+# should not create any extra security risks, because the VM user has
+# access to the VM image anyways, so they already have access to the key.
+- name: Create WireGuard configuration directory
+  ansible.builtin.file:
+    path: "{{ vm_dir.path }}/vpn"
+    state: directory
+    owner: "{{ vm_user.uid }}"
+    group: root
+    mode: "u=rwx,g=,o="
+  register: vpn_dir
+
+- name: Create VM WireGuard setup
+  ansible.builtin.import_role:
+    name: wireguard
+  vars:
+    wireguard_host: "{{ libvirt_vm_name }}"
+    wireguard_interface: "wg1"
+    wireguard_addresses: "{{ libvirt_vpn_addresses }}"
+    wireguard_description: "VPN ONE — {{ libvirt_vm_name }}"
+    wireguard_file_owner: "{{ vm_user.name }}"
+    wireguard_peers:
+      # this is the hypervisor pubkey
+      - public_key: "{{ hostvars.localhost['wireguard_public_keys_' + libvirt_vpn_interface][inventory_hostname] }}"
+        allowed_ips:
+          - "0.0.0.0/0"
+      # hardcoded QEMU host IP (in rootless networking)
+        endpoint: "10.0.2.2:51820"
+    wireguard_path: "{{ vpn_dir.path }}"
+    wireguard_immediate: false
+
 - name: List VMs
   community.libvirt.virt:
     uri: "qemu:///session"
@@ -68,34 +100,11 @@
           - "{{ vm_image.dest }}"
           - "--firstboot"
           - "{{ vm_provision_script.dest }}"
+          - "--hostname"
+          - "{{ libvirt_vm_name }}"
       become_user: "{{ vm_user.name }}"
       become: true
       changed_when: true
-
-    - name: Create WireGuard configuration directory
-      ansible.builtin.file:
-        path: "{{ vm_dir.path }}/vpn"
-        state: directory
-        owner: "{{ vm_user.uid }}"
-        group: root
-        mode: "u=rwx,g=,o="
-      register: vpn_dir
-
-    - name: Create VM WireGuard setup
-      ansible.builtin.import_role:
-        name: wireguard
-      vars:
-        wireguard_interface: "wg1"
-        wireguard_addresses: "{{ libvirt_vpn_addresses }}"
-        wireguard_description: "VPN ONE — {{ libvirt_vm_name }}"
-        wireguard_file_owner: "{{ vm_user.name }}"
-        wireguard_peers:
-          - public_key: "{{ hostvars['localhost']['wireguard_public_keys'][inventory_hostname] }}"
-            allowed_ips: "0.0.0.0/0"
-          # hardcoded QEMU host IP (in rootless networking)
-            endpoint: "10.0.2.2"
-        wireguard_path: "{{ vpn_dir.path }}"
-        wireguard_immediate: false
 
     - name: Deploy WireGuard configuration to VM
       ansible.builtin.command:

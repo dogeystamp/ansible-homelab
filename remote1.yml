@@ -1,9 +1,44 @@
 ---
 
-- name: Pre-VM remote setup
-  hosts: real
+- name: Virtual machine setup
+  hosts: hypervisors
   tasks:
-    - name: Configure WireGuard server-side
+    - name: Generate WireGuard server keys (VPN ONE)
+      ansible.builtin.include_role:
+        name: wireguard-key
+      vars:
+        wireguard_interface: "wg1"
+
+    - name: Create virtual machines
+      ansible.builtin.include_role:
+        name: libvirt
+      with_items: "{{ groups['domains'] }}"
+      loop_control:
+        loop_var: current_domain
+      vars:
+        libvirt_vm_name: "{{ current_domain }}"
+        libvirt_mac_address: "{{ hostvars[current_domain].libvirt_mac_address }}"
+        libvirt_vpn_addresses:
+          - "{{ hostvars[current_domain].ansible_host }}/32"
+        libvirt_vpn_interface: "wg1"
+        libvirt_memory_mib: "{{ hostvars[current_domain].libvirt_memory_mib | default(0) }}"
+        libvirt_cpu_count: "{{ hostvars[current_domain].libvirt_cpu_count | default(0) }}"
+        libvirt_agent_user: "{{ admin_username }}"
+        libvirt_agent_pubkey: "<snip>"
+
+    - name: "Compile peer list (VPN ONE): virtual machines"
+      ansible.builtin.set_fact:
+        wg_server_peers: |
+          {{
+            wg_server_peers | default([]) +
+            [{
+              'public_key': hostvars['localhost'].wireguard_public_keys_wg1[item],
+              'allowed_ips': [hostvars[item].ansible_host + '/32'],
+            }]
+          }}
+      with_items: "{{ groups['domains'] }}"
+
+    - name: WireGuard server setup (VPN ONE)
       ansible.builtin.include_role:
         name: wireguard
       vars:
@@ -13,3 +48,5 @@
         wireguard_addresses:
           - 10.55.55.1/24
         wireguard_masquerade: true
+        wireguard_immediate: true
+        wireguard_peers: "{{ wg_server_peers }}"

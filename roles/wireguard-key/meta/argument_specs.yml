@@ -1,0 +1,32 @@
+---
+argument_specs:
+  main:
+    short_description: "Generate WireGuard keypairs"
+    description:
+      - 'The role will generate a key if it does not exist.
+        Public keys will be stored in the C(wireguard_public_keys_<interface name>) dictionary on localhost as an Ansible fact.
+        Key generation happens on the Ansible controller host; it requires the C(wireguard-tools) package.
+        Once the key is generated, it is stored on the remote host.'
+    author:
+      - "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      wireguard_path:
+        description:
+          - "Path to the folder to place the keys in. (Do not add a trailing slash.)"
+        type: "str"
+        default: "/etc/systemd/network"
+      wireguard_host:
+        description: "Name within Ansible of the host the keys are for. This is used to set the public key fact for the right host."
+        type: "str"
+      wireguard_file_owner:
+        description: "Username of the UNIX owner of the configuration and key files."
+        type: "str"
+        default: "root"
+      wireguard_file_group:
+        description: "Group name of the UNIX group of the configuration and key files."
+        type: "str"
+        default: "systemd-network"
+      wireguard_interface:
+        description: 'Name of the network interface to use for the VPN, e.g. C(wg0).'
+        type: 'str'
+        required: true
