@@ -1,0 +1,11 @@
+[Service]
+Description=Wake up rootless libvirt autostart VMs
+After=local-fs.target
+After=network.target
+
+ExecStart=/usr/bin/virsh list
+RemainAfterExit=true
+Type=oneshot
+
+[Install]
+WantedBy=default.target

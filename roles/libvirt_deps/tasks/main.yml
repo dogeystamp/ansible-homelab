@@ -5,6 +5,7 @@
   community.general.zypper:
     name:
       - libvirt
+      - passt
       - python313-libvirt-python
       - python313-lxml
       - libvirt-client

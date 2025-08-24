@@ -1,7 +1,7 @@
 ---
 # See meta/argument_specs.yml for information on how to use this role.
 
-- name: Create VM directory
+- name: Create VM home directory
   ansible.builtin.file:
     name: "{{ libvirt_vm_directory }}"
     state: directory
@@ -55,8 +55,10 @@
       - public_key: "{{ hostvars.localhost['wireguard_public_keys_' + libvirt_vpn_interface][inventory_hostname] }}"
         allowed_ips:
           - "0.0.0.0/0"
-      # hardcoded QEMU host IP (in rootless networking)
-        endpoint: "10.0.2.2:51820"
+        # QEMU host IP (in passt rootless networking)
+        # not really sure if this is always the case...
+        endpoint: "192.168.0.1:51820"
+        persistent_keepalive: 25
     wireguard_path: "{{ vpn_dir.path }}"
     wireguard_immediate: false
 
@@ -79,7 +81,7 @@
   become: true
 
 - name: Create VM first-boot image
-  when: "libvirt_vm_name not in current_vms.list_vms or not vm_image.stat.exists"
+  when: "libvirt_vm_name not in current_vms.list_vms and not vm_image.stat.exists"
   block:
     - name: Copy clean VM disk image
       ansible.builtin.copy:
@@ -105,7 +107,7 @@
         argv:
           - "virt-customize"
           - "-a"
-          - "{{ vm_image.dest }}"
+          - "{{ vm_image_path }}"
           - "--firstboot"
           - "{{ vm_provision_script.dest }}"
           - "--hostname"
@@ -119,7 +121,7 @@
         argv:
           - "virt-customize"
           - "-a"
-          - "{{ vm_image.dest }}"
+          - "{{ vm_image_path }}"
           - "--copy-in"
           - "{{ vpn_dir.path }}:/root/"
       become_user: "{{ vm_user.name }}"
@@ -145,3 +147,58 @@
         state: running
       become_user: "{{ vm_user.name }}"
       become: true
+
+- name: Create systemd user service directory
+  ansible.builtin.file:
+    path: "~/.config/systemd"
+    state: directory
+    owner: "{{ vm_user.name }}"
+    group: "{{ vm_user.name }}"
+    mode: u=rwx,g=,o=
+  become_user: "{{ vm_user.name }}"
+  become: true
+
+- name: Create systemd user service directory
+  ansible.builtin.file:
+    path: "~/.config/systemd/user"
+    state: directory
+    owner: "{{ vm_user.name }}"
+    group: "{{ vm_user.name }}"
+    mode: u=rwx,g=,o=
+  become_user: "{{ vm_user.name }}"
+  become: true
+
+- name: Create systemd user service to wake up libvirt
+  ansible.builtin.template:
+    src: vm-wakeup.service
+    dest: "~/.config/systemd/user/vm-wakeup.service"
+    force: false
+    owner: "{{ vm_user.name }}"
+    group: "{{ vm_user.name }}"
+    mode: u=rw,g=,o=
+  become_user: "{{ vm_user.name }}"
+  become: true
+  register: systemd_service
+
+- name: Enable VM wakeup service
+  ansible.builtin.command:
+    argv:
+      - machinectl
+      - shell
+      - "{{ vm_user.name }}@"
+      - "/usr/bin/systemctl"
+      - "--user"
+      - enable
+      - "--now"
+      - "vm-wakeup.service"
+  when: systemd_service.changed
+  changed_when: true
+
+- name: Enable linger for user
+  ansible.builtin.command:
+    argv:
+      - loginctl
+      - enable-linger
+      - "{{ vm_user.name }}"
+  when: systemd_service.changed
+  changed_when: true

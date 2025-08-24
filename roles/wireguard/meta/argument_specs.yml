@@ -48,6 +48,9 @@ argument_specs:
           endpoint:
             description: "IP address and port to reach this peer outside the VPN."
             type: "str"
+          persistent_keepalive:
+            description: "See wg(8) for more information."
+            type: "int"
       wireguard_masquerade:
         description: "Enable IP masquerading so that this host can act like a router for its peers."
         type: "bool"

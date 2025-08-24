@@ -27,7 +27,11 @@ argument_specs:
         type: "str"
         required: true
       libvirt_vpn_addresses:
-        description: "IP addresses within the VPN that this VM has (use CIDR)."
+        description:
+          - "IP addresses within the VPN that this VM has."
+          - "Use CIDR notation to denote the VPN subnet.
+             For example, C(10.55.55.2/24) has the address 10.55.55.2 and lives on the 10.55.55.0/24 subnet.
+             This is necessary to configure the appropriate routes."
         type: "list"
         elements: "str"
         required: true
