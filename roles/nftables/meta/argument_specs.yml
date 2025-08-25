@@ -15,3 +15,4 @@ argument_specs:
         choices:
           - "bastion"
           - "service"
+          - "controller"

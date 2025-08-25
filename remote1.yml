@@ -1,6 +1,5 @@
 ---
-
-- name: Virtual machine setup
+- name: "Remote I: Pre-VM setup"
   hosts: hypervisors
   tasks:
     - name: Read controller SSH public key
@@ -65,7 +64,7 @@
         wireguard_listen_port: 51820
         wireguard_description: "VPN ONE — WireGuard tunnel"
         wireguard_addresses:
-          - 10.55.55.1/24
-        wireguard_masquerade: true
+          - "{{ bastion_vpn_ip }}/24"
+        # note masquerade is not enabled because this is implemented by our nftables role
         wireguard_immediate: true
         wireguard_peers: "{{ wg_server_peers }}"
