@@ -1,0 +1,8 @@
+---
+- name: "Remote II: post-VM setup"
+  hosts: all
+  tasks:
+    - name: Setup firewall
+      ansible.builtin.include_role:
+        name: nftables
+      tags: firewall

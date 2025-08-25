@@ -1,0 +1,22 @@
+# this service file was adopted from openSUSE tumbleweed
+
+[Unit]
+Description=nftables static rule set
+Wants=network-pre.target
+Before=network-pre.target shutdown.target
+Conflicts=shutdown.target firewalld.service
+DefaultDependencies=no
+ConditionPathExists=/etc/firewall.nft
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StandardInput=null
+ProtectSystem=full
+ProtectHome=true
+ExecStart=/usr/sbin/nft 'flush ruleset; include "/etc/firewall.nft"'
+ExecReload=/usr/sbin/nft 'flush ruleset; include "/etc/firewall.nft"'
+ExecStop=/usr/sbin/nft flush ruleset
+
+[Install]
+WantedBy=sysinit.target

@@ -1,0 +1,17 @@
+---
+argument_specs:
+  main:
+    short_description: "Set up nftables rules directly."
+    description: |
+      This role sets up nftables without a frontend like firewalld.
+      Configurations are hardcoded for my own use.
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      nftables_preset:
+        description: "Selects a configuration 'archetype'."
+        type: "str"
+        # TODO
+        required: false
+        choices:
+          - "bastion"
+          - "service"

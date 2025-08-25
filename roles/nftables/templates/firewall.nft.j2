@@ -1,0 +1,42 @@
+#!/usr/bin/nft -f
+
+flush ruleset
+
+table inet filter {
+  set ipv4_internal {
+    typeof ip saddr
+    flags interval
+    elements = { {{ vpn1_subnet }} }
+  }
+
+  set ipv4_lan {
+    typeof ip saddr
+    flags interval
+    elements = { 192.168.0.0/24 }
+  }
+  
+  chain input {
+    type filter hook input priority filter; policy drop;
+    
+    ct state invalid drop
+    
+    # drop VPN subnet traffic that's not on the VPN
+    meta iifname != "wg1" ip saddr { {{ vpn1_subnet }} } drop
+    
+    ct state { established, related } accept
+    meta l4proto { icmp, ipv6-icmp } accept
+    iif lo accept
+
+    ip saddr @ipv4_internal goto internal
+    
+    # not sure if i want this rule
+    ip saddr @ipv4_lan tcp dport { ssh } counter accept
+  }
+
+  chain internal {
+    tcp dport { ssh } counter accept
+  }
+  
+  chain forward { type filter hook forward priority filter; policy drop; }
+  chain output { type filter hook output priority filter; policy accept; }
+}
