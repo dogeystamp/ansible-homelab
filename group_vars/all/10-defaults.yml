@@ -6,3 +6,8 @@ admin_username: erus
 
 # Base image for VMs
 libvirt_clean_image: "/usr/share/debian.qcow2"
+
+# Paths to a private and public SSH key; this is used to connect to the remote servers.
+# The public key will also be deployed to VMs.
+ansible_ssh_private_key_file: ~/.ssh/keys2/tier4
+admin_ssh_pubkey_path: "{{ ansible_ssh_private_key_file }}.pub"

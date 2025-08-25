@@ -3,6 +3,10 @@
 - name: Virtual machine setup
   hosts: hypervisors
   tasks:
+    - name: Read administration public key
+      set_fact:
+        admin_ssh_pubkey: "{{ lookup('file', admin_ssh_pubkey_path )}}"
+
     - name: Generate WireGuard server keys (VPN ONE)
       ansible.builtin.include_role:
         name: wireguard-key
@@ -24,7 +28,7 @@
         libvirt_memory_mib: "{{ hostvars[current_domain].libvirt_memory_mib | default(0) }}"
         libvirt_cpu_count: "{{ hostvars[current_domain].libvirt_cpu_count | default(0) }}"
         libvirt_agent_user: "{{ admin_username }}"
-        libvirt_agent_pubkey: "<snip>"
+        libvirt_agent_pubkey: "{{ admin_ssh_pubkey }}"
 
     - name: "Compile peer list (VPN ONE): virtual machines"
       ansible.builtin.set_fact:
