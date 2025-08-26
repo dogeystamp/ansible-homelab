@@ -6,6 +6,7 @@
     name:
       - libvirt
       - passt
+      - passt-selinux
       - python313-libvirt-python
       - python313-lxml
       - libvirt-client
