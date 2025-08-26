@@ -141,12 +141,33 @@
       become: true
 
     - name: Start VM
-      community.libvirt.virt:
-        uri: "qemu:///session"
-        name: "{{ libvirt_vm_name }}"
-        state: running
-      become_user: "{{ vm_user.name }}"
+      when: "libvirt_vm_name not in current_vms.list_vms"
+      # WARNING:
+      # because sudo can't appropriately set a user session for libvirt, we sudo run0.
+      # notably, XDG_RUNTIME_DIR is needed for passt + SELinux, otherwise you get this error:
+      # "unexpected exit status 1: Failed to bind UNIX domain socket: Permission denied"
+      # as passt tries to bind in .cache, but it only has permissions to bind in /run/.
+      #
+      # there is also this error:
+      # "libvirt: error : cannot limit core file size of process 3666 to 18446744073709551615: Operation not permitted"
+      # (https://github.com/secureblue/secureblue/issues/1054)
+      # but I don't know how that can be fixed. the solution is just use run0 (or log in) instead of sudo.
+      #
+      # note also that using sudo -u then running `virsh list` will result in VMs being displayed
+      # as "shut off", even though they are running.
+      # see: https://bbs.archlinux.org/viewtopic.php?pid=2183213#p2183213
+      ansible.builtin.command:
+        argv:
+          - run0
+          - "-u"
+          - "{{ vm_user.name }}"
+          - "/usr/bin/virsh"
+          - start
+          - "{{ libvirt_vm_name }}"
       become: true
+      register: vm_start_cmd
+      failed_when: "vm_start_cmd.rc != 0 and 'Domain is already active' not in vm_start_cmd.stderr"
+      changed_when: true
 
 - name: Create systemd user service directory
   ansible.builtin.file:
