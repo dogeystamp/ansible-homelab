@@ -3,6 +3,11 @@
   hosts: all
   tasks:
     - name: Setup firewall
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: nftables
       tags: firewall
+
+    - name: Security tasks
+      ansible.builtin.import_role:
+        name: security
+      tags: security

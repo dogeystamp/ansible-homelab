@@ -1,0 +1,13 @@
+---
+- name: Disable root login
+  ansible.builtin.user:
+    name: root
+    password: '*'
+
+- name: Deploy SSHD settings
+  ansible.builtin.template:
+    src: "sshd_ansible.conf"
+    dest: "/etc/ssh/sshd_config.d/91-sshd_ansible.conf"
+    owner: root
+    group: root
+    mode: "u=rw,g=,o="
