@@ -7,6 +7,8 @@ set -e
 apt-get update
 apt-get --yes install ssh sudo
 
+useradd -m {{ libvirt_agent_user }}
+
 # enable passwordless sudo for the agent
 cat << "EOF" > /etc/sudoers
 {{ libvirt_agent_user }} ALL=(ALL:ALL) NOPASSWD: ALL
