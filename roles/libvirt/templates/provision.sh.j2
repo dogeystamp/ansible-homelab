@@ -5,20 +5,11 @@
 set -e
 
 apt-get update
-apt-get --yes install ssh
+apt-get --yes install ssh sudo
 
-groupadd -f wheel
-useradd -m --groups wheel {{ libvirt_agent_user }}
-
-# enable passwordless run0 access for the agent
-cat << "EOF" > /etc/polkit-1/rules.d/10-run0-nopasswd.rules
-polkit.addRule(function(action, subject) {
-  if (action.id == "org.freedesktop.systemd1.manage-units") {
-    if (subject.isInGroup("wheel") && subject.user == "{{ libvirt_agent_user }}") {
-      return polkit.Result.YES;
-    }
-  }
-})
+# enable passwordless sudo for the agent
+cat << "EOF" > /etc/sudoers
+{{ libvirt_agent_user }} ALL=(ALL:ALL) NOPASSWD: ALL
 EOF
 
 # inject SSH pubkey
