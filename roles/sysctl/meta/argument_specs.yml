@@ -1,0 +1,13 @@
+---
+argument_specs:
+  main:
+    short_description: "Configure sysctl."
+    description: |
+      This role overrides sysctl options. The configurations are applied at boot by systemd-sysctl.
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      sysctl_ip_forwarding:
+        description:
+          "Allow forwarding network packets (especially useful for WireGuard)."
+        type: "bool"
+        default: false

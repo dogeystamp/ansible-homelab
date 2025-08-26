@@ -68,3 +68,10 @@
         # note masquerade is not enabled because this is implemented by our nftables role
         wireguard_immediate: true
         wireguard_peers: "{{ wg_server_peers }}"
+
+    - name: Configure sysctl
+      ansible.builtin.import_role:
+        name: sysctl
+      vars:
+        sysctl_ip_forwarding: true
+      tags: sysctl-hypervisor

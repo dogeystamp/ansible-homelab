@@ -1,0 +1,15 @@
+---
+- name: Deploy sysctl override
+  template:
+    src: "90-override.conf.j2"
+    dest: "/etc/sysctl.d/90-override.conf"
+    owner: root
+    group: root
+    mode: "u=rw,g=,o="
+  register: sysctl_deploy
+
+- name: Reload systemd-sysctl
+  ansible.builtin.systemd_service:
+    name: "systemd-sysctl"
+    state: restarted
+  when: sysctl_deploy.changed
