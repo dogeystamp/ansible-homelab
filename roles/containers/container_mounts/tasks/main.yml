@@ -1,0 +1,32 @@
+---
+- name: Ensure ACL installed (for Ansible become)
+  ansible.builtin.package:
+    name:
+      - acl
+    state: present
+
+- name: Create bind directories
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ podman_user }}"
+    group: "{{ podman_user }}"
+    mode: "u=rwX,g=,o="
+    recurse: true
+    state: directory
+  with_items: "{{ podman_mounts }}"
+  register: bind_mnt_created
+
+- name: Set permissions on bind directories
+  ansible.builtin.command:
+    argv:
+      - podman
+      - unshare
+      - chown
+      - "-R"
+      - "{{ item.uid }}:{{ item.gid }}"
+      - "{{ item.path }}"
+  with_items: "{{ podman_mounts }}"
+  become_user: "{{ podman_user }}"
+  become: true
+  changed_when: true
+  when: bind_mnt_created.changed

@@ -11,6 +11,8 @@
     name: "{{ podman_user }}"
     state: present
     create_home: true
+    # not a system user; ansible won't generate uid maps for system users
+    shell: /usr/sbin/nologin
   register: container_user
 
 - name: Enable linger for user
@@ -31,28 +33,3 @@
     mode: "u=rwX,g=,o="
     recurse: true
   become: true
-
-- name: Create bind directories
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    owner: "{{ podman_user }}"
-    group: "{{ podman_user }}"
-    mode: "u=rwx,g=,o="
-    state: directory
-  with_items: "{{ podman_mounts }}"
-  register: bind_mnt_created
-
-- name: Set permissions on bind directories
-  ansible.builtin.command:
-    argv:
-      - podman
-      - unshare
-      - chown
-      - "-R"
-      - "{{ item.uid }}:{{ item.gid }}"
-      - "{{ item.path }}"
-  with_items: "{{ podman_mounts }}"
-  become_user: "{{ podman_user }}"
-  become: true
-  changed_when: true
-  when: bind_mnt_created.changed

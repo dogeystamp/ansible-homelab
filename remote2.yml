@@ -12,18 +12,10 @@
         name: essential
       tags: essential
 
-    - name: Deploy test container
-      ansible.builtin.import_role:
-        name: test_http
-      vars:
-        test_user: test-http
-        test_dir: /srv/winkus
-        test_port: 8000
-      tags: test
-      when: "'test_http' in group_names"
-
     - name: Deploy Caddy
       ansible.builtin.import_role:
         name: caddy
       when: "'ingress' in group_names"
       tags: caddy
+      vars:
+        caddy_data_path: "/var/lib/caddy_c"

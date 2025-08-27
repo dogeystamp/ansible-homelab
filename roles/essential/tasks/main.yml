@@ -29,6 +29,5 @@
 - name: Install essential packages
   ansible.builtin.package:
     name:
-      - acl  # so that ansible can become an unprivileged user
       - fish
     state: present

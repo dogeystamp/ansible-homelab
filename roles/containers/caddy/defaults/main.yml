@@ -1,0 +1,6 @@
+---
+# arbitrary.
+caddy_uid: 314
+caddy_gid: 314
+
+caddy_user: caddy_c

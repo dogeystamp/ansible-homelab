@@ -1,0 +1,28 @@
+---
+argument_specs:
+  main:
+    short_description: "Setup mount permissions for Podman rootless containers."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      podman_user:
+        description: "User to perform setup for."
+        type: "str"
+        required: true
+
+      podman_mounts:
+        description: "List of bind mounts. These will have their permissions set so that containers can read them."
+        type: "list"
+        default: []
+        options:
+          path:
+            description: "Path of the mount on the host system."
+            type: "path"
+            required: true
+          uid:
+            description: "UID within the container of the mount."
+            type: "int"
+            required: true
+          gid:
+            description: "GID within the container of the mount."
+            type: "int"
+            required: true

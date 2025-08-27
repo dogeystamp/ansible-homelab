@@ -1,0 +1,10 @@
+---
+argument_specs:
+  main:
+    short_description: "Caddy container."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      caddy_data_path:
+        description: "Bind-mount path for Caddy data; this will be created by the role."
+        type: "path"
+        required: true
