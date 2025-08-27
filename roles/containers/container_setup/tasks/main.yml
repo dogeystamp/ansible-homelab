@@ -28,9 +28,8 @@
     state: directory
     owner: "{{ podman_user }}"
     group: "{{ podman_user }}"
-    mode: "u=rwx,g=,o="
+    mode: "u=rwX,g=,o="
     recurse: true
-  become_user: "{{ podman_user }}"
   become: true
 
 - name: Create bind directories

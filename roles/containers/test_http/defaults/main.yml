@@ -1,2 +1,3 @@
 ---
-podman_user: test-http
+test_user: test-http
+podman_user: "{{ test_user }}"

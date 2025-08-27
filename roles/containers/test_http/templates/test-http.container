@@ -4,10 +4,10 @@ After=network-online.target
 
 [Container]
 Image=docker.io/crccheck/hello-world
-PublishPort=8000:8000
+PublishPort={{ test_port }}:8000
 User=1337
 Group=1337
-Volume=/srv/winkus:/serve
+Volume={{ test_dir }}:/serve
 
 [Install]
 WantedBy=multiuser.target default.target

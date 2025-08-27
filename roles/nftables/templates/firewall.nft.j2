@@ -36,10 +36,10 @@ table inet filter {
     tcp dport { ssh } accept
 
     {% if nftables_internal_listens_tcp %}
-  	tcp dport { {{ nftables_internal_listens_tcp | join(', ') }} }
+  	tcp dport { {{ nftables_internal_listens_tcp | join(', ') }} } accept
     {% endif %}
     {% if nftables_internal_listens_udp %}
-  	udp dport { {{ nftables_internal_listens_udp | join(', ') }} }
+  	udp dport { {{ nftables_internal_listens_udp | join(', ') }} } accept
     {% endif %}
   }
 

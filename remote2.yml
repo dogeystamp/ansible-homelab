@@ -15,5 +15,19 @@
     - name: Deploy test container
       ansible.builtin.import_role:
         name: test_http
+      vars:
+        test_user: test-http
+        test_dir: /srv/winkus
+        test_port: 8001
+      tags: test
+      when: "inventory_hostname == 'harena03'"
+
+    - name: Deploy test container (2)
+      ansible.builtin.import_role:
+        name: test_http
+      vars:
+        test_user: test-http2
+        test_dir: /srv/winkus2
+        test_port: 8002
       tags: test
       when: "inventory_hostname == 'harena03'"
