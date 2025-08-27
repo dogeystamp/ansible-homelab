@@ -24,6 +24,7 @@
     owner: root
     group: root
     mode: "u=rw,g=r,o=r"
+    validate: "/usr/sbin/nft -cf %s"
   register: firewall_conf
 
 - name: Enable firewall
