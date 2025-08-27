@@ -1,0 +1,18 @@
+---
+hypervisors:
+  hosts:
+    cymba:
+      ansible_host: 192.168.0.90
+      ansible_user: ille
+      ansible_ssh_private_key_file: ~/.ssh/keys2/tier4
+      nftables_preset: "bastion"
+
+domains:
+  hosts:
+    harena03:
+      ansible_host: 10.55.55.3
+      libvirt_mac_address: "52:54:00:00:00:03"
+      libvirt_memory_mib: 384
+      nftables_preset: "service"
+      nftables_internal_listens_tcp:
+        - 8000  # http test server
