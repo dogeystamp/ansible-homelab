@@ -30,4 +30,4 @@
     podman_user: "{{ test_user }}"
     podman_unit_names:
       - test-http
-  when: container_unit.changed
+  when: container_unit is defined and container_unit.changed
