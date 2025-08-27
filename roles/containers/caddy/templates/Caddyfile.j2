@@ -11,5 +11,11 @@ http://10.55.55.4 {
 	import external
 	respond @external 403
 
-	reverse_proxy {{ hostvars[groups["test_http"][0]]['ansible_host'] }}:8000
+{% raw %}
+	templates
+	header Content-Type text/plain
+	respond "{{.RemoteIP}}"
+{% endraw %}
+
+	# reverse_proxy {{ hostvars[groups["test_http"][0]]['ansible_host'] }}:8000
 }
