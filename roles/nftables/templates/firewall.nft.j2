@@ -12,7 +12,7 @@ table inet filter {
   set ipv4_lan {
     typeof ip saddr
     flags interval
-    elements = { 192.168.0.0/24 }
+    elements = { {{ lan_subnet }} }
   }
 
   chain input {

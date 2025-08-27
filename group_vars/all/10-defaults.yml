@@ -22,3 +22,5 @@ controller_ssh_pubkey_path: "{{ ansible_ssh_private_key_file }}.pub"
 vpn1_subnet: "10.55.55.0/24"
 controller_vpn_ip: "10.55.55.254"
 bastion_vpn_ip: "10.55.55.1"
+
+lan_subnet: "192.168.0.0/24"
