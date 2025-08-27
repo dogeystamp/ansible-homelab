@@ -1,4 +1,8 @@
 ---
+- name: Set hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
 - name: Disable root login
   ansible.builtin.user:
     name: root
