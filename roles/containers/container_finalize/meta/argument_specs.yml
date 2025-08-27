@@ -1,0 +1,15 @@
+---
+argument_specs:
+  main:
+    short_description: "Start all the rootless Podman containers configured for a user."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      podman_user:
+        description: "User to perform setup for."
+        type: "str"
+        required: true
+
+      podman_unit_names:
+        description: "List of systemd user units to start."
+        type: "list"
+        elements: "str"

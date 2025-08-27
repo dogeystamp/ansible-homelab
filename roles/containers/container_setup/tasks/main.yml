@@ -1,0 +1,59 @@
+---
+- name: Ensure podman deps installed
+  ansible.builtin.package:
+    name:
+      - "podman"
+      - "systemd-container"
+    state: present
+
+- name: Create container user
+  ansible.builtin.user:
+    name: "{{ podman_user }}"
+    state: present
+    create_home: true
+  register: container_user
+
+- name: Enable linger for user
+  ansible.builtin.command:
+    argv:
+      - loginctl
+      - enable-linger
+      - "{{ podman_user }}"
+  when: container_user.changed
+  changed_when: true
+
+- name: Create container directory
+  ansible.builtin.file:
+    path: "{{ container_user.home }}/.config/containers/systemd"
+    state: directory
+    owner: "{{ podman_user }}"
+    group: "{{ podman_user }}"
+    mode: "u=rwx,g=,o="
+    recurse: true
+  become_user: "{{ podman_user }}"
+  become: true
+
+- name: Create bind directories
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ podman_user }}"
+    group: "{{ podman_user }}"
+    mode: "u=rwx,g=,o="
+    state: directory
+  with_items: "{{ podman_mounts }}"
+  register: bind_mnt_created
+
+- name: Set permissions on bind directories
+  ansible.builtin.command:
+    argv:
+      - podman
+      - unshare
+      - chown
+      - "-R"
+      - "{{ item.uid }}:{{ item.gid }}"
+      - "{{ item.path }}"
+  with_items: "{{ podman_mounts }}"
+  become_user: "{{ podman_user }}"
+  become: true
+  changed_when: true
+  when: bind_mnt_created.changed

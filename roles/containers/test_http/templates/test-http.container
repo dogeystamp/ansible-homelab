@@ -1,0 +1,13 @@
+[Unit]
+Description=Test HTTP server
+After=network-online.target
+
+[Container]
+Image=docker.io/crccheck/hello-world
+PublishPort=8000:8000
+User=1337
+Group=1337
+Volume=/srv/winkus:/serve
+
+[Install]
+WantedBy=multiuser.target default.target

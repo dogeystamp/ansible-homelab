@@ -7,7 +7,13 @@
         name: nftables
       tags: firewall
 
-    - name: Security tasks
+    - name: Basic configuration
       ansible.builtin.import_role:
-        name: security
-      tags: security
+        name: essential
+      tags: essential
+
+    - name: Deploy test container
+      ansible.builtin.import_role:
+        name: test_http
+      tags: test
+      when: "inventory_hostname == 'harena03'"

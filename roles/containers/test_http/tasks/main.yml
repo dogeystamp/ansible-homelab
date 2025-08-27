@@ -1,0 +1,33 @@
+---
+- name: Setup user
+  ansible.builtin.include_role:
+    name: container_setup
+  vars:
+    podman_user: test-http
+    podman_mounts:
+      - path: "/srv/winkus"
+        uid: 1337
+        gid: 1337
+
+- name: Get user information
+  ansible.builtin.user:
+    name: test-http
+  register: container_user
+
+- name: Deploy container unit
+  ansible.builtin.template:
+    src: "test-http.container"
+    dest: "{{ container_user.home }}/.config/containers/systemd/test-http.container"
+    mode: "u=rw,g=,o="
+    owner: "test-http"
+    group: "test-http"
+  register: container_unit
+
+- name: Finalize podman setup
+  ansible.builtin.include_role:
+    name: container_finalize
+  vars:
+    podman_user: test-http
+    podman_unit_names:
+      - test-http
+  when: container_unit.changed

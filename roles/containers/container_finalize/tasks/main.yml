@@ -1,0 +1,26 @@
+---
+- name: Generate Podman service files
+  ansible.builtin.command:
+    argv:
+      - machinectl
+      - shell
+      - "{{ podman_user }}@"
+      - "/usr/bin/systemctl"
+      - "--user"
+      - "daemon-reload"
+  changed_when: true
+
+- name: Run systemd units
+  ansible.builtin.command:
+    argv: |
+      {{[
+      "machinectl",
+      "shell",
+      podman_user + "@",
+      "/usr/bin/systemctl",
+      "--user",
+      "start",
+      ]
+      + podman_unit_names
+      }}
+  changed_when: true
