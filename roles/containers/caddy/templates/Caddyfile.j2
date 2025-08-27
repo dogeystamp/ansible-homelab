@@ -3,13 +3,15 @@
 	admin off
 }
 
-(external) {
+(internal) {
 	@external not remote_ip {{ vpn1_subnet }}
+	respond @external "nuh uh" 403 {
+		close
+	}
 }
 
 http://10.55.55.4 {
-	import external
-	respond @external 403
+	import internal
 
 {% raw %}
 	templates
