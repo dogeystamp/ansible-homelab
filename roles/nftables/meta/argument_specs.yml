@@ -10,9 +10,20 @@ argument_specs:
       nftables_preset:
         description: "Selects a configuration 'archetype'."
         type: "str"
-        # TODO
-        required: false
+        required: true
         choices:
           - "bastion"
           - "service"
           - "controller"
+
+      nftables_internal_listens_tcp:
+        description: "List of TCP ports / services to allow input for in the internal (VPN) network."
+        type: "list"
+        elements: "str"
+        default: []
+
+      nftables_internal_listens_udp:
+        description: "List of UDP ports / services to allow input for in the internal (VPN) network."
+        type: "list"
+        elements: "str"
+        default: []

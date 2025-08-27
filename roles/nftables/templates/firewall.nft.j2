@@ -34,6 +34,13 @@ table inet filter {
 
   chain input.internal {
     tcp dport { ssh } accept
+
+    {% if nftables_internal_listens_tcp %}
+  	tcp dport { {{ nftables_internal_listens_tcp | join(', ') }} }
+    {% endif %}
+    {% if nftables_internal_listens_udp %}
+  	udp dport { {{ nftables_internal_listens_udp | join(', ') }} }
+    {% endif %}
   }
 
   chain input.external {
