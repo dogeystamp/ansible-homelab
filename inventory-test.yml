@@ -7,6 +7,7 @@ hypervisors:
       ansible_ssh_private_key_file: ~/.ssh/keys2/tier4
       nftables_preset: "bastion"
 
+# Virtual machines
 domains:
   hosts:
     harena03:
@@ -16,3 +17,22 @@ domains:
       nftables_preset: "service"
       nftables_internal_listens_tcp:
         - 8000  # http test server
+
+    ingress:
+      ansible_host: 10.55.55.4
+      libvirt_mac_address: "52:54:00:00:00:04"
+      libvirt_memory_mib: 384
+      nftables_preset: "service"
+      nftables_internal_listens_tcp:
+        - 80
+        - 443
+
+# Categories of services
+
+ingress:
+  hosts:
+    ingress:
+
+test_http:
+  hosts:
+    harena03
