@@ -27,3 +27,15 @@ argument_specs:
         type: "list"
         elements: "str"
         default: []
+
+      nftables_external_listens_tcp:
+        description: "List of TCP ports / services to allow input for in the external network."
+        type: "list"
+        elements: "str"
+        default: []
+
+      nftables_external_listens_udp:
+        description: "List of UDP ports / services to allow input for in the external network."
+        type: "list"
+        elements: "str"
+        default: []

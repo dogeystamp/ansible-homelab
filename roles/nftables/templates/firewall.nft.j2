@@ -47,6 +47,13 @@ table inet filter {
     {% if nftables_preset == "bastion" %}
     udp dport { 51820 } accept
     {% endif %}
+
+    {% if nftables_external_listens_tcp %}
+  	tcp dport { {{ nftables_external_listens_tcp | join(', ') }} } accept
+    {% endif %}
+    {% if nftables_external_listens_udp %}
+  	udp dport { {{ nftables_external_listens_udp | join(', ') }} } accept
+    {% endif %}
   }
 
   chain input.lan {

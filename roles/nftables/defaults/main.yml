@@ -1,3 +1,5 @@
 ---
 nftables_internal_listens_tcp: []
 nftables_internal_listens_udp: []
+nftables_external_listens_tcp: []
+nftables_external_listens_udp: []
