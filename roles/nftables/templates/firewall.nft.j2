@@ -35,35 +35,37 @@ table inet filter {
   chain input.internal {
     tcp dport { ssh } accept
 
-    {% if nftables_internal_listens_tcp %}
+{% if nftables_internal_listens_tcp %}
   	tcp dport { {{ nftables_internal_listens_tcp | join(', ') }} } accept
-    {% endif %}
-    {% if nftables_internal_listens_udp %}
+{% endif %}
+
+{% if nftables_internal_listens_udp %}
   	udp dport { {{ nftables_internal_listens_udp | join(', ') }} } accept
-    {% endif %}
+{% endif %}
   }
 
   chain input.external {
-    {% if nftables_preset == "bastion" %}
+{% if nftables_preset == "bastion" %}
     udp dport { 51820 } accept
-    {% endif %}
+{% endif %}
 
-    {% if nftables_external_listens_tcp %}
+{% if nftables_external_listens_tcp %}
   	tcp dport { {{ nftables_external_listens_tcp | join(', ') }} } accept
-    {% endif %}
-    {% if nftables_external_listens_udp %}
+{% endif %}
+
+{% if nftables_external_listens_udp %}
   	udp dport { {{ nftables_external_listens_udp | join(', ') }} } accept
-    {% endif %}
+{% endif %}
   }
 
   chain input.lan {
-    {% if nftables_preset in ["bastion", "controller"] %}
+{% if nftables_preset in ["bastion", "controller"] %}
     tcp dport { ssh } accept
-    {% endif %}
+{% endif %}
 
-    {% if nftables_preset == "bastion" %}
+{% if nftables_preset == "bastion" %}
     udp dport { 51820 } accept
-    {% endif %}
+{% endif %}
   }
 
   chain forward {
@@ -73,9 +75,9 @@ table inet filter {
   }
 
   chain forward.internal {
-    {% if nftables_preset == "bastion" %}
+{% if nftables_preset == "bastion" %}
     accept
-    {% endif %}
+{% endif %}
   }
 
   chain output { type filter hook output priority filter; policy accept; }
