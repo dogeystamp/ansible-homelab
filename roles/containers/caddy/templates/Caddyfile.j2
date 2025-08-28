@@ -1,23 +1,31 @@
 {
   # email me@examplcom
 	admin off
+
+	servers {
+		listener_wrappers {
+			proxy_protocol {
+				allow {{ bastion_vpn_ip }}/32
+				fallback_policy reject
+			}
+			tls
+		}
+	}
 }
 
 (internal) {
-	@external not remote_ip {{ vpn1_subnet }}
+	@external not client_ip {{ vpn1_subnet }}
 	respond @external "nuh uh" 403 {
 		close
 	}
 }
 
-http://10.55.55.4 {
+http://10.55.55.1 {
 	import internal
 
-{% raw %}
-	templates
-	header Content-Type text/plain
-	respond "{{.RemoteIP}}"
-{% endraw %}
+	log
+
+	respond "awawa: {remote_host}"
 
 	# reverse_proxy {{ hostvars[groups["test_http"][0]]['ansible_host'] }}:8000
 }

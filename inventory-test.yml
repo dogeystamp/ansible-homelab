@@ -6,6 +6,9 @@ hypervisors:
       ansible_user: ille
       ansible_ssh_private_key_file: ~/.ssh/keys2/tier4
       nftables_preset: "bastion"
+      nftables_external_listens_tcp:
+        - 80
+        - 443
 
 # Virtual machines
 domains:
@@ -24,8 +27,8 @@ domains:
       libvirt_memory_mib: 384
       nftables_preset: "service"
       nftables_internal_listens_tcp:
-        - 80
-        - 443
+        - 9080 # http (alt)
+        - 9443 # https (alt)
 
 # Categories of services
 

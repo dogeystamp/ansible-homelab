@@ -42,6 +42,15 @@ table inet filter {
 {% if nftables_internal_listens_udp %}
   	udp dport { {{ nftables_internal_listens_udp | join(', ') }} } accept
 {% endif %}
+
+    goto input.lan
+  }
+
+  chain input.lan {
+{% if nftables_preset in ["bastion", "controller"] %}
+    tcp dport { ssh } accept
+{% endif %}
+    goto input.external
   }
 
   chain input.external {
@@ -55,16 +64,6 @@ table inet filter {
 
 {% if nftables_external_listens_udp %}
   	udp dport { {{ nftables_external_listens_udp | join(', ') }} } accept
-{% endif %}
-  }
-
-  chain input.lan {
-{% if nftables_preset in ["bastion", "controller"] %}
-    tcp dport { ssh } accept
-{% endif %}
-
-{% if nftables_preset == "bastion" %}
-    udp dport { 51820 } accept
 {% endif %}
   }
 

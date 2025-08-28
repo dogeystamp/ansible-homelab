@@ -10,6 +10,7 @@ User={{ caddy_uid }}
 Group={{ caddy_gid }}
 Volume={{ caddy_conf_dir.path }}:/etc/caddy
 Volume={{ caddy_data_path }}:/data
+RunInit=true
 
 [Install]
 WantedBy=multiuser.target default.target
