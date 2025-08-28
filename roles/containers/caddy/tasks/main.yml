@@ -49,7 +49,7 @@
         uid: "{{ caddy_uid }}"
         gid: "{{ caddy_gid }}"
       - path: "{{ caddy_conf_dir.path }}"
-        uid: "{{ caddy_uid }}"
+        uid: 0
         gid: "{{ caddy_gid }}"
   when: container_unit.changed or caddy_conf.changed
 
