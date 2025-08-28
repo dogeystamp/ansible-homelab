@@ -19,3 +19,9 @@
       tags: caddy
       vars:
         caddy_data_path: "/var/lib/caddy_c"
+
+    - name: Deploy HAProxy
+      ansible.builtin.import_role:
+        name: haproxy
+      when: "'haproxy' in group_names"
+      tags: haproxy

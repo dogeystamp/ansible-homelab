@@ -1,0 +1,9 @@
+defaults
+	log global
+	mode tcp
+
+listen http
+	bind *:80
+{% for host in groups["ingress"] %}
+	server {{ host }} {{ hostvars[host]['ansible_host'] }}:9080
+{% endfor %}

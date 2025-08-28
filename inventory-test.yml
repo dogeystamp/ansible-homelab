@@ -33,6 +33,10 @@ ingress:
   hosts:
     ingress:
 
+haproxy:
+  hosts:
+    cymba:
+
 test_http:
   hosts:
     harena03
