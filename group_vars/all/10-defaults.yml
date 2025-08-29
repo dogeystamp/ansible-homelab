@@ -12,7 +12,8 @@ remote_admin_username: imperator  # remote management
 git_allowed_signers:
   - 'dogeystamp@disroot.org namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICsmYC1XDX747Bd9QVQRgQbp7HUcGhWIMBBVnlknPubV'
 # repository itself (read only access)
-git_repo: https://github.com/dogeystamp/homeserver.git
+git_repo: https://github.com/dogeystamp/ansible-homelab.git
+git_branch: main
 
 
 # Base image for VMs
