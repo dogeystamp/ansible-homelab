@@ -21,7 +21,7 @@
       ansible.builtin.file:
         path: "{{ remote_admin_user.home }}/.config/git"
         owner: "{{ remote_admin_user.name }}"
-        group: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.group }}"
         recurse: true
         mode: "u=rwX,g=,o="
       register: git_folder
@@ -30,7 +30,7 @@
       ansible.builtin.file:
         path: "{{ remote_admin_user.home }}/.ssh"
         owner: "{{ remote_admin_user.name }}"
-        group: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.group }}"
         recurse: true
         mode: "u=rwX,g=,o="
       register: ssh_folder
@@ -40,7 +40,7 @@
         src: "allowed_signers.j2"
         dest: "{{ git_folder }}/allowed_signers"
         owner: "{{ remote_admin_user.name }}"
-        group: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.group }}"
         mode: "u=rw,g=,o="
 
     - name: Deploy Git config
@@ -48,7 +48,7 @@
         src: "git_config.j2"
         dest: "{{ git_folder }}/config"
         owner: "{{ remote_admin_user.name }}"
-        group: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.group }}"
         mode: "u=rw,g=,o="
 
     - name: Deploy SSH config
@@ -56,7 +56,7 @@
         src: "ssh_config.j2"
         dest: "{{ ssh_folder }}/config"
         owner: "{{ remote_admin_user.name }}"
-        group: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.group }}"
         mode: "u=rw,g=,o="
 
     - name: Clone remote repo
