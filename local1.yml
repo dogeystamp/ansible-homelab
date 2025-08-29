@@ -1,0 +1,43 @@
+- name: "Local I: Controller bootstrap"
+  hosts: localhost
+  tasks:
+    - name: Create remote administration account
+      ansible.builtin.user:
+        name: "{{ remote_admin_username }}"
+        state: present
+        ssh_key_type: "ed25519"
+        ssh_key_comment: "{{ remote_admin_username }}"
+        create_home: true
+      register: remote_admin_user
+
+    - name: Create Git folder for remote user
+      ansible.builtin.file:
+        path: "{{ remote_admin_user.home }}/.config/git"
+        owner: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.name }}"
+        recurse: true
+        mode: "u=rwX,g=,o="
+      register: git_folder
+
+    - name: Deploy SSH signing keys
+      ansible.builtin.template:
+        src: "allowed_signers.j2"
+        dest: "{{ git_folder }}/allowed_signers"
+        owner: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.name }}"
+        mode: "u=rw,g=,o="
+
+    - name: Deploy Git config
+      ansible.builtin.template:
+        src: "git_config.j2"
+        dest: "{{ git_folder }}/config"
+        owner: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.name }}"
+        mode: "u=rw,g=,o="
+
+    - name: Clone remote repo
+      ansible.builtin.git:
+        repo: "{{ git_repo }}"
+        version: "{{ git_branch }}"
+        dest: "{{ remote_admin_user.home }}/repo"
+        verify_commit: true

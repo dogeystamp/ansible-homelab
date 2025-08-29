@@ -2,19 +2,33 @@
 # Default options for the entire playbook.
 
 # Username for administrative users (used on all hosts)
-admin_username: erus
+admin_username: erus              # local admin
+remote_admin_username: imperator  # remote management
+
+
+# Ansible Git repository options
+
+# signature verification on repository
+git_allowed_signers:
+  - 'dogeystamp@disroot.org namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICsmYC1XDX747Bd9QVQRgQbp7HUcGhWIMBBVnlknPubV'
+# repository itself (read only access)
+git_repo: https://github.com/dogeystamp/homeserver.git
+
 
 # Base image for VMs
 libvirt_clean_image: "/usr/share/debian.qcow2"
+
 
 # Ansible connection parameters
 ansible_user: "{{ admin_username }}"
 ansible_connection: "ssh"
 
+
 # Paths to a private and public SSH key; this is used to connect to the remote servers.
 # The public key will also be deployed to VMs.
 ansible_ssh_private_key_file: ~/.ssh/keys2/tier4
 controller_ssh_pubkey_path: "{{ ansible_ssh_private_key_file }}.pub"
+
 
 # VPN ONE options
 # Note that you can't just change this to change the subnet;
