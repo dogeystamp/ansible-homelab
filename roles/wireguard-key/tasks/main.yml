@@ -68,7 +68,7 @@
         src: wgx.pub.j2
         owner: "{{ wireguard_file_owner }}"
         group: "{{ wireguard_file_group }}"
-        mode: u=rw,g=r,o=
+        mode: u=rw,g=r,o=r
       notify: Reload systemd-networkd
 
 - name: Read existing WireGuard configuration

@@ -7,8 +7,15 @@
         state: present
         ssh_key_type: "ed25519"
         ssh_key_comment: "{{ remote_admin_username }}"
+        ssh_key_file: ".ssh/key"
         create_home: true
       register: remote_admin_user
+
+    - name: Generate WireGuard keypair
+      ansible.builtin.include_role:
+        name: wireguard-key
+      vars:
+        wireguard_interface: wg1
 
     - name: Create Git folder for remote user
       ansible.builtin.file:
@@ -18,6 +25,15 @@
         recurse: true
         mode: "u=rwX,g=,o="
       register: git_folder
+
+    - name: Create SSH folder for remote user
+      ansible.builtin.file:
+        path: "{{ remote_admin_user.home }}/.ssh"
+        owner: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.name }}"
+        recurse: true
+        mode: "u=rwX,g=,o="
+      register: ssh_folder
 
     - name: Deploy SSH signing keys
       ansible.builtin.template:
@@ -31,6 +47,14 @@
       ansible.builtin.template:
         src: "git_config.j2"
         dest: "{{ git_folder }}/config"
+        owner: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.name }}"
+        mode: "u=rw,g=,o="
+
+    - name: Deploy SSH config
+      ansible.builtin.template:
+        src: "ssh_config.j2"
+        dest: "{{ ssh_folder }}/config"
         owner: "{{ remote_admin_user.name }}"
         group: "{{ remote_admin_user.name }}"
         mode: "u=rw,g=,o="

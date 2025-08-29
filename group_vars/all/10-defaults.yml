@@ -27,7 +27,7 @@ ansible_connection: "ssh"
 
 # Paths to a private and public SSH key; this is used to connect to the remote servers.
 # The public key will also be deployed to VMs.
-ansible_ssh_private_key_file: ~/.ssh/keys2/tier4
+ansible_ssh_private_key_file: ~/.ssh/key
 controller_ssh_pubkey_path: "{{ ansible_ssh_private_key_file }}.pub"
 
 
@@ -35,6 +35,7 @@ controller_ssh_pubkey_path: "{{ ansible_ssh_private_key_file }}.pub"
 # Note that you can't just change this to change the subnet;
 # change the IP addresses in the inventory too.
 vpn1_subnet: "10.55.55.0/24"
+vpn1_subnet_glob: "10.55.55.*"
 controller_vpn_ip: "10.55.55.254"
 bastion_vpn_ip: "10.55.55.1"
 

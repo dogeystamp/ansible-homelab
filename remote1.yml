@@ -8,7 +8,7 @@
 
     - name: Read controller VPN ONE public key
       set_fact:
-        controller_vpn_pubkey: "{{ lookup('file', '/etc/systemd/network/network.wireguard.public.wg1_local')}}"
+        controller_vpn_pubkey: "{{ lookup('file', '/etc/systemd/network/network.wireguard.public.wg1')}}"
 
     - name: Generate WireGuard server keys (VPN ONE)
       ansible.builtin.include_role:
