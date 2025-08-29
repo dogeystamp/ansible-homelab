@@ -1,4 +1,6 @@
 ---
+# TODO: hypervisor is currently also the bastion host
+# should probably differentiate better
 hypervisors:
   hosts:
     cymba:
