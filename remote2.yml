@@ -32,4 +32,4 @@
       when: "'borg_client' in group_names"
       tags: borg_client
       vars:
-        - borg_remote_server: "{{ hostvars[groups['backups'][0]][ansible_host] }}"
+        borg_remote_server: "{{ hostvars[groups['backups'][0]][ansible_host] }}"
