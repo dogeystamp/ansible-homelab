@@ -1,0 +1,33 @@
+---
+- name: Install Borg packages
+  ansible.builtin.package:
+    name: borgbackup
+    state: present
+
+- name: Generate Borg user, SSH keypair
+  ansible.builtin.user:
+    name: borg
+    state: present
+    generate_ssh_key: true
+    ssh_key_type: "ed25519"
+    create_home: true
+    shell: "/bin/sh"
+  register: borg_client_user
+
+- name: Deploy Borg client passphrase
+  ansible.builtin.template:
+    src: passphrase.j2
+    dest: "{{ borg_client_user.home }}/passphrase"
+    owner: "{{ borg_client_user.name }}"
+    group: "{{ borg_client_user.name }}"
+    mode: "u=r,g=,o="
+
+- name: Deploy Borg backup script
+  ansible.builtin.template:
+    src: backup.sh.j2
+    dest: "{{ borg_client_user.home }}/backup.sh"
+    owner: "{{ borg_client_user.name }}"
+    group: "{{ borg_client_user.name }}"
+    mode: "u=rx,g=,o="
+
+# TODO

@@ -1,0 +1,19 @@
+#!/bin/sh
+# Automatic backup script.
+
+set -e
+
+export BORG_PASSPHRASE=(cat ~/passphrase)
+export BORG_REPO='ssh://borg-{{ inventory_hostname }}@{{ borg_remote_server }}:~/repo'
+
+# ignore errors on this because it's possible the repo already exists
+borg init --umask 0022 --verbose --show-rc --encryption=repokey || true
+
+borg create \
+  --umask 0022 \
+  --verbose \
+  --list \
+  --stats \
+  --show-rc \
+  ::'{hostname}-{now}' \
+  {% for path in borg_paths %}"{{ path }}" {% endfor %}

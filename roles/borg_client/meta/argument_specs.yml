@@ -1,0 +1,10 @@
+---
+argument_specs:
+  main:
+    short_description: "Borg backup client configuration."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      borg_remote_server:
+        description: "Address of the remote server to backup to (it needs the borg_server configuration)."
+        type: "str"
+        required: true

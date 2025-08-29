@@ -1,0 +1,19 @@
+---
+argument_specs:
+  main:
+    short_description: "Setup a Borg backup server."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      borg_client_hosts:
+        description: "List of hosts to store backups for."
+        type: "list"
+        options:
+          hostname:
+            description: "Ansible inventory hostname."
+            type: "str"
+            required: "true"
+          pubkey:
+            description: "SSH pubkey."
+            type: "str"
+            required: "true"
+        required: true

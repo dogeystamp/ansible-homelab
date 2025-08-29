@@ -1,0 +1,4 @@
+---
+borg_passphrases:
+  host1: '1234'
+  host2: '1234'

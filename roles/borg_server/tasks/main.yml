@@ -1,0 +1,26 @@
+---
+- name: Create backup server users
+  ansible.builtin.user:
+    name: "borg-{{ item.hostname }}"
+    state: present
+    create_home: true
+    shell: "/bin/sh"
+  register: backup_users
+  with_items: "{{ borg_client_hosts }}"
+
+- name: Associate SSH pubkeys to usernames
+  ansible.builtin.set_fact:
+    user_pubkey: |
+      {{
+        user_pubkey | default({}) | combine ({ 'borg-' + item.hostname : item.pubkey })
+      }}
+  with_items: "{{ borg_client_hosts }}"
+
+- name: Setup authorized_keys
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    exclusive: true
+    key: "{{ user_pubkey[item.name] }}"
+    key_options: 'command="borg serve --restrict-to-path {{ item.home }}/repo",restrict'
+  with_items: "{{ backup_users }}"

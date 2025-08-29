@@ -10,6 +10,7 @@ hypervisors:
         - 80
         - 443
 
+
 # Virtual machines
 domains:
   hosts:
@@ -30,6 +31,7 @@ domains:
         - 9080 # http (alt)
         - 9443 # https (alt)
 
+
 # Categories of services
 
 ingress:
@@ -42,4 +44,10 @@ haproxy:
 
 test_http:
   hosts:
-    harena03
+    harena03:
+
+borg_client:
+  hosts:
+    harena03:
+      borg_paths:
+        - /var/bingus
