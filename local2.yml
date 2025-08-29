@@ -36,5 +36,5 @@
           - public_key: "{{ lookup('file', remote_admin_user.home + '/wireguard-server-wg1.pub') }}"
             allowed_ips:
               - "{{ vpn1_subnet }}"
-            endpoint: "{{ hostvars[groups.hypervisors[0]].ansible_host }}:51820"
+            endpoint: "{{ lookup('file', remote_admin_user.home + '/wireguard-server-addr') }}:51820"
             persistent_keepalive: 25
