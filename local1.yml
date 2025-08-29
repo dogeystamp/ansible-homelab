@@ -38,7 +38,7 @@
     - name: Deploy SSH signing keys
       ansible.builtin.template:
         src: "allowed_signers.j2"
-        dest: "{{ git_folder }}/allowed_signers"
+        dest: "{{ git_folder.path }}/allowed_signers"
         owner: "{{ remote_admin_user.name }}"
         group: "{{ remote_admin_user.group }}"
         mode: "u=rw,g=,o="
@@ -46,7 +46,7 @@
     - name: Deploy Git config
       ansible.builtin.template:
         src: "git_config.j2"
-        dest: "{{ git_folder }}/config"
+        dest: "{{ git_folder.path }}/config"
         owner: "{{ remote_admin_user.name }}"
         group: "{{ remote_admin_user.group }}"
         mode: "u=rw,g=,o="
@@ -54,7 +54,7 @@
     - name: Deploy SSH config
       ansible.builtin.template:
         src: "ssh_config.j2"
-        dest: "{{ ssh_folder }}/config"
+        dest: "{{ ssh_folder.path }}/config"
         owner: "{{ remote_admin_user.name }}"
         group: "{{ remote_admin_user.group }}"
         mode: "u=rw,g=,o="
