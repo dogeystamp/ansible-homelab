@@ -1,0 +1,40 @@
+---
+- name: "Local II: Controller post-VM configuration"
+  hosts: localhost
+  tasks:
+    - name: Get remote management user information
+      ansible.builtin.user:
+        name: "{{ remote_admin_username }}"
+      register: remote_admin_user
+
+    - name: Setup firewall
+      ansible.builtin.import_role:
+        name: nftables
+      tags: firewall
+      vars:
+        nftables_preset: "controller"
+
+    - name: Set hostname
+      ansible.builtin.hostname:
+        name: "{{ controller_hostname }}"
+
+    - name: Basic configuration
+      ansible.builtin.import_role:
+        name: essential
+      tags: essential
+
+    - name: Setup VPN ONE client config for controller
+      ansible.builtin.include_role:
+        name: wireguard
+      vars:
+        wireguard_interface: "wg1"
+        wireguard_description: "VPN ONE — WireGuard tunnel"
+        wireguard_addresses:
+          - "{{ controller_vpn_ip }}/24"
+        wireguard_immediate: true
+        wireguard_peers:
+          - public_key: "{{ lookup('file', remote_admin_user.home + '/wireguard-server-wg1.pub') }}"
+            allowed_ips:
+              - "{{ vpn1_subnet }}"
+            endpoint: "{{ hostvars[groups.hypervisors[0]].ansible_host }}:51820"
+            persistent_keepalive: 25

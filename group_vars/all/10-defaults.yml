@@ -5,6 +5,8 @@
 admin_username: erus              # local admin
 remote_admin_username: imperator  # remote management
 
+controller_hostname: castellum
+
 
 # Ansible Git repository options
 
