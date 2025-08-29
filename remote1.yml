@@ -24,7 +24,7 @@
       delegate_to: localhost
       become: false
       vars:
-        content: "{{ hostvars.localhost.wireguard_public_keys_wg1[groups.bastion[0]] }}"
+        content: "{{ hostvars.localhost.wireguard_public_keys_wg1[groups['bastion'][0]] }}"
 
     - name: Create virtual machines
       ansible.builtin.include_role:
