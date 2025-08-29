@@ -1,6 +1,11 @@
 - name: "Local I: Controller bootstrap"
   hosts: localhost
   tasks:
+    - name: Install ACL (to ensure unprivileged become works)
+      ansible.builtin.package:
+        name: acl
+        state: present
+        
     - name: Create remote administration account
       ansible.builtin.user:
         name: "{{ remote_admin_username }}"
@@ -65,3 +70,5 @@
         version: "{{ git_branch }}"
         dest: "{{ remote_admin_user.home }}/repo"
         verify_commit: true
+      become_user: "{{ remote_admin_user.name }}"
+      become: true
