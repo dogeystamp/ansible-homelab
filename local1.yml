@@ -5,7 +5,7 @@
       ansible.builtin.package:
         name: acl
         state: present
-        
+
     - name: Create remote administration account
       ansible.builtin.user:
         name: "{{ remote_admin_username }}"
@@ -13,6 +13,7 @@
         ssh_key_type: "ed25519"
         ssh_key_comment: "{{ remote_admin_username }}"
         ssh_key_file: ".ssh/key"
+        generate_ssh_key: true
         create_home: true
       register: remote_admin_user
 

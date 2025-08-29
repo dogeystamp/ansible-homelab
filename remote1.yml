@@ -16,6 +16,16 @@
       vars:
         wireguard_interface: "wg1"
 
+    - name: Retrieve WireGuard server pubkey (VPN ONE)
+      ansible.builtin.template:
+        src: "raw.j2"
+        dest: "~/wireguard-server-wg1.pub"
+        mode: "u=rw,g=r,o=r"
+      delegate_to: localhost
+      become: false
+      vars:
+        content: "{{ hostvars.localhost.wireguard_public_keys_wg1[groups.bastion[0]] }}"
+
     - name: Create virtual machines
       ansible.builtin.include_role:
         name: libvirt
