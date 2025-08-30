@@ -41,6 +41,15 @@
         mode: "u=rwX,g=,o="
       register: ssh_folder
 
+    - name: Copy local admin's SSH authorized keys to remote admin account
+      ansible.builtin.copy:
+        src: "~/.ssh/authorized_keys"
+        dest: "{{ ssh_folder.path }}/authorized_keys"
+        mode: "u=rw,g=,o="
+        owner: "{{ remote_admin_user.name }}"
+        group: "{{ remote_admin_user.group }}"
+        remote_src: true
+
     - name: Deploy SSH signing keys
       ansible.builtin.template:
         src: "allowed_signers.j2"
