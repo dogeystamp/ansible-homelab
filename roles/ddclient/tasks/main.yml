@@ -12,7 +12,7 @@
 
 - name: Create ddclient group
   ansible.builtin.group:
-    name: ddclient_u
+    name: "{{ ddclient_user.name }}"
     state: present
 
 - name: Create dedicated ddclient user
@@ -29,8 +29,8 @@
   ansible.builtin.file:
     path: "/var/cache/ddclient"
     state: directory
-    owner: "ddclient"
-    group: "ddclient"
+    owner: "{{ ddclient_user.name }}"
+    group: "{{ ddclient_user.name }}"
     mode: "u=rwX,g=,o="
 
 - name: Deploy ddclient configuration

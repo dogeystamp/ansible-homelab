@@ -1,0 +1,15 @@
+---
+argument_specs:
+  main:
+    short_description: "Setup ddclient."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      dyndns_domain:
+        description: "Domain to update DNS for."
+        type: "str"
+        required: true
+
+      dyndns_password:
+        description: "Password for the dyndns service."
+        type: "str"
+        required: true

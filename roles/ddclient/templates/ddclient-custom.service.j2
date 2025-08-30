@@ -5,8 +5,8 @@ After=network-online.target nss-lookup.target
 
 [Service]
 Type=exec
-User=ddclient_u
-Group=ddclient_u
+User={{ ddclient_user.name }}
+Group={{ ddclient_user.name }}
 ProtectHome=true
 ProtectSystem=strict
 StateDirectory=ddclient

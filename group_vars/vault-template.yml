@@ -1,0 +1,10 @@
+---
+# Copy this file to an encrypted Ansible vault at group_vars/all/99-vault.yml.
+
+vault_borg_passphrases:
+  host1: '1234'
+  host2: '1234'
+
+
+vault_dyndns_domain: example.com
+vault_dyndns_password: 1234

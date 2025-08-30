@@ -42,3 +42,10 @@ controller_vpn_ip: "10.55.55.254"
 bastion_vpn_ip: "10.55.55.1"
 
 lan_subnet: "192.168.0.0/24"
+
+
+# Vault options (see group_vars/vault-template.yml)
+borg_passphrases: "{{ vault_borg_passphrases }}"
+
+dyndns_domain: "{{ vault_dyndns_domain }}"
+dyndns_password: "{{ vault_dyndns_password }}"
