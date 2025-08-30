@@ -46,6 +46,14 @@
     group: "{{ borg_client_user.name }}"
     mode: "u=r,g=,o="
 
+- name: Deploy Borg exclude patterns
+  ansible.builtin.template:
+    src: excludes.j2
+    dest: "{{ borg_client_user.home }}/.borg-excludes"
+    owner: "{{ borg_client_user.name }}"
+    group: "{{ borg_client_user.name }}"
+    mode: "u=r,g=,o="
+
 - name: Deploy Borg backup script
   ansible.builtin.template:
     src: backup.sh.j2

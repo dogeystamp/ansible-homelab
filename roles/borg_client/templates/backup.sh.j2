@@ -15,5 +15,7 @@ borg create \
   --list \
   --stats \
   --show-rc \
+  --exclude-caches \
+  --patterns-from ~/.borg-excludes \
   ::'{hostname}-{now}' \
   {% for path in borg_paths %}"{{ path }}" {% endfor %}

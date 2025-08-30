@@ -58,6 +58,8 @@ borg_client:
     harena03:
       borg_paths:
         - /var/bingus
+      borg_excludes:
+        - /var/bingus/nobackup
 
 borg_server:
   hosts:
