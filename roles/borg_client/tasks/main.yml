@@ -13,11 +13,21 @@
     ssh_key_comment: "root @ {{ inventory_hostname }} (borg)"
   register: borg_client_user
 
+- name: Create SSH config dir for borg client
+  ansible.builtin.file:
+    path: "{{ borg_client_user.home }}/.ssh"
+    owner: "{{ borg_client_user }}"
+    group: "{{ borg_client_user.group }}"
+    mode: "u=rwX,g=,o="
+  register: ssh_conf_dir
+
 - name: Configure trust-on-first-use for SSH
-  community.general.ssh_config:
-    host: "{{ borg_remote_server }}"
-    user: "{{ borg_client_user.name }}"
-    strict_host_key_checking: accept-new
+  ansible.builtin.template:
+    src: "ssh_config.j2"
+    dest: "{{ ssh_conf_dir.path }}/config"
+    owner: "{{ borg_client_user }}"
+    group: "{{ borg_client_user.group }}"
+    mode: "u=rw,g=,o="
 
 - name: Save Borg SSH keypair for future use
   ansible.builtin.set_fact: {
