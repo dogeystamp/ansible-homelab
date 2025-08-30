@@ -21,7 +21,7 @@ git_branch: main
 # Base image for VMs
 libvirt_clean_image: "/disk/stat/debian-13-nocloud-arm64.qcow2"
 # VM data storage location
-libvirt_vm_directory: "/disk/data/vm/"
+libvirt_vm_directory: "/disk/data/vm"
 
 disk_dev: "/dev/sda1"
 
