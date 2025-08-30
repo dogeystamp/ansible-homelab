@@ -1,0 +1,49 @@
+---
+hypervisors:
+  hosts:
+    urbs:
+      ansible_host: 192.168.0.5
+      nftables_preset: "bastion"
+      nftables_external_listens_tcp:
+        - 80
+        - 443
+        - 2499
+
+
+# Virtual machines
+domains:
+  hosts:
+    caupo:
+      ansible_host: 10.55.55.2
+      libvirt_mac_address: "52:54:00:00:00:02"
+      libvirt_memory_mib: 1024
+      libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64_expanded.qcow2" # 512G image
+      nftables_preset: "service"
+
+  hosts:
+    janua:
+      ansible_host: 10.55.55.3
+      libvirt_mac_address: "52:54:00:00:00:03"
+      libvirt_memory_mib: 512
+      libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
+      nftables_preset: "service"
+
+
+# Categories of services
+
+ingress:
+  hosts:
+    janua:
+
+haproxy:
+  hosts:
+
+test_http:
+  hosts:
+
+borg_client:
+  hosts:
+
+borg_server:
+  hosts:
+    caupo:
