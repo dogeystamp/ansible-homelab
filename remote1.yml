@@ -103,7 +103,7 @@
               'allowed_ips': [item.address + '/32'],
             }]
           }}
-      with_items: "{{ wg_quick_clients }}"
+      with_items: "{{ wireguard_quick_clients }}"
 
     - name: WireGuard server setup (VPN ONE)
       ansible.builtin.include_role:
