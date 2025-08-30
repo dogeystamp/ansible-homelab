@@ -5,6 +5,12 @@ vault_borg_passphrases:
   host1: '1234'
   host2: '1234'
 
+# these are existing hosts to configure the Borg server for.
+# server hosts will automatically have their backups setup.
+vault_borg_client_hosts:
+  - mylaptop
+vault_borg_ssh_pubkeys:
+  - mylaptop: "ssh-ed25519 AAA..."
 
 vault_dyndns_domain: example.com
 vault_dyndns_password: 1234

@@ -46,6 +46,8 @@ lan_subnet: "192.168.0.0/24"
 
 # Vault options (see group_vars/vault-template.yml)
 borg_passphrases: "{{ vault_borg_passphrases }}"
+borg_client_hosts: "{{ vault_borg_client_hosts }}"
+borg_ssh_pubkeys: "{{ vault_borg_ssh_pubkeys }}"
 
 dyndns_domain: "{{ vault_dyndns_domain }}"
 dyndns_password: "{{ vault_dyndns_password }}"

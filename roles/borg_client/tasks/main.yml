@@ -62,4 +62,4 @@
     group: "{{ borg_client_user.name }}"
     mode: "u=rx,g=,o="
 
-# TODO
+# TODO: make a systemd service that regularly performs backups
