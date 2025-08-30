@@ -1,0 +1,15 @@
+[Interface]
+# device's address in the VPN
+Address = {{ item.address }}
+# device privkey
+PrivateKey = {{ item.private_key }}
+DNS = {{ wireguard_quick_dns }}
+
+
+[Peer]
+# server stuff
+PublicKey = {{ wireguard_quick_server_pubkey }}
+Endpoint = {{ wireguard_quick_server_endpoint }}:51820
+
+AllowedIPs = {{ wireguard_quick_subnet }}
+

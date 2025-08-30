@@ -1,0 +1,53 @@
+---
+argument_specs:
+  main:
+    short_description: "Generate WireGuard client configurations for user devices."
+    description: |
+      Configurations follow the wg-quick format, and should be generally compatible.
+      The wg-quick config files will be in /etc/wgclients/<hostname>.
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      wireguard_quick_clients:
+        description: "List of clients and their options."
+        type: "list"
+        required: true
+        options:
+          name:
+            description: "Hostname of the client"
+            type: "str"
+            required: true
+
+          address:
+            description: "IP address of the client within the VPN"
+            type: "str"
+            required: true
+
+          private_key:
+            description: "WireGuard private key of this client"
+            type: "str"
+            required: true
+
+          public_key:
+            description: "WireGuard public key of this client"
+            type: "str"
+            required: true
+
+      wireguard_quick_server_pubkey:
+        description: "WireGuard public key of the server"
+        type: "str"
+        required: true
+
+      wireguard_quick_server_endpoint:
+        description: "Public (i.e., non-VPN) address of the VPN server"
+        type: "str"
+        required: true
+
+      wireguard_quick_dns:
+        description: "IP address of the DNS server to use within the VPN"
+        type: "str"
+        required: true
+
+      wireguard_quick_subnet:
+        description: "IP subnet of the VPN (used in AllowedIPs)"
+        type: "str"
+        required: true

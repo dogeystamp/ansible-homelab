@@ -17,6 +17,23 @@
         wireguard_interface: "wg1"
 
     - name: Retrieve WireGuard server pubkey (VPN ONE)
+      ansible.builtin.set_fact:
+        wg_server_pubkey: "{{ hostvars.localhost.wireguard_public_keys_wg1[groups.hypervisors[0]] }}"
+
+    - name: Retrieve WireGuard server address (VPN ONE)
+      ansible.builtin.set_fact:
+        wg_server_addr: "{{ hostvars[groups.hypervisors[0]].ansible_host }}"
+
+    - name: Generate WireGuard client configurations (VPN ONE)
+      ansible.builtin.include_role:
+        name: wireguard_quick_confs
+      vars:
+        wireguard_quick_server_pubkey: "{{ wg_server_pubkey }}"
+        wireguard_quick_server_endpoint: "{{ wg_server_addr }}"
+        wireguard_quick_dns: 1.1.1.1 # TODO: use our DNS
+        wireguard_quick_subnet: "{{ vpn1_subnet }}"
+
+    - name: Save WireGuard server pubkey (VPN ONE)
       ansible.builtin.template:
         src: "raw.j2"
         dest: "~/wireguard-server-wg1.pub"
@@ -24,7 +41,7 @@
       delegate_to: localhost
       become: false
       vars:
-        content: "{{ hostvars.localhost.wireguard_public_keys_wg1[groups.hypervisors[0]] }}"
+        content: "{{ wg_server_pubkey }}"
 
     - name: Save WireGuard server address (VPN ONE)
       ansible.builtin.template:
@@ -34,7 +51,7 @@
       delegate_to: localhost
       become: false
       vars:
-        content: "{{ hostvars[groups.hypervisors[0]].ansible_host }}"
+        content: "{{ wg_server_addr }}"
 
     - name: Create virtual machines
       ansible.builtin.include_role:
@@ -75,6 +92,18 @@
               'allowed_ips': [controller_vpn_ip + '/32'],
             }]
           }}
+
+    - name: "Compile peer list (VPN ONE): User devices"
+      ansible.builtin.set_fact:
+        wg_server_peers: |
+          {{
+            wg_server_peers | default([]) +
+            [{
+              'public_key': item.public_key,
+              'allowed_ips': [item.address + '/32'],
+            }]
+          }}
+      with_items: "{{ wg_quick_clients }}"
 
     - name: WireGuard server setup (VPN ONE)
       ansible.builtin.include_role:

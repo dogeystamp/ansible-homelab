@@ -1,0 +1,23 @@
+---
+- name: Install utility packages
+  ansible.builtin.package:
+    name: "qrencode"
+    state: present
+
+- name: Create config directory
+  ansible.builtin.file:
+    path: "/etc/wgclients"
+    state: directory
+    mode: "u=rwX,g=,o="
+    owner: root
+    group: root
+  register: conf_dir
+
+- name: Deploy configurations
+  ansible.builtin.template:
+    src: "clientconf.j2"
+    dest: "{{ conf_dir.path }}/{{ item.name }}"
+    owner: root
+    group: root
+    mode: "u=rwX,g=,o="
+  with_items: "{{ wiregaurd_quick_clients }}"

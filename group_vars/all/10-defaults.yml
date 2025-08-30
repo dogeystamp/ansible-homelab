@@ -51,3 +51,5 @@ borg_ssh_pubkeys: "{{ vault_borg_ssh_pubkeys }}"
 
 dyndns_domain: "{{ vault_dyndns_domain }}"
 dyndns_password: "{{ vault_dyndns_password }}"
+
+wg_quick_clients: "{{ vault_wg_quick_clients }}"
