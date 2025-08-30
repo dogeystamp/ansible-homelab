@@ -16,7 +16,7 @@ vault_dyndns_domain: example.com
 vault_dyndns_password: 1234
 
 # List of user clients (e.g. not the servers, not the Ansible controller) for VPN ONE
-vault_wg_quick_clients:
+vault_wireguard_quick_clients:
   - name: mylaptop
     address: 10.55.55.200
     private_key: 'jdfkjsadflkasjfklasjdf...'

@@ -29,7 +29,7 @@
         name: wireguard_quick_confs
       vars:
         wireguard_quick_server_pubkey: "{{ wg_server_pubkey }}"
-        wireguard_quick_server_endpoint: "{{ wg_server_addr }}"
+        wireguard_quick_server_endpoint: "{{ wg_server_addr }}" # TODO: use our public domain
         wireguard_quick_dns: 1.1.1.1 # TODO: use our DNS
         wireguard_quick_subnet: "{{ vpn1_subnet }}"
 
