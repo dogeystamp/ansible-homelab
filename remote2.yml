@@ -26,10 +26,16 @@
       when: "'haproxy' in group_names"
       tags: haproxy
 
-    - name: Deploy Borg clients
+    - name: Deploy ddclient
       ansible.builtin.import_role:
-        name: borg_client
-      when: "'borg_client' in group_names"
-      tags: borg_client
-      vars:
-        borg_remote_server: "{{ hostvars[groups['backups'][0]][ansible_host] }}"
+        name: ddclient
+      when: "'ingress' in group_names"
+      tags: ddclient
+
+    # - name: Deploy Borg clients
+    #   ansible.builtin.import_role:
+    #     name: borg_client
+    #   when: "'borg_client' in group_names"
+    #   tags: borg_client
+    #   vars:
+    #     borg_remote_server: "{{ hostvars[groups['backup_server'][0]][ansible_host] }}"

@@ -1,0 +1,18 @@
+[Unit]
+Description=Update DNS with current public IP
+Wants=network-online.target
+After=network-online.target nss-lookup.target
+
+[Service]
+Type=exec
+User=ddclient_u
+Group=ddclient_u
+ProtectHome=true
+ProtectSystem=strict
+StateDirectory=ddclient
+ConfigurationDirectory=ddclient
+ExecStart=/usr/bin/ddclient --foreground
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

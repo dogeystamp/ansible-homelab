@@ -1,0 +1,13 @@
+daemon=300
+syslog=yes
+mail=root
+mail-failure=root
+pid=/var/run/ddclient.pid
+protocol=dyndns2
+usev4=webv4
+webv4=https://ipv4.nsupdate.info/myip
+ssl=yes  # yes = use https for updates
+server=ipv4.nsupdate.info
+login={{ dyndns_domain }}
+password='{{ ddclient_pass }}'
+{{ dyndns_domain }}

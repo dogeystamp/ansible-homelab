@@ -1,0 +1,56 @@
+- name: Install packages
+  ansible.builtin.package:
+    name: ddclient
+    state: present
+
+- name: Disable distro ddclient service
+  ansible.builtin.systemd_service:
+    name: ddclient
+    state: stopped
+    masked: true
+    enabled: false
+
+- name: Create ddclient group
+  ansible.builtin.group:
+    name: ddclient_u
+    state: present
+
+- name: Create dedicated ddclient user
+  ansible.builtin.user:
+    name: ddclient_u
+    group: ddclient_u
+    system: true
+    create_home: false
+    shell: /usr/sbin/nologin
+    state: present
+  register: ddclient_user
+
+- name: Ensure correct permissions for ddclient directory
+  ansible.builtin.file:
+    path: "/var/cache/ddclient"
+    state: directory
+    owner: "ddclient"
+    group: "ddclient"
+    mode: "u=rwX,g=,o="
+
+- name: Deploy ddclient configuration
+  template:
+    src: ddclient.conf.j2
+    dest: /etc/ddclient.conf
+    owner: root
+    group: "{{ ddclient_user.name }}"
+    mode: "u=rw,g=r,o="
+
+- name: Deploy ddclient service unit
+  template:
+    src: ddclient-custom.service.j2
+    dest: /etc/systemd/system/ddclient-custom.service
+    owner: root
+    group: root
+    mode: "u=rw,g=,o="
+
+- name: Enable dynamic DNS service
+  service:
+    name: ddclient-custom
+    enabled: true
+    state: started
