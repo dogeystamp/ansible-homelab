@@ -20,7 +20,6 @@ domains:
       libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64_expanded.qcow2" # 512G image
       nftables_preset: "service"
 
-  hosts:
     janua:
       ansible_host: 10.55.55.3
       libvirt_mac_address: "52:54:00:00:00:03"
