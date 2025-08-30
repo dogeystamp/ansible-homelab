@@ -12,7 +12,7 @@
 
 - name: Create ddclient group
   ansible.builtin.group:
-    name: "{{ ddclient_user.name }}"
+    name: ddclient_u
     state: present
 
 - name: Create dedicated ddclient user
