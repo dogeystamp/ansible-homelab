@@ -6,6 +6,11 @@
         name: acl
         state: present
 
+    - name: Get local admin account information
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+      register: local_admin_user
+
     - name: Create remote administration account
       ansible.builtin.user:
         name: "{{ remote_admin_username }}"
@@ -43,7 +48,7 @@
 
     - name: Copy local admin's SSH authorized keys to remote admin account
       ansible.builtin.copy:
-        src: "~/.ssh/authorized_keys"
+        src: "{{ local_admin_user.home }}/.ssh/authorized_keys"
         dest: "{{ ssh_folder.path }}/authorized_keys"
         mode: "u=rw,g=,o="
         owner: "{{ remote_admin_user.name }}"
