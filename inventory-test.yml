@@ -59,7 +59,7 @@ borg_client:
       borg_paths:
         - /var/bingus
       borg_excludes:
-        - /var/bingus/nobackup
+        - "-/var/bingus/nobackup"
 
 borg_server:
   hosts:
