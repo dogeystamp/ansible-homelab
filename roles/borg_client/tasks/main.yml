@@ -13,6 +13,12 @@
     ssh_key_comment: "root @ {{ inventory_hostname }} (borg)"
   register: borg_client_user
 
+- name: Configure trust-on-first-use for SSH
+  community.general.ssh_config:
+    host: "{{ borg_remote_server }}"
+    user: "{{ borg_client_user.name }}"
+    strict_host_key_checking: accept-new
+
 - name: Save Borg SSH keypair for future use
   ansible.builtin.set_fact: {
     borg_ssh_pubkeys:
