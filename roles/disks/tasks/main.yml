@@ -5,6 +5,7 @@
     name: disk
     state: present
     password: /root/lukskey
+  no_log: false  # this is just the password's path
 
 - name: Decrypt disk
   luks_device:
@@ -12,6 +13,7 @@
     keyfile: /root/lukskey
     name: disk
     state: opened
+  no_log: false  # this is just the password's path
 
 - name: Setup fstab
   mount:

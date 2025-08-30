@@ -21,3 +21,4 @@
     group: root
     mode: "u=rwX,g=,o="
   with_items: "{{ wireguard_quick_clients }}"
+  no_log: true
