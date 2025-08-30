@@ -38,7 +38,7 @@
       when: "'borg_client' in group_names"
       tags: borg_client
       vars:
-        borg_remote_server: "{{ hostvars[groups['borg_server'][0]][ansible_host] }}"
+        borg_remote_server: "{{ hostvars[groups['borg_server'][0]].ansible_host }}"
 
     - name: "Compile Borg client list"
       ansible.builtin.set_fact:
