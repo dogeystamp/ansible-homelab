@@ -2,6 +2,10 @@
 - name: "Remote I: Pre-VM setup"
   hosts: hypervisors
   tasks:
+    - name: Set up disks
+      ansible.builtin.include_role:
+        name: disks
+
     - name: Read controller SSH public key
       set_fact:
         controller_ssh_pubkey: "{{ lookup('file', controller_ssh_pubkey_path )}}"

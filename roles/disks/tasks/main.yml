@@ -1,0 +1,21 @@
+---
+- name: Setup crypttab
+  community.general.crypttab:
+    backing_device: "{{ disk_dev }}"
+    name: disk
+    state: present
+    password: /root/lukskey
+
+- name: Decrypt disk
+  luks_device:
+    device: "{{ disk_dev }}"
+    keyfile: /root/lukskey
+    name: disk
+    state: opened
+
+- name: Setup fstab
+  mount:
+    path: /disk
+    src: /dev/mapper/disk
+    state: mounted
+    fstype: btrfs

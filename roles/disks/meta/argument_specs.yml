@@ -1,0 +1,15 @@
+---
+argument_specs:
+  main:
+    short_description: "Decrypt disks and setup filesystems"
+    description: |
+      Sets up crypttab, fstab, and so on.
+      This role hardcodes mostly everything; edit the role instead of editing its options.
+      A LUKS keyfile is expected to already exist at /root/lukskey.
+      The LUKS setup and partitioning is also expected to be already done.
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      disk_dev:
+        description: "Main disk device."
+        type: "str"
+        required: true
