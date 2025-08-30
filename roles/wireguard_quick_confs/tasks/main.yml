@@ -20,4 +20,4 @@
     owner: root
     group: root
     mode: "u=rwX,g=,o="
-  with_items: "{{ wiregaurd_quick_clients }}"
+  with_items: "{{ wireguard_quick_clients }}"
