@@ -13,6 +13,10 @@
   register: backup_users
   with_items: "{{ borg_client_hosts }}"
 
+- name: Show backup server users
+  ansible.builtin.debug:
+    var: backup_users
+
 - name: Setup authorized_keys
   ansible.posix.authorized_key:
     user: "{{ item.name }}"
@@ -20,4 +24,4 @@
     exclusive: true
     key: "{{ borg_ssh_pubkeys[item.name] }}"
     key_options: 'command="borg serve --restrict-to-path {{ item.home }}/borg",restrict'
-  with_items: "{{ backup_users }}"
+  with_items: "{{ backup_users.results }}"
