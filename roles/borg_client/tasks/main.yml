@@ -4,20 +4,28 @@
     name: borgbackup
     state: present
 
-- name: Generate Borg user, SSH keypair
+- name: Generate SSH keypair for Borg
   ansible.builtin.user:
-    name: borg
-    state: present
+    name: root
     generate_ssh_key: true
     ssh_key_type: "ed25519"
-    create_home: true
-    shell: "/bin/sh"
+    ssh_key_file: ".ssh/borgkey"
+    ssh_key_comment: "root @ {{ inventory_hostname }} (borg)"
   register: borg_client_user
+
+- name: Save Borg SSH keypair for future use
+  ansible.builtin.set_fact: {
+    borg_ssh_pubkeys:
+      "{{ hostvars.localhost.borg_ssh_pubkeys | default({})
+      | combine({ inventory_hostname : borg_client_user.ssh_public_key | trim }) }}"
+  }
+  delegate_to: localhost
+  delegate_facts: true
 
 - name: Deploy Borg client passphrase
   ansible.builtin.template:
     src: passphrase.j2
-    dest: "{{ borg_client_user.home }}/passphrase"
+    dest: "{{ borg_client_user.home }}/.borg-passphrase"
     owner: "{{ borg_client_user.name }}"
     group: "{{ borg_client_user.name }}"
     mode: "u=r,g=,o="
@@ -25,7 +33,7 @@
 - name: Deploy Borg backup script
   ansible.builtin.template:
     src: backup.sh.j2
-    dest: "{{ borg_client_user.home }}/backup.sh"
+    dest: "{{ borg_client_user.home }}/borgbackup.sh"
     owner: "{{ borg_client_user.name }}"
     group: "{{ borg_client_user.name }}"
     mode: "u=rx,g=,o="

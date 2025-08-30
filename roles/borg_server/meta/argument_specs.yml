@@ -7,13 +7,10 @@ argument_specs:
       borg_client_hosts:
         description: "List of hosts to store backups for."
         type: "list"
-        options:
-          hostname:
-            description: "Ansible inventory hostname."
-            type: "str"
-            required: "true"
-          pubkey:
-            description: "SSH pubkey."
-            type: "str"
-            required: "true"
+        elements: "str"
+        required: true
+
+      borg_ssh_pubkeys:
+        description: "Dictionary that maps hostname to its borg client SSH pubkey."
+        type: "dict"
         required: true

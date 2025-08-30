@@ -32,6 +32,12 @@ domains:
         - 9080 # http (alt)
         - 9443 # https (alt)
 
+    backup:
+      ansible_host: 10.55.55.5
+      libvirt_mac_address: "52:54:00:00:00:05"
+      libvirt_memory_mib: 1024
+      nftables_preset: "service"
+
 
 # Categories of services
 
@@ -52,3 +58,7 @@ borg_client:
     harena03:
       borg_paths:
         - /var/bingus
+
+borg_server:
+  hosts:
+    backup:

@@ -32,10 +32,35 @@
       when: "'ingress' in group_names"
       tags: ddclient
 
-    # - name: Deploy Borg clients
-    #   ansible.builtin.import_role:
-    #     name: borg_client
-    #   when: "'borg_client' in group_names"
-    #   tags: borg_client
-    #   vars:
-    #     borg_remote_server: "{{ hostvars[groups['backup_server'][0]][ansible_host] }}"
+    - name: Deploy Borg clients
+      ansible.builtin.import_role:
+        name: borg_client
+      when: "'borg_client' in group_names"
+      tags: borg_client
+      vars:
+        borg_remote_server: "{{ hostvars[groups['backup_server'][0]][ansible_host] }}"
+
+    - name: "Compile Borg client list"
+      ansible.builtin.set_fact:
+        borg_client_hosts: |
+          {{
+            borg_client_hosts | default([]) +
+            groups['borg_client']
+          }}
+      when: "'borg_server' in group_names"
+      tags: borg_server
+
+    - name: "Compile Borg pubkey list"
+      ansible.builtin.set_fact:
+        borg_ssh_pubkeys: |
+          {{
+            borg_ssh_pubkeys | default({}) | combine(hostvars.localhost.borg_ssh_pubkeys)
+          }}
+      when: "'borg_server' in group_names"
+      tags: borg_server
+
+    - name: Deploy Borg server
+      ansible.builtin.import_role:
+        name: borg_server
+      when: "'borg_server' in group_names"
+      tags: borg_server

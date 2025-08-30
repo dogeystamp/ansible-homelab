@@ -8,3 +8,14 @@ argument_specs:
         description: "Address of the remote server to backup to (it needs the borg_server configuration)."
         type: "str"
         required: true
+
+      borg_paths:
+        description: "List of paths to back up."
+        type: "list"
+        elements: "str"
+        required: true
+
+      borg_excludes:
+        description: "List of patterns to exclude."
+        type: "list"
+        elements: "str"
