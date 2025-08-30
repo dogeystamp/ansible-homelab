@@ -2,6 +2,14 @@
 - name: "Remote I: Pre-VM setup"
   hosts: hypervisors
   tasks:
+    - name: Deploy keyfile
+      ansible.builtin.copy:
+        src: "lukskey.secret"
+        dest: "/root/lukskey"
+        mode: "u=rw,g=,o="
+        owner: "root"
+        group: "root"
+
     - name: Set up disks
       ansible.builtin.include_role:
         name: disks
