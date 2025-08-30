@@ -48,9 +48,10 @@
     owner: root
     group: root
     mode: "u=rw,g=,o="
+  register: service_unit
 
 - name: Enable dynamic DNS service
-  service:
+  ansible.builtin.systemd_service:
     name: ddclient-custom
     enabled: true
     state: started
