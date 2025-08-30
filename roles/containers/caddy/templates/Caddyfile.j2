@@ -19,13 +19,3 @@
 		close
 	}
 }
-
-http://10.55.55.1 {
-	import internal
-
-	log
-
-	respond "awawa: {remote_host}"
-
-	# reverse_proxy {{ hostvars[groups["test_http"][0]]['ansible_host'] }}:8000
-}
