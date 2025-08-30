@@ -4,7 +4,7 @@
 set -e
 
 export BORG_PASSPHRASE=$(cat ~/.borg-passphrase)
-export BORG_REPO='ssh://{{ inventory_hostname }}@{{ borg_remote_server }}/~/repo'
+export BORG_REPO='ssh://{{ inventory_hostname }}@{{ borg_remote_server }}/~/borg'
 
 # ignore errors on this because it's possible the repo already exists
 borg init --umask 0022 --verbose --show-rc --encryption=repokey || true
