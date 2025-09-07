@@ -26,6 +26,8 @@ domains:
       libvirt_memory_mib: 512
       libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
       nftables_preset: "service"
+      nftables_internal_listens_udp:
+        - 53
 
 
 # Categories of services

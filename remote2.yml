@@ -20,6 +20,18 @@
       vars:
         caddy_data_path: "/var/lib/caddy_c"
 
+    - name: Deploy DNS server
+      ansible.builtin.import_role:
+        name: dns
+      when: "'ingress' in group_names"
+      tags: dns
+      vars:
+        dns_listen_interfaces:
+          - wg1
+        dns_domains:
+          - domain: "{{ domain_main }}"
+            ip_addr: "{{ bastion_vpn_ip }}"
+
     - name: Deploy HAProxy
       ansible.builtin.import_role:
         name: haproxy

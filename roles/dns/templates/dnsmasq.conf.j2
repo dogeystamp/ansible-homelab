@@ -1,0 +1,32 @@
+# Don't forward domains like just 'google' or addresses like '192.168.0.1'
+domain-needed
+bogus-priv
+
+conf-file=%%PREFIX%%/share/dnsmasq/trust-anchors.conf
+dnssec
+#dnssec-check-unsigned
+
+# Don't read from /etc/resolv.conf
+no-resolv
+no-poll
+
+# Don't read from /etc/hosts
+no-hosts
+
+{% if dns_net_domain is defined %}
+local=/{{ dns_net_domain }}/
+{% endif %}
+
+{% for entry in dns_domains %}
+address=/{{ entry.domain }}/{{ entry.ip_addr }}
+{% endfor %}
+
+{% for interface in dns_listen_interfaces %}
+interface={{ interface }}
+{% endfor %}
+
+{% for server in dns_recurse_ips %}
+server={{ server }}
+{% endfor %}
+
+#log-queries

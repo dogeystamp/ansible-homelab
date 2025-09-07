@@ -1,0 +1,29 @@
+---
+argument_specs:
+  main:
+    short_description: "Set up a local DNS server for split-horizon use."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      dns_localdomain:
+        type: "str"
+        description: |
+          Domain name (or TLD) that represents the local network, e.g. C(localnet).
+          Queries for this domain will not be forwarded outside.
+      dns_listen_interfaces:
+        type: "list"
+        elements: "str"
+        description: "Only listen on these network interfaces."
+      dns_domains:
+        type: "list"
+        options:
+          domain:
+            type: "str"
+            required: true
+          ip_addr:
+            type: "str"
+            required: true
+      dns_recurse_ips:
+        description: "The actual DNS resolver IP addresses used for recursive queries."
+        type: "list"
+        elements: "str"
+        required: true
