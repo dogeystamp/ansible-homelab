@@ -10,7 +10,7 @@ vault_borg_passphrases:
 vault_borg_client_hosts:
   - mylaptop
 vault_borg_ssh_pubkeys:
-  - mylaptop: "ssh-ed25519 AAA..."
+  mylaptop: "ssh-ed25519 AAA..."
 
 vault_dyndns_domain: example.com
 vault_dyndns_password: 1234
