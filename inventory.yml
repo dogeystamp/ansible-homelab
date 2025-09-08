@@ -28,6 +28,9 @@ domains:
       nftables_preset: "service"
       nftables_internal_listens_udp:
         - 53
+      nftables_internal_listens_tcp:
+        - 9080  # http  (internally exposed)
+        - 9443  # https (internally exposed)
 
 
 # Categories of services
