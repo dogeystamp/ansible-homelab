@@ -13,8 +13,8 @@ no-poll
 # Don't read from /etc/hosts
 no-hosts
 
-{% if dns_net_domain is defined %}
-local=/{{ dns_net_domain }}/
+{% if dns_localdomain is defined %}
+local=/{{ dns_localdomain }}/
 {% endif %}
 
 {% for entry in dns_domains %}
