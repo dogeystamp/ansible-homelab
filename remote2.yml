@@ -32,6 +32,13 @@
           - domain: "{{ domain_main }}"
             ip_addr: "{{ bastion_vpn_ip }}"
 
+    - name: Configure resolv.conf
+      ansible.builtin.import_role:
+        name: resolv
+      tags: resolv
+      vars:
+        resolv_fallback: "{{ dns_recurse_ips[0] }}"
+
     - name: Deploy HAProxy
       ansible.builtin.import_role:
         name: haproxy

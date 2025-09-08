@@ -1,0 +1,16 @@
+---
+- name: Disable systemd-resolved
+  ansible.builtin.systemd_service:
+    name: "systemd-resolved"
+    enabled: false
+    state: stopped
+
+- name: Deploy resolv.conf
+  ansible.builtin.template:
+    src: "resolv.conf.j2"
+    dest: "/etc/resolv.conf"
+    owner: "root"
+    group: "root"
+    mode: "u=rw,g=r,o=r"
+    follow: false
+    state: file

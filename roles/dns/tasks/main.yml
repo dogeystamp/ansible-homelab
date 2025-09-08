@@ -12,6 +12,13 @@
     group: root
     mode: "u=rw,g=r,o=r"
 
+- name: Disable systemd-resolved
+  ansible.builtin.systemd_service:
+    name: "systemd-resolved"
+    state: stopped
+    enabled: false
+    masked: true
+
 - name: Ensure dnsmasq is started
   ansible.builtin.systemd_service:
     name: "dnsmasq"

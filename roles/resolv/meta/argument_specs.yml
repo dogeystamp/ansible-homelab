@@ -1,0 +1,10 @@
+---
+argument_specs:
+  main:
+    short_description: "Set up /etc/resolv.conf with our local name server and a fallback."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      resolv_fallback:
+        description: "Fallback nameserver IP address."
+        type: "str"
+        required: true

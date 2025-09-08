@@ -1,0 +1,8 @@
+# Managed by Ansible
+
+{% if 'ingress' in group_names %}
+nameserver 127.0.0.1
+{% elif groups["ingress"] | length > 0 %}
+nameserver {{ groups.ingress[0].ansible_host }}
+{% endif %}
+nameserver {{ resolv_fallback }}
