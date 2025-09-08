@@ -11,3 +11,9 @@ listen http
 {% for host in groups["ingress"] %}
 	server {{ host }} {{ hostvars[host]['ansible_host'] }}:9080  send-proxy-v2
 {% endfor %}
+
+listen https
+	bind *:443
+{% for host in groups["ingress"] %}
+	server {{ host }} {{ hostvars[host]['ansible_host'] }}:9443  send-proxy-v2
+{% endfor %}
