@@ -38,9 +38,7 @@ ingress:
 
 haproxy:
   hosts:
-
-test_http:
-  hosts:
+    urbs:
 
 borg_client:
   hosts:
