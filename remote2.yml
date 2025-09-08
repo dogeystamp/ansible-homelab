@@ -29,7 +29,7 @@
         dns_listen_interfaces:
           - wg1
         dns_domains:
-          - domain: "{{ domain_main }}"
+          - domain: "{{ dyndns_domain }}"
             ip_addr: "{{ bastion_vpn_ip }}"
 
     - name: Configure resolv.conf
