@@ -4,8 +4,8 @@ After=network-online.target
 
 [Container]
 Image=docker.io/caddy:2-alpine
-PublishPort=9443:443
-PublishPort=9080:80
+PublishPort=8443:443
+PublishPort=8080:80
 User={{ caddy_uid }}
 Group={{ caddy_gid }}
 Volume={{ caddy_conf_dir.path }}:/etc/caddy
