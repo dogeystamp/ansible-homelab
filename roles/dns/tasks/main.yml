@@ -11,7 +11,7 @@
     owner: root
     group: root
     mode: "u=rw,g=r,o=r"
-  resgister: dnsmasq_conf
+  register: dnsmasq_conf
 
 - name: Disable systemd-resolved
   ansible.builtin.systemd_service:
