@@ -4,6 +4,8 @@
     name: "systemd-resolved"
     enabled: false
     state: stopped
+  register: disable_systemd
+  failed_when: "disable_systemd.status.Result != 'Success' and 'Could not find the requested service' not in disable_systemd.msg"
 
 - name: Deploy resolv.conf
   ansible.builtin.template:
