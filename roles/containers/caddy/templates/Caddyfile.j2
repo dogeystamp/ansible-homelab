@@ -1,5 +1,4 @@
 {
-  # email me@examplcom
 	admin off
 
 	servers {
@@ -12,6 +11,9 @@
 		}
 	}
 }
+
+# make it so servers {} applies to port 80 too
+http:// {}
 
 (internal) {
 	@external not client_ip {{ vpn1_subnet }}
