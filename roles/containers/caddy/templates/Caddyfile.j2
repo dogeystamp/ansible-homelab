@@ -13,7 +13,9 @@
 }
 
 # make it so servers {} applies to port 80 too
-http:// {}
+http:// {
+	
+}
 
 (internal) {
 	@external not client_ip {{ vpn1_subnet }}
