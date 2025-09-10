@@ -1,20 +1,14 @@
 {
+  # email me@examplcom
 	admin off
 
-	servers :443 {
+	servers {
 		listener_wrappers {
 			proxy_protocol {
 				allow {{ bastion_vpn_ip }}/32
 				fallback_policy reject
 			}
-		}
-	}
-	servers :80 {
-		listener_wrappers {
-			proxy_protocol {
-				allow {{ bastion_vpn_ip }}/32
-				fallback_policy reject
-			}
+			tls
 		}
 	}
 }
