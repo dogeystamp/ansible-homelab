@@ -10,25 +10,28 @@
     name: "{{ caddy_user }}"
   register: container_user
 
+- name: Determine conf dir path
+  ansible.builtin.set_fact:
+    caddy_conf_dir_path: "{{ container_user.home }}/conf"
+
 - name: Determine if conf directory exists
   ansible.builtin.stat:
-    path: "{{ container_user.home }}/conf"
+    path: "{{ caddy_conf_dir_path }}"
   register: caddy_conf_dir
 
 - name: Create Caddy configuration directory
   ansible.builtin.file:
-    path: "{{ container_user.home }}/conf"
+    path: "{{ caddy_conf_dir_path }}"
     state: directory
     owner: "{{ caddy_user }}"
     group: "{{ caddy_user }}"
     mode: "u=rwX,g=r,o="
-  register: caddy_conf_dir
   when: not caddy_conf_dir.stat.exists
 
 - name: Deploy Caddyfile
   ansible.builtin.template:
     src: "Caddyfile.j2"
-    dest: "{{ caddy_conf_dir.path }}/Caddyfile"
+    dest: "{{ caddy_conf_dir_path }}/Caddyfile"
     owner: "{{ caddy_user }}" # root in the container
     group: "{{ caddy_user }}"
     mode: "u=rw,g=r,o=r"
@@ -54,7 +57,7 @@
       - path: "{{ caddy_data_path }}"
         uid: "{{ caddy_uid }}"
         gid: "{{ caddy_gid }}"
-      - path: "{{ caddy_conf_dir.path }}"
+      - path: "{{ caddy_conf_dir_path }}"
         uid: 0
         gid: "{{ caddy_gid }}"
   when: container_unit.changed or caddy_conf.changed
