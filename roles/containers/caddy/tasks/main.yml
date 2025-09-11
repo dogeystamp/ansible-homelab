@@ -13,7 +13,7 @@
 - name: Determine if conf directory exists
   ansible.builtin.stat:
     path: "{{ container_user.home }}/conf"
-  register: caddy_conf_dir_c
+  register: caddy_conf_dir
 
 - name: Create Caddy configuration directory
   ansible.builtin.file:
@@ -23,19 +23,18 @@
     group: "{{ caddy_user }}"
     mode: "u=rwX,g=r,o="
   register: caddy_conf_dir
-  when: not caddy_conf_dir_c.stat.exists
+  when: not caddy_conf_dir.stat.exists
 
 - name: Deploy Caddyfile
   ansible.builtin.template:
     src: "Caddyfile.j2"
-    dest: "{{ caddy_conf_dir.path }}/Caddyfile"
+    dest: "{{ caddy_conf_dir_c.path }}/Caddyfile"
     owner: "{{ caddy_user }}" # root in the container
     group: "{{ caddy_user }}"
     mode: "u=rw,g=r,o=r"
     # note: no validation, because it's too inconvenient to reach into the container
     # to get caddy and validate
   register: caddy_conf
-  when: not caddy_conf_dir_c.stat.exists
 
 - name: Deploy container unit
   ansible.builtin.template:
@@ -58,7 +57,7 @@
       - path: "{{ caddy_conf_dir.path }}"
         uid: 0
         gid: "{{ caddy_gid }}"
-  when: container_unit.changed or (caddy_conf is defined and caddy_conf.changed)
+  when: container_unit.changed or caddy_conf.changed
 
 - name: Finalize podman setup
   ansible.builtin.include_role:
