@@ -35,6 +35,7 @@
     # note: no validation, because it's too inconvenient to reach into the container
     # to get caddy and validate
   register: caddy_conf
+  when: not caddy_conf_dir_c.stat.exists
 
 - name: Deploy container unit
   ansible.builtin.template:
@@ -57,7 +58,7 @@
       - path: "{{ caddy_conf_dir.path }}"
         uid: 0
         gid: "{{ caddy_gid }}"
-  when: container_unit.changed or caddy_conf.changed
+  when: container_unit.changed or (caddy_conf is defined and caddy_conf.changed)
 
 - name: Finalize podman setup
   ansible.builtin.include_role:
