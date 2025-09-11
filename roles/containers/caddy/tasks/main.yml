@@ -28,7 +28,7 @@
 - name: Deploy Caddyfile
   ansible.builtin.template:
     src: "Caddyfile.j2"
-    dest: "{{ caddy_conf_dir_c.path }}/Caddyfile"
+    dest: "{{ caddy_conf_dir.path }}/Caddyfile"
     owner: "{{ caddy_user }}" # root in the container
     group: "{{ caddy_user }}"
     mode: "u=rw,g=r,o=r"
