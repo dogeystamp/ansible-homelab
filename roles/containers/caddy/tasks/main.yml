@@ -10,6 +10,11 @@
     name: "{{ caddy_user }}"
   register: container_user
 
+- name: Determine if conf directory exists
+  ansible.builtin.stat:
+    path: "{{ container_user.home }}/conf"
+  register: caddy_conf_dir_c
+
 - name: Create Caddy configuration directory
   ansible.builtin.file:
     path: "{{ container_user.home }}/conf"
@@ -18,6 +23,7 @@
     group: "{{ caddy_user }}"
     mode: "u=rwX,g=r,o="
   register: caddy_conf_dir
+  when: not caddy_conf_dir_c.stat.exists
 
 - name: Deploy Caddyfile
   ansible.builtin.template:
