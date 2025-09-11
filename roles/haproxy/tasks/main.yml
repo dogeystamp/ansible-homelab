@@ -24,3 +24,4 @@
   ansible.builtin.systemd_service:
     name: haproxy
     state: reloaded
+  when: haproxy_conf.changed
