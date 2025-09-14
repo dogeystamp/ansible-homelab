@@ -7,7 +7,7 @@
 
 - name: Check for existence of bind directories
   ansible.builtin.stat:
-    path: "{{ item.path h}}"
+    path: "{{ item.path }}"
   register: podman_mount_dirs
   with_items: "{{ podman_mounts }}"
 
