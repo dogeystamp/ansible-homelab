@@ -42,7 +42,7 @@
       vars:
         wireguard_quick_server_pubkey: "{{ wg_server_pubkey }}"
         wireguard_quick_server_endpoint: "net.{{ domain_main }}"
-        wireguard_quick_dns: "{{ groups.ingress[0].ansible_host }}"
+        wireguard_quick_dns: "{{ hostvars[groups.ingress[0]].ansible_host }}"
         wireguard_quick_subnet: "{{ vpn1_subnet }}"
 
     - name: Save WireGuard server pubkey (VPN ONE)
