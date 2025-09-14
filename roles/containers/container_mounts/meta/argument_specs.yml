@@ -1,7 +1,7 @@
 ---
 argument_specs:
   main:
-    short_description: "Setup mount permissions for Podman rootless containers."
+    short_description: "Create mount directories for Podman rootless containers."
     author: "dogeystamp <dogeystamp@disroot.org>"
     options:
       podman_user:

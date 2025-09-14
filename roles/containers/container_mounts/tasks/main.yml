@@ -5,6 +5,12 @@
       - acl
     state: present
 
+- name: Check for existence of bind directories
+  ansible.builtin.stat:
+    path: "{{ item.path h}}"
+  register: podman_mount_dirs
+  with_items: "{{ podman_mounts }}"
+
 - name: Create bind directories
   ansible.builtin.file:
     path: "{{ item.path }}"
@@ -12,7 +18,8 @@
     group: "{{ podman_user }}"
     mode: "u=rwX,g=rX,o="
     state: directory
-  with_items: "{{ podman_mounts }}"
+  with_items: "{{ podman_mount_dirs.results }}"
+  when: not item.stat.exists
   register: bind_mnt_created
 
 - name: Set permissions on bind directories
@@ -21,11 +28,10 @@
       - podman
       - unshare
       - chown
-      - "-R"
+      # note the lack of -R
       - "{{ item.uid }}:{{ item.gid }}"
       - "{{ item.path }}"
   with_items: "{{ podman_mounts }}"
   become_user: "{{ podman_user }}"
   become: true
   changed_when: true
-  when: bind_mnt_created.changed

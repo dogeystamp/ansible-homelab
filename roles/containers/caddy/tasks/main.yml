@@ -5,6 +5,8 @@
   vars:
     podman_user: "{{ caddy_user }}"
 
+# note: caddy_user is on the host; caddy_uid and caddy_gid are within the container.
+
 - name: Get user information
   ansible.builtin.user:
     name: "{{ caddy_user }}"
@@ -14,26 +16,21 @@
   ansible.builtin.set_fact:
     caddy_conf_dir_path: "{{ container_user.home }}/conf"
 
-- name: Determine if conf directory exists
-  ansible.builtin.stat:
-    path: "{{ caddy_conf_dir_path }}"
-  register: caddy_conf_dir
-
-- name: Create Caddy configuration directory
-  ansible.builtin.file:
-    path: "{{ caddy_conf_dir_path }}"
-    state: directory
-    owner: "{{ caddy_user }}"
-    group: "{{ caddy_user }}"
-    mode: "u=rwX,g=r,o="
-  when: not caddy_conf_dir.stat.exists
+- name: Setup conf dir
+  ansible.builtin.include_role:
+    name: container_perms
+  vars:
+    podman_user: "{{ caddy_user }}"
+    podman_perm_files:
+      - path: "{{ caddy_conf_dir_path }}"
+        uid: root
+        gid: "{{ caddy_gid }}"
 
 - name: Deploy Caddyfile
   ansible.builtin.template:
     src: "Caddyfile.j2"
     dest: "{{ caddy_conf_dir_path }}/Caddyfile"
     owner: "{{ caddy_user }}" # root in the container
-    group: "{{ caddy_user }}"
     mode: "u=rw,g=r,o=r"
     # note: no validation, because it's too inconvenient to reach into the container
     # to get caddy and validate
@@ -59,7 +56,7 @@
         gid: "{{ caddy_gid }}"
       - path: "{{ caddy_conf_dir_path }}"
         uid: 0
-        gid: "{{ caddy_gid }}"
+        gid: 0
   when: container_unit.changed or caddy_conf.changed
 
 - name: Finalize podman setup
