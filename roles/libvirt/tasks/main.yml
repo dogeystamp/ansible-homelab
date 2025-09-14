@@ -69,6 +69,8 @@
 - name: Check if VM image already exists
   ansible.builtin.stat:
     path: "{{ vm_image_path }}"
+    get_checksum: false  # checksumming large files is inconvenient
+    get_mime: false
   register: vm_image
 
 - name: List existing VMs
