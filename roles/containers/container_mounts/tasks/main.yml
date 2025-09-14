@@ -35,3 +35,4 @@
   become_user: "{{ podman_user }}"
   become: true
   changed_when: true
+  when: bind_mnt_created.changed
