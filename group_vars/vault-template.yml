@@ -15,6 +15,8 @@ vault_borg_ssh_pubkeys:
 vault_dyndns_domain: example.com
 vault_dyndns_password: 1234
 
+vault_xandikos_pw_hash: $6$tcEGOtHvVV...
+
 # List of user clients (e.g. not the servers, not the Ansible controller) for VPN ONE
 vault_wireguard_quick_clients:
   - name: mylaptop

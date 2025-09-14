@@ -61,4 +61,6 @@ borg_ssh_pubkeys: "{{ vault_borg_ssh_pubkeys }}"
 dyndns_domain: "{{ vault_dyndns_domain }}"
 dyndns_password: "{{ vault_dyndns_password }}"
 
+xandikos_pw_hash: "{{ vault_xandikos_pw_hash }}"
+
 wireguard_quick_clients: "{{ vault_wireguard_quick_clients }}"
