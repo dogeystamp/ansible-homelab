@@ -1,0 +1,39 @@
+---
+- name: Setup user
+  ansible.builtin.include_role:
+    name: container_setup
+  vars:
+    podman_user: "{{ xandikos_user }}"
+
+- name: Get user information
+  ansible.builtin.user:
+    name: "{{ xandikos_user }}"
+  register: container_user
+
+- name: Setup podman bind mounts
+  ansible.builtin.include_role:
+    name: container_mounts
+  vars:
+    podman_user: "{{ xandikos_user }}"
+    podman_mounts:
+      - path: "{{ xandikos_data_path }}"
+        uid: "{{ xandikos_uid }}"
+        gid: "{{ xandikos_gid }}"
+
+- name: Deploy container unit
+  ansible.builtin.template:
+    src: "xandikos.container.j2"
+    dest: "{{ container_user.home }}/.config/containers/systemd/xandikos.container"
+    mode: "u=rw,g=,o="
+    owner: "{{ xandikos_user }}"
+    group: "{{ xandikos_user }}"
+  register: container_unit
+
+- name: Finalize podman setup
+  ansible.builtin.include_role:
+    name: container_finalize
+  vars:
+    podman_user: "{{ xandikos_user }}"
+    podman_unit_names:
+      - xandikos
+  when: container_unit.changed

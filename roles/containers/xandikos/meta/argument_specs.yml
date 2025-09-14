@@ -1,0 +1,10 @@
+---
+argument_specs:
+  main:
+    short_description: "Xandikos container."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      xandikos_data_path:
+        description: "Bind-mount path for Xandikos data; this will be created by the role."
+        type: "path"
+        required: true

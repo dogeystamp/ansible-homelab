@@ -85,3 +85,9 @@
         name: borg_server
       when: "'borg_server' in group_names"
       tags: borg_server
+
+    - name: Deploy Xandikos
+      ansible.builtin.import_role:
+        name: xandikos
+      when: "'xandikos' in group_names"
+      tags: xandikos

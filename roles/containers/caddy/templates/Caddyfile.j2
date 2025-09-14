@@ -27,7 +27,9 @@ http:// {
 cal.{{ domain_main }} {
 	import internal
 
-	respond "this page intentionally left blank" 418 {
-		close
+	basic_auth {
+		user {{ xandikos_pw_hash }}
 	}
+
+	reverse_proxy localhost:8001
 }
