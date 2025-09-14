@@ -31,5 +31,6 @@ cal.{{ domain_main }} {
 		user {{ xandikos_pw_hash }}
 	}
 
-	reverse_proxy 127.0.0.1:8001
+	# this is a hack; ideally, authentication happens on the same host as xandikos
+	reverse_proxy {{ hostvars[groups.xandikos[0]].ansible_host }}:8001
 }

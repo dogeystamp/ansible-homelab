@@ -4,7 +4,7 @@ After=network-online.target
 
 [Container]
 Image=ghcr.io/jelmer/xandikos
-PublishPort=127.0.0.1:8001:8000
+PublishPort={{ ansible_host }}:8001:8000
 User={{ xandikos_uid }}
 Group={{ xandikos_gid }}
 Volume={{ xandikos_data_path }}:/data
