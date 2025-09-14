@@ -91,3 +91,5 @@
         name: xandikos
       when: "'xandikos' in group_names"
       tags: xandikos
+      vars:
+        caddy_data_path: "/var/lib/xandikos_c"
