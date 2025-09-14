@@ -93,4 +93,3 @@
       tags: xandikos
       vars:
         xandikos_data_path: "/var/lib/xandikos_c"
-

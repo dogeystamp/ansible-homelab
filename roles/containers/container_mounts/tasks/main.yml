@@ -13,7 +13,7 @@
 
 - name: Create bind directories
   ansible.builtin.file:
-    path: "{{ item.path }}"
+    path: "{{ item.item.path }}"
     owner: "{{ podman_user }}"
     group: "{{ podman_user }}"
     mode: "u=rwX,g=rX,o="
