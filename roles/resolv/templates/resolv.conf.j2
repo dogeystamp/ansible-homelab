@@ -2,7 +2,7 @@
 
 {% if 'ingress' in group_names %}
 nameserver 127.0.0.1
-{% elif groups["ingress"] | length > 0 %}
+{% elif groups["ingress"] | length > 0 and "bastion" not in group_names and "ingress" not in group_names %}
 nameserver {{ hostvars[groups.ingress[0]].ansible_host }}
 {% endif %}
 nameserver {{ resolv_fallback }}
