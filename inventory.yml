@@ -55,9 +55,9 @@ ingress:
   hosts:
     janua:
 
-xandikos:
-  hosts:
-    oriens:
+# xandikos:
+#   hosts:
+#     oriens:
 
 haproxy:
   hosts:
@@ -66,6 +66,6 @@ haproxy:
 borg_client:
   hosts:
 
-borg_server:
-  hosts:
-    caupo:
+# borg_server:
+#   hosts:
+#     caupo:
