@@ -31,11 +31,5 @@
   ansible.builtin.package:
     name:
       - fish
-    state: present
-
-- name: Install virtiofs daemon (needed for vmdisk)
-  ansible.builtin.package:
-    name:
       - virtiofsd
     state: present
-  when: libvirt_enable_vmdisk
