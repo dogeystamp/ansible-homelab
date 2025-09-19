@@ -1,6 +1,10 @@
 <domain type='kvm'>
   <name>{{ libvirt_vm_name }}</name>
   <memory unit='MiB'>{{ libvirt_memory_mib | default(1024, true) }}</memory>
+  <memoryBacking>
+    <source type='memfd'/>
+    <access mode='shared'/>
+  </memoryBacking>
   <vcpu placement='static'>{{ libvirt_cpu_count | default(1, true) }}</vcpu>
   <os firmware='efi'>
     <type arch='aarch64' machine='virt-10.0'>hvm</type>
@@ -28,6 +32,11 @@
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
     </disk>
+    <filesystem type='mount' accessmode='passthrough'>
+      <driver type='virtiofs' queue='1024'/>
+      <source dir='{{ vm_data_dir.path }}'/>
+      <target dir='vmdata'/>
+    </filesystem>
     <controller type='usb' index='0' model='qemu-xhci' ports='15'>
       <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
     </controller>

@@ -19,7 +19,7 @@
     shell: "/usr/sbin/nologin"
   register: vm_user
 
-- name: Create VM directory
+- name: Create VM system directory
   ansible.builtin.file:
     path: "{{ vm_user.home }}/machine"
     state: directory
@@ -27,6 +27,15 @@
     group: root
     mode: "u=rwx,g=,o="
   register: vm_dir
+
+- name: Create VM data directory
+  ansible.builtin.file:
+    path: "{{ vm_user.home }}/vmdata"
+    state: directory
+    owner: "{{ vm_user.uid }}"
+    group: root
+    mode: "u=rwx,g=,o="
+  register: vm_data_dir
 
 # WireGuard configuration is created and never deleted, because
 # otherwise we can't read the public key out of the VM easily. This
