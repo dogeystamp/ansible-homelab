@@ -4,3 +4,4 @@
 libvirt_agent_user: "admin"
 libvirt_vm_directory: "/var/lib/vms"
 libvirt_autostart: true
+libvirt_enable_vmdisk: false

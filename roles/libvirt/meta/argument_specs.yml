@@ -58,3 +58,7 @@ argument_specs:
         description: "Whether to start the VM at boot."
         type: "bool"
         default: true
+      libvirt_enable_vmdisk:
+        description: "Enable VM to write files to the host filesystem via virtiofs."
+        type: "bool"
+        default: false
