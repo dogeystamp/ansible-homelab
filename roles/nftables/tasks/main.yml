@@ -9,32 +9,62 @@
     name: "nftables"
     state: present
 
-- name: Deploy firewall service
-  ansible.builtin.template:
-    src: "nftables-custom.service.j2"
-    dest: "/etc/systemd/system/nftables-custom.service"
-    owner: root
-    group: root
-    mode: "u=rw,g=r,o=r"
+- name: Firewall deployment (normal)
+  when: ansible_facts.ansible_distribution != "openSUSE Tumbleweed"
+  block:
+    
+  - name: Deploy firewall service
+    ansible.builtin.template:
+      src: "nftables-custom.service.j2"
+      dest: "/etc/systemd/system/nftables-custom.service"
+      owner: root
+      group: root
+      mode: "u=rw,g=r,o=r"
 
-- name: Deploy firewall configuration
-  ansible.builtin.template:
-    src: "firewall.nft.j2"
-    dest: "/etc/firewall.nft"
-    owner: root
-    group: root
-    mode: "u=rw,g=r,o=r"
-    validate: "/usr/sbin/nft -cf %s"
-  register: firewall_conf
+  - name: Deploy firewall configuration
+    ansible.builtin.template:
+      src: "firewall.nft.j2"
+      dest: "/etc/firewall.nft"
+      owner: root
+      group: root
+      mode: "u=rw,g=r,o=r"
+      validate: "/usr/sbin/nft -cf %s"
+    register: firewall_conf
 
-- name: Enable firewall
-  ansible.builtin.systemd_service:
-    name: nftables-custom
-    state: started
-    enabled: true
+  - name: Enable firewall
+    ansible.builtin.systemd_service:
+      name: nftables-custom
+      state: started
+      enabled: true
 
-- name: Reload firewall
-  ansible.builtin.systemd_service:
-    name: nftables-custom
-    state: reloaded
-  when: firewall_conf.changed
+  - name: Reload firewall
+    ansible.builtin.systemd_service:
+      name: nftables-custom
+      state: reloaded
+    when: firewall_conf.changed
+
+- name: Firewall deployment (openSUSE Tumbleweed workaround)
+  when: ansible_facts.ansible_distribution == "openSUSE Tumbleweed"
+  block:
+
+  - name: Deploy firewall configuration
+    ansible.builtin.template:
+      src: "firewall.nft.j2"
+      dest: "/etc/nftables/rules/main.nft"
+      owner: root
+      group: root
+      mode: "u=rw,g=r,o=r"
+      validate: "/usr/sbin/nft -cf %s"
+    register: firewall_conf
+
+  - name: Enable firewall
+    ansible.builtin.systemd_service:
+      name: nftables
+      state: started
+      enabled: true
+
+  - name: Reload firewall
+    ansible.builtin.systemd_service:
+      name: nftables
+      state: reloaded
+    when: firewall_conf.changed
