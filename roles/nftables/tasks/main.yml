@@ -10,7 +10,7 @@
     state: present
 
 - name: Firewall deployment (normal)
-  when: ansible_facts.ansible_distribution != "openSUSE Tumbleweed"
+  when: ansible_distribution != "openSUSE Tumbleweed"
   block:
     
   - name: Deploy firewall service
@@ -44,7 +44,7 @@
     when: firewall_conf.changed
 
 - name: Firewall deployment (openSUSE Tumbleweed workaround)
-  when: ansible_facts.ansible_distribution == "openSUSE Tumbleweed"
+  when: ansible_distribution == "openSUSE Tumbleweed"
   block:
 
   - name: Deploy firewall configuration
