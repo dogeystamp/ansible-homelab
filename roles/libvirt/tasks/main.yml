@@ -15,7 +15,6 @@
     state: present
     create_home: true
     home: "{{ libvirt_vm_directory }}/{{ libvirt_vm_name }}"
-    system: true
     shell: "/usr/sbin/nologin"
   register: vm_user
 
