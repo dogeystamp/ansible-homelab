@@ -36,7 +36,7 @@
     <filesystem type='mount' accessmode='passthrough'>
       <driver type='virtiofs' queue='1024'/>
       <source dir='{{ vm_data_dir.path }}'/>
-      <target dir='vmdata'/>
+      <target dir='vmdisk'/>
     </filesystem>
 {% endif %}
     <controller type='usb' index='0' model='qemu-xhci' ports='15'>
