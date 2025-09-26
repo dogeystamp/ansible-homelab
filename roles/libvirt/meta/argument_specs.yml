@@ -7,6 +7,9 @@ argument_specs:
       - "Virtual machines are provisioned with an Ansible agent, SSH server and VPN configuration."
     author: "dogeystamp <dogeystamp@disroot.org>"
     options:
+      # NOTE: when adding more options, note that this role runs on the hypervisor;
+      # local variables need to be manually copied over in the role invocation
+
       libvirt_vm_name:
         description:
           - "VM's hostname."

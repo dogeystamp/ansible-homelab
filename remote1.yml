@@ -79,6 +79,7 @@
         libvirt_vpn_interface: "wg1"
         libvirt_memory_mib: "{{ hostvars[current_domain].libvirt_memory_mib | default(false) }}"
         libvirt_cpu_count: "{{ hostvars[current_domain].libvirt_cpu_count | default(false) }}"
+        libvirt_enable_vmdisk: "{{ hostvars[current_domain].libvirt_enable_vmdisk | default(false) }}"
         libvirt_agent_user: "{{ admin_username }}"
         libvirt_agent_pubkey: "{{ controller_ssh_pubkey }}"
         libvirt_clean_image: "{{ hostvars[current_domain].libvirt_clean_image | default(libvirt_clean_image_default) }}"
