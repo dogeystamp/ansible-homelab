@@ -117,6 +117,7 @@
             }]
           }}
       with_items: "{{ wireguard_quick_clients }}"
+      no_log: true
 
     - name: WireGuard server setup (VPN ONE)
       ansible.builtin.include_role:
