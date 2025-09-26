@@ -13,3 +13,8 @@ argument_specs:
         description: "Main disk device."
         type: "str"
         required: true
+
+      libvirt_enable_vmdisk:
+        description: "If this option is enabled in the libvirt role, enable this role to mount the disk in the VM."
+        type: "bool"
+        default: false
