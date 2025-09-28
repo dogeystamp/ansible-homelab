@@ -15,17 +15,9 @@
     state: opened
   no_log: false  # this is just the password's path
 
-- name: Setup fstab (main disk)
+- name: Setup fstab
   mount:
     path: /disk
     src: /dev/mapper/disk
     state: mounted
     fstype: btrfs
-
-- name: Setup fstab (VM disk)
-  mount:
-    path: /vmdata
-    src: vmdata
-    state: mounted
-    fstype: virtiofs
-  when: libvirt_enable_vmdisk
