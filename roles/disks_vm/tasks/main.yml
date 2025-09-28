@@ -6,3 +6,10 @@
     state: mounted
     fstype: virtiofs
   when: libvirt_enable_vmdisk
+
+- name: Make vmdisk world-readable
+  ansible.builtin.file:
+    path: /vmdisk
+    state: directory
+    mode: "u=rwx,g=rx,o=rx"
+  when: libvirt_enable_vmdisk
