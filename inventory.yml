@@ -68,6 +68,9 @@ haproxy:
 
 borg_client:
   hosts:
+    oriens:
+      borg_paths:
+        - /vmdisk
 
 borg_server:
   hosts:
