@@ -98,4 +98,4 @@
       when: "'xandikos' in group_names"
       tags: xandikos
       vars:
-        xandikos_data_path: "/var/lib/xandikos_c"
+        xandikos_data_path: "/vmdisk/xandikos/"

@@ -32,14 +32,14 @@ domains:
         - 8080  # http  (internally exposed)
         - 8443  # https (internally exposed)
 
-    # oriens:
-    #   ansible_host: 10.55.55.4
-    #   libvirt_mac_address: "52:54:00:00:00:04"
-    #   libvirt_memory_mib: 768
-    #   libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64_expanded.qcow2"
-    #   nftables_preset: "service"
-    #   nftables_internal_listens_tcp:
-    #     - 8001 # xandikos
+    oriens:
+      ansible_host: 10.55.55.4
+      libvirt_mac_address: "52:54:00:00:00:04"
+      libvirt_memory_mib: 768
+      libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
+      nftables_preset: "service"
+      nftables_internal_listens_tcp:
+        - 8001 # xandikos
 
     harena-ii:
       ansible_host: 10.55.55.5
