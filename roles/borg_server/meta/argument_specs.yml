@@ -14,3 +14,7 @@ argument_specs:
         description: "Dictionary that maps hostname to its borg client SSH pubkey."
         type: "dict"
         required: true
+
+      borg_home_dir:
+        description: "Directory to place borg users' home directories in."
+        type: "path"

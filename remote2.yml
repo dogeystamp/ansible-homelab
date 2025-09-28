@@ -91,6 +91,9 @@
         name: borg_server
       when: "'borg_server' in group_names"
       tags: borg_server
+      vars:
+        # on the borg server, borg is the only service running
+        borg_home_dir: "/vmdisk"
 
     - name: Deploy Xandikos
       ansible.builtin.import_role:
@@ -98,4 +101,4 @@
       when: "'xandikos' in group_names"
       tags: xandikos
       vars:
-        xandikos_data_path: "/vmdisk/xandikos/"
+        xandikos_data_path: "/vmdisk/xandikos"

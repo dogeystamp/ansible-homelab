@@ -9,6 +9,7 @@
     name: "{{ item }}"
     state: present
     create_home: true
+    home: "{{ borg_home_dir }}/{{ item }}"
     shell: "/bin/sh"
   register: backup_users
   with_items: "{{ borg_client_hosts }}"
