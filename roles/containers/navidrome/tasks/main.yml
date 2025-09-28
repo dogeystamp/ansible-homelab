@@ -19,7 +19,7 @@
       - path: "{{ navidrome_data_path }}"
         uid: "{{ navidrome_uid }}"
         gid: "{{ navidrome_gid }}"
-      - path: "{{ navidrome_music_path }}"
+      - path: "{{ navidrome_mus_path }}"
         # since the library is relatively big, it needs to be on the vmdisk,
         # not within the VM root partition. however, we can't do UID remapping
         # over virtiofs (which is already UID mapped). therefore, the music
