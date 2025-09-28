@@ -56,9 +56,9 @@ ingress:
   hosts:
     janua:
 
-# xandikos:
-#   hosts:
-#     oriens:
+xandikos:
+  hosts:
+    oriens:
 
 haproxy:
   hosts:
