@@ -1,2 +1,2 @@
 ---
-libvirt_enable_vmdisk: true
+libvirt_enable_vmdisk: false
