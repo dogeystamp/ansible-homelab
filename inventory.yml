@@ -18,6 +18,7 @@ domains:
       libvirt_mac_address: "52:54:00:00:00:02"
       libvirt_memory_mib: 1024
       libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
+      libvirt_enable_vmdisk: true
       nftables_preset: "service"
 
     janua:
