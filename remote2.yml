@@ -102,3 +102,12 @@
       tags: xandikos
       vars:
         xandikos_data_path: "/vmdisk/xandikos"
+
+    - name: Deploy Navidrome
+      ansible.builtin.import_role:
+        name: navidrome
+      when: "'navidrome' in group_names"
+      tags: navidrome
+      vars:
+        navidrome_data_path: "/var/lib/navidrome"
+        navidrome_mus_path: "/vmdisk/navidrome_mus"

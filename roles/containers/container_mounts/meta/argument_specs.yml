@@ -26,3 +26,6 @@ argument_specs:
             description: "GID within the container of the mount."
             type: "int"
             required: true
+          mode:
+            description: "UNIX permissions to set for this mount."
+            default: "u=rwX,g=rX,o="

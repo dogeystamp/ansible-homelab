@@ -16,13 +16,13 @@
     path: "{{ item.item.path }}"
     owner: "{{ podman_user }}"
     group: "{{ podman_user }}"
-    mode: "u=rwX,g=rX,o="
+    mode: "{{ item.item.mode | default('u=rwX,g=rX,o=')}}"
     state: directory
   with_items: "{{ podman_mount_dirs.results }}"
   when: not item.stat.exists
   register: bind_mnt_created
 
-- name: Set permissions on bind directories
+- name: Set owner/group on bind directories
   ansible.builtin.command:
     argv:
       - podman

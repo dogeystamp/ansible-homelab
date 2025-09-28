@@ -62,6 +62,10 @@ xandikos:
   hosts:
     oriens:
 
+navidrome:
+  hosts:
+    oriens:
+
 haproxy:
   hosts:
     urbs:

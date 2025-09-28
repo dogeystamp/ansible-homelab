@@ -1,0 +1,15 @@
+---
+argument_specs:
+  main:
+    short_description: "Navidrome container."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      navidrome_data_path:
+        description: "Bind-mount path for data; this will be created by the role."
+        type: "path"
+        required: true
+
+      navidrome_mus_path:
+        description: "Bind-mount path for music; this will be created by the role."
+        type: "path"
+        required: true

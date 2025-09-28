@@ -1,0 +1,50 @@
+---
+- name: Setup user
+  ansible.builtin.include_role:
+    name: container_setup
+  vars:
+    podman_user: "{{ navidrome_user }}"
+
+- name: Get user information
+  ansible.builtin.user:
+    name: "{{ navidrome_user }}"
+  register: container_user
+
+- name: Setup podman bind mounts
+  ansible.builtin.include_role:
+    name: container_mounts
+  vars:
+    podman_user: "{{ navidrome_user }}"
+    podman_mounts:
+      - path: "{{ navidrome_data_path }}"
+        uid: "{{ navidrome_uid }}"
+        gid: "{{ navidrome_gid }}"
+      - path: "{{ navidrome_music_path }}"
+        # since the library is relatively big, it needs to be on the vmdisk,
+        # not within the VM root partition. however, we can't do UID remapping
+        # over virtiofs (which is already UID mapped). therefore, the music
+        # will be owned by root within the container (i.e., owned by navidrome
+        # in the service VM).
+        uid: 0
+        gid: 0
+        # since navidrome will run not as root within the container,
+        # this is set to be world-readable so that navidrome can read the music.
+        mode: "u=rwX,g=rX,o=rX"
+
+- name: Deploy container unit
+  ansible.builtin.template:
+    src: "navidrome.container.j2"
+    dest: "{{ container_user.home }}/.config/containers/systemd/navidrome.container"
+    mode: "u=rw,g=,o="
+    owner: "{{ navidrome_user }}"
+    group: "{{ navidrome_user }}"
+  register: container_unit
+
+- name: Finalize podman setup
+  ansible.builtin.include_role:
+    name: container_finalize
+  vars:
+    podman_user: "{{ navidrome_user }}"
+    podman_unit_names:
+      - navidrome
+  when: container_unit.changed

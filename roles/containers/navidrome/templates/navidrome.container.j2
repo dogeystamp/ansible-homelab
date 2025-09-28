@@ -1,0 +1,17 @@
+[Unit]
+Description=Navidrome music server
+After=network-online.target
+
+[Container]
+Image=ghcr.io/navidrome/navidrome:latest
+PublishPort={{ ansible_host }}:4533:4533
+User={{ navidrome_uid }}
+Group={{ navidrome_gid }}
+Volume={{ navidrome_data_path }}:/data
+Volume={{ navidrome_mus_path }}:/music:ro
+RunInit=true
+Environment=ND_LISTENBRAINZ_ENABLED=true
+Environment=ND_SESSIONTIMEOUT=168h
+
+[Install]
+WantedBy=multiuser.target default.target
