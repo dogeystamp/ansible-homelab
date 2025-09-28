@@ -5,3 +5,4 @@
     src: vmdisk
     state: mounted
     fstype: virtiofs
+  when: "{{ libvirt_enable_vmdisk }}"
