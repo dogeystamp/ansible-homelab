@@ -1,0 +1,7 @@
+---
+- name: Setup fstab / mount vmdisk
+  ansible.posix.mount:
+    path: /vmdisk
+    src: vmdisk
+    state: mounted
+    fstype: virtiofs

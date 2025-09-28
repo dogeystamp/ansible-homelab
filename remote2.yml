@@ -12,6 +12,12 @@
         name: essential
       tags: essential
 
+    - name: Setup disks (in VM)
+      ansible.builtin.import_role:
+        name: disks_vm
+      when: "'domains' in group_names"
+      tags: disks_vm
+
     - name: Deploy Caddy
       ansible.builtin.import_role:
         name: caddy

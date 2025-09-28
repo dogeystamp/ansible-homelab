@@ -1,0 +1,9 @@
+---
+argument_specs:
+  main:
+    short_description: "Setup a virtual machine's disks. (This role has hardcoded settings)"
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      libvirt_enable_vmdisk:
+        type: "bool"
+        description: If enabled, mount the 'vmdisk' disk within the VM.
