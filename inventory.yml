@@ -41,6 +41,7 @@ domains:
       libvirt_enable_vmdisk: true
       nftables_preset: "service"
       nftables_internal_listens_tcp:
+        - 4533 # navidrome
         - 8001 # xandikos
 
     harena-ii:
