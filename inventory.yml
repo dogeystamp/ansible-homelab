@@ -77,6 +77,8 @@ borg_client:
       borg_paths:
         - /vmdisk/xandikos
         - /vmdisk/navidrome_data
+      borg_excludes:
+        - "-/vmdisk/navidrome_data/cache"
 
 borg_server:
   hosts:
