@@ -20,16 +20,8 @@
         uid: "{{ navidrome_uid }}"
         gid: "{{ navidrome_gid }}"
       - path: "{{ navidrome_mus_path }}"
-        # since the library is relatively big, it needs to be on the vmdisk,
-        # not within the VM root partition. however, we can't do UID remapping
-        # over virtiofs (which is already UID mapped). therefore, the music
-        # will be owned by root within the container (i.e., owned by navidrome
-        # in the service VM).
-        uid: 0
-        gid: 0
-        # since navidrome will run not as root within the container,
-        # this is set to be world-readable so that navidrome can read the music.
-        mode: "u=rwX,g=rX,o=rX"
+        uid: "{{ navidrome_uid }}"
+        gid: "{{ navidrome_gid }}"
 
 - name: Deploy container unit
   ansible.builtin.template:
