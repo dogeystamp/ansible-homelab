@@ -24,6 +24,7 @@ http:// {
 	}
 }
 
+{% if groups["xandikos"] | length > 0 %}
 cal.{{ domain_main }} {
 	import internal
 
@@ -34,3 +35,12 @@ cal.{{ domain_main }} {
 	# this is a hack; ideally, authentication happens on the same host as xandikos
 	reverse_proxy {{ hostvars[groups.xandikos[0]].ansible_host }}:8001
 }
+{% endif %}
+
+{% if groups["xandikos"] | length > 0 %}
+mus.{{ domain_main }} {
+	import internal
+
+	reverse_proxy {{ hostvars[groups.navidrome[0]].ansible_host }}:4533
+}
+{% endif %}
