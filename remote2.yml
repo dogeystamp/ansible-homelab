@@ -109,5 +109,5 @@
       when: "'navidrome' in group_names"
       tags: navidrome
       vars:
-        navidrome_data_path: "/var/lib/navidrome"
+        navidrome_data_path: "/vmdisk/navidrome_data"
         navidrome_mus_path: "/vmdisk/navidrome_mus"

@@ -76,6 +76,7 @@ borg_client:
     oriens:
       borg_paths:
         - /vmdisk/xandikos
+        - /vmdisk/navidrome_data
 
 borg_server:
   hosts:
