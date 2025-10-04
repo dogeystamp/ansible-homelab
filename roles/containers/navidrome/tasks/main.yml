@@ -53,6 +53,11 @@
     key_options: 'command="rrsync {{ navidrome_mus_path }}",restrict'
   with_items: "{{ navidrome_tx_pubkeys }}"
 
+- name: Install rsync
+  ansible.builtin.package:
+    name: rsync
+    state: present
+
 # container_mounts sets permissions within the container's namespace;
 # we're setting the owner outside the container in this task.
 # as of writing, container_mounts will only set the permissions
