@@ -46,7 +46,7 @@
 
 - name: Setup authorized_keys for Navidrome music transfer user
   ansible.posix.authorized_key:
-    user: "{{ container_user.name }}"
+    user: "{{ navidrome_tx_user.name }}"
     state: present
     exclusive: true
     key: "{{ item }}"
