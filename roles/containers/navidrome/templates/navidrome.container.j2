@@ -12,6 +12,7 @@ Volume={{ navidrome_mus_path }}:/music:ro
 RunInit=true
 Environment=ND_LISTENBRAINZ_ENABLED=true
 Environment=ND_SESSIONTIMEOUT=168h
+Environment=GOMEMLIMIT=100MiB
 
 [Install]
 WantedBy=multiuser.target default.target
