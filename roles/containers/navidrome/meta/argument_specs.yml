@@ -13,3 +13,8 @@ argument_specs:
         description: "Bind-mount path for music; this will be created by the role."
         type: "path"
         required: true
+
+      navidrome_tx_pubkeys:
+        description: "SSH public keys for the Navidrome music transfer user."
+        type: "list"
+        elements: "str"

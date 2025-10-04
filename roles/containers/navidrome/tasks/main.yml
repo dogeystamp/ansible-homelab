@@ -10,6 +10,19 @@
     name: "{{ navidrome_user }}"
   register: container_user
 
+- name: Create Navidrome group
+  ansible.builtin.group:
+    name: navidrome
+    state: present
+  register: navidrome_group
+
+- name: Add Navidrome user to its group
+  ansible.builtin.user:
+    name: "{{ container_user.name }}"
+    groups:
+      - "{{ navidrome_group.name }}"
+    append: true
+
 - name: Setup podman bind mounts
   ansible.builtin.include_role:
     name: container_mounts
@@ -22,6 +35,37 @@
       - path: "{{ navidrome_mus_path }}"
         uid: "{{ navidrome_uid }}"
         gid: "{{ navidrome_gid }}"
+
+- name: Create Navidrome music transfer user
+  user:
+    name: musictx
+    state: present
+    groups:
+      - "{{ navidrome_group.name }}"
+  register: navidrome_tx_user
+
+- name: Setup authorized_keys for Navidrome music transfer user
+  ansible.posix.authorized_key:
+    user: "{{ container_user.name }}"
+    state: present
+    exclusive: true
+    key: "{{ item }}"
+    key_options: 'command="rrsync {{ navidrome_mus_path }}",restrict'
+  with_items: "{{ navidrome_tx_pubkeys }}"
+
+# container_mounts sets permissions within the container's namespace;
+# we're setting the owner outside the container in this task.
+# as of writing, container_mounts will only set the permissions
+# when creating the directory for the first time.
+- name: Change music directory permissions
+  ansible.builtin.file:
+    path: "{{ navidrome_mus_path }}"
+    state: directory
+    recurse: true
+    owner: "{{ navidrome_tx_user.name }}"
+    group: "{{ navidrome_group.name }}"
+    mode: "u=rwX,g=rX,o="
+  when: navidrome_tx_user.changed
 
 - name: Deploy container unit
   ansible.builtin.template:

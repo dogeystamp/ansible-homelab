@@ -23,3 +23,7 @@ vault_wireguard_quick_clients:
     address: 10.55.55.200
     private_key: 'jdfkjsadflkasjfklasjdf...'
     public_key: 'dmvnuwehoqijflaxdlkfnz...'
+
+# List of public keys that can access the Navidrome music collection
+vault_navidrome_tx_pubkeys:
+  - "ssh-ed25519 AAA..."
