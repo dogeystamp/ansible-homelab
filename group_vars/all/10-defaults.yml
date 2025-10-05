@@ -66,3 +66,5 @@ xandikos_pw_hash: "{{ vault_xandikos_pw_hash }}"
 wireguard_quick_clients: "{{ vault_wireguard_quick_clients }}"
 
 navidrome_tx_pubkeys: "{{ vault_navidrome_tx_pubkeys }}"
+
+borg_tx_pubkeys: "{{ vault_borg_tx_pubkeys }}"

@@ -24,6 +24,10 @@ vault_wireguard_quick_clients:
     private_key: 'jdfkjsadflkasjfklasjdf...'
     public_key: 'dmvnuwehoqijflaxdlkfnz...'
 
-# List of public keys that can access the Navidrome music collection
+# List of SSH public keys with full rsync access to the Navidrome music collection
 vault_navidrome_tx_pubkeys:
+  - "ssh-ed25519 AAA..."
+
+# List of SSH public keys with read-only rsync access to all Borg backups
+vault_borg_tx_pubkeys:
   - "ssh-ed25519 AAA..."
