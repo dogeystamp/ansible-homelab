@@ -35,7 +35,7 @@
 
 - name: Set ACL on backup server user home directories
   ansible.posix.acl:
-    path: "{{ item.home }}"
+    path: "{{ item.home }}/"
     default: true
     entity: "{{ borg_tx_user.name }}"
     etype: user
