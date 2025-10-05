@@ -5,6 +5,7 @@
     src: vmdisk
     state: mounted
     fstype: virtiofs
+    opts: "acl"
   when: libvirt_enable_vmdisk
 
 - name: Make vmdisk world-readable
