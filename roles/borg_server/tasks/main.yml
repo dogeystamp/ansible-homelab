@@ -20,7 +20,7 @@
     state: present
     exclusive: true
     key: "{{ item }}"
-    key_options: 'command="rrsync --ro {{ borg_home_dir }}",restrict'
+    key_options: 'command="rrsync -ro {{ borg_home_dir }}",restrict'
   with_items: "{{ borg_tx_pubkeys }}"
 
 - name: Create backup server users
