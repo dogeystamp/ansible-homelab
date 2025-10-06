@@ -33,19 +33,26 @@
   register: backup_users
   with_items: "{{ borg_client_hosts }}"
 
-- name: Set ACL on backup server user home directories
-  ansible.posix.acl:
-    path: "{{ item.home }}/"
-    default: true
-    entity: "{{ borg_tx_user.name }}"
-    etype: user
-    permissions: "rX"
-    # NOTE: i'm assuming here that borg repos don't have huge amounts of files;
-    # in my experience ansible is super slow when recursing over more than like
-    # a few thousand files
-    recursive: true
+- name: Create backup server groups
+  ansible.builtin.group:
+    name: "{{ item }}"
     state: present
-  with_items: "{{ backup_users.results }}"
+  with_items: "{{ borg_client_hosts }}"
+
+- name: Add backup server users to their groups
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups:
+      - "{{ item }}"
+  with_items: "{{ borg_client_hosts }}"
+
+- name: Add borg transfer user to backup groups
+  ansible.builtin.user:
+    name: "{{ borg_tx_user.name }}"
+    groups:
+      - "{{ item }}"
+    append: true
+  with_items: "{{ borg_client_hosts }}"
 
 - name: Setup authorized_keys for backup users
   ansible.posix.authorized_key:
@@ -53,5 +60,6 @@
     state: present
     exclusive: true
     key: "{{ borg_ssh_pubkeys[item.name] }}"
-    key_options: 'command="borg serve --restrict-to-path {{ item.home }}/borg",restrict'
+    # note the umask is set to allow the backup transfer user to read backups
+    key_options: 'command="borg serve --umask 0027 --restrict-to-path {{ item.home }}/borg",restrict'
   with_items: "{{ backup_users.results }}"
