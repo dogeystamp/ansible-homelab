@@ -1,9 +1,7 @@
 ---
 - name: Install Borg packages
   ansible.builtin.package:
-    name:
-      - borgbackup
-      - acl
+    name: borgbackup
     state: present
 
 - name: Create Borg transfer user
