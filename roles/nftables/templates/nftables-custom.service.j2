@@ -4,7 +4,7 @@
 Description=nftables static rule set
 Wants=network-pre.target
 Before=network-pre.target shutdown.target
-Conflicts=shutdown.target firewalld.service
+Conflicts=shutdown.target firewalld.service nftables.service
 DefaultDependencies=no
 ConditionPathExists=/etc/firewall.nft
 
