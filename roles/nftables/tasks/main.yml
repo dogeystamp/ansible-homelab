@@ -52,6 +52,13 @@
 - name: Firewall deployment (recent openSUSE workaround)
   when: nftables_suse
   block:
+    - name: Create firewall directory
+      ansible.builtin.file:
+        path: "/etc/nftables/rules"
+        state: directory
+        owner: root
+        group: root
+        mode: "u=rwX,g=,o="
     - name: Deploy firewall configuration
       ansible.builtin.template:
         src: "firewall.nft.j2"
