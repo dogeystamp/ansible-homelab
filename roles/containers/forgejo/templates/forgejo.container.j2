@@ -19,7 +19,7 @@ Environment=FORGEJO__server__ROOT_URL=https://{{ forgejo_domain }}/
 Environment=FORGEJO__CRON_0x2E_UPDATE_CHECKER__ENABLED=false
 Environment=USER_UID={{ forgejo_uid }}
 Environment=USER_GID={{ forgejo_gid }}
-
+UserNS=keep-id
 
 [Install]
 WantedBy=multiuser.target default.target

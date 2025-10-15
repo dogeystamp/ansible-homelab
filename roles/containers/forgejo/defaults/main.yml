@@ -1,4 +1,3 @@
 ---
 forgejo_user: forgejo
-forgejo_uid: 0
-forgejo_gid: 0
+# note that unlike the other containers, we use the VM uid/gid namespace here
