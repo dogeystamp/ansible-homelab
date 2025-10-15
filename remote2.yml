@@ -128,5 +128,4 @@
       tags: forgejo
       vars:
         forgejo_data_path: "/vmdisk/forgejo"
-        forgejo_conf_path: "/vmdisk/forgejo_conf"
         forgejo_domain: "git.{{ domain_main }}"
