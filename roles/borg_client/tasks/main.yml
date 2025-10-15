@@ -41,6 +41,7 @@
   }
   delegate_to: localhost
   delegate_facts: true
+  run_once: true
   with_items: "{{ groups.borg_client }}"
 
 - name: Deploy Borg client passphrase
