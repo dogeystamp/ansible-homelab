@@ -62,4 +62,10 @@
     group: "{{ borg_client_user.name }}"
     mode: "u=rx,g=,o="
 
-# TODO: make a systemd service that regularly performs backups
+- name: Deploy Borg systemd service
+  ansible.builtin.template:
+    src: borgbk.service.j2
+    dest: "/etc/systemd/system/borgbk.service"
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"
