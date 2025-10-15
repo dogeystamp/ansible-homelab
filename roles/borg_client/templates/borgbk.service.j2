@@ -15,7 +15,7 @@ Type=oneshot
 # for good luck...
 # ExecStartPre=sleep 3m
 
-ExecStart=systemd-inhibit --who="borgbackup" --what="sleep:shutdown" --why="Backup is running" {{ borg_client_user.home }}/backup.sh
+ExecStart=systemd-inhibit --who="borgbackup" --what="sleep:shutdown" --why="Backup is running" {{ borg_client_user.home }}/borgbackup.sh
 
 # Sandboxing settings
 LockPersonality=true
