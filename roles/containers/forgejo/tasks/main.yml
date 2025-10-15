@@ -26,6 +26,9 @@
       - path: "{{ forgejo_data_path }}"
         uid: "{{ forgejo_uid }}"
         gid: "{{ forgejo_gid }}"
+      - path: "{{ forgejo_conf_path }}"
+        uid: "{{ forgejo_uid }}"
+        gid: "{{ forgejo_gid }}"
 
 - name: Deploy container unit
   ansible.builtin.template:
