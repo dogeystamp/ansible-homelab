@@ -9,11 +9,6 @@ argument_specs:
         type: "path"
         required: true
 
-      forgejo_conf_path:
-        description: "Bind-mount path for Forgejo configuration; this will be created by the role."
-        type: "path"
-        required: true
-
       forgejo_domain:
         description: "Domain to use for Forgejo."
         type: "str"
