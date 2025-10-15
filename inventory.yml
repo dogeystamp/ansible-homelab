@@ -8,7 +8,7 @@ hypervisors:
         - 80
         - 443
       nftables_internal_listens_tcp:
-        - 2498  # forgejo ssh
+        - 10001 # forgejo ssh
 
 
 # Virtual machines
@@ -44,7 +44,7 @@ domains:
       nftables_internal_listens_tcp:
         - 4533 # navidrome
         - 3000 # forgejo http
-        - 2498 # forgejo ssh
+        - 10001 # forgejo ssh
         - 8001 # xandikos
 
     harena-ii:

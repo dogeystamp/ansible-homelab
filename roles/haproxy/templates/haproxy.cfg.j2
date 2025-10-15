@@ -19,7 +19,7 @@ listen https
 {% endfor %}
 
 listen forgejo-ssh
-	bind *:2498
+	bind *:10001
 {% for host in groups["forgejo"] %}
-	server {{ host }} {{ hostvars[host]['ansible_host'] }}:2498
+	server {{ host }} {{ hostvars[host]['ansible_host'] }}:10001
 {% endfor %}

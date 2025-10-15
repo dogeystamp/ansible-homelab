@@ -5,7 +5,7 @@ After=network-online.target
 [Container]
 Image=codeberg.org/forgejo/forgejo:12-rootless
 PublishPort={{ ansible_host }}:3000:3000
-PublishPort={{ ansible_host }}:2498:2222
+PublishPort={{ ansible_host }}:10001:2222
 User=1000
 Group=1000
 Volume={{ forgejo_data_path }}:/var/lib/gitea
@@ -14,7 +14,7 @@ RunInit=true
 Environment=FORGEJO__service__DISABLE_REGISTRATION=true
 Environment=FORGEJO__server__DOMAIN={{ forgejo_domain }}
 Environment=FORGEJO__server__SSH_DOMAIN={{ forgejo_domain }}
-Environment=FORGEJO__server__SSH_PORT=2498
+Environment=FORGEJO__server__SSH_PORT=10001
 Environment=FORGEJO__server__ROOT_URL=https://{{ forgejo_domain }}/
 Environment=FORGEJO__CRON_0x2E_UPDATE_CHECKER__ENABLED=false
 Environment=USER_UID=1000
