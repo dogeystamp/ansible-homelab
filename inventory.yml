@@ -67,6 +67,10 @@ navidrome:
   hosts:
     oriens:
 
+forgejo:
+  hosts:
+    oriens:
+
 haproxy:
   hosts:
     urbs:
