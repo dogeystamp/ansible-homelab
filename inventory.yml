@@ -79,6 +79,9 @@ borg_client:
         - /vmdisk/navidrome_data
       borg_excludes:
         - "-/vmdisk/navidrome_data/cache"
+    harena-ii:
+      borg_paths:
+        - /vmdisk/bwaa
 
 borg_server:
   hosts:
