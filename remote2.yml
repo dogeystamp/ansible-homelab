@@ -120,3 +120,12 @@
       vars:
         navidrome_data_path: "/vmdisk/navidrome_data"
         navidrome_mus_path: "/vmdisk/navidrome_mus"
+
+    - name: Deploy Forgejo
+      ansible.builtin.import_role:
+        name: forgejo
+      when: "'forgejo' in group_names"
+      tags: forgejo
+      vars:
+        forgejo_data_path: "/vmdisk/forgejo"
+        forgejo_domain: "git.{{ domain_main }}"

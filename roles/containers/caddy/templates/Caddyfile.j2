@@ -44,3 +44,11 @@ mus.{{ domain_main }} {
 	reverse_proxy {{ hostvars[groups.navidrome[0]].ansible_host }}:4533
 }
 {% endif %}
+
+{% if groups["forgejo"] | length > 0 %}
+git.{{ domain_main }} {
+	import internal
+
+	reverse_proxy {{ hostvars[groups.forgejo[0]].ansible_host }}:3000
+}
+{% endif %}

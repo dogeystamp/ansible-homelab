@@ -1,0 +1,15 @@
+---
+argument_specs:
+  main:
+    short_description: "Forgejo container."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      forgejo_data_path:
+        description: "Bind-mount path for Forgejo data; this will be created by the role."
+        type: "path"
+        required: true
+
+      forgejo_domain:
+        description: "Domain to use for Forgejo."
+        type: "str"
+        required: true
