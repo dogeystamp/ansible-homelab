@@ -30,12 +30,13 @@ ProtectKernelLogs=yes
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
-RestrictNamespcaes=yes
+RestrictNamespaces=yes
 RestrictRealtime=yes
 RestrictSUIDSGID=yes
 SystemCallArchitectures=native
 SystemCallFilter=@system-service
-SystemCallErrorNumber=kill  # if you don't want to immediately kill, use EPERM here
+# if you don't want to immediately kill, use EPERM here
+SystemCallErrorNumber=kill
 CapabilityBoundingSet=CAP_DAC_READ_SEARCH
 
 # File paths
