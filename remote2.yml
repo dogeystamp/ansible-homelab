@@ -81,7 +81,7 @@
       ansible.builtin.set_fact:
         borg_ssh_pubkeys_servers: |
           {{
-            dict(groups.borg_client | zip(groups.borg_client | zip(groups.borg_client | map('extract', hostvars, 'borg_ssh_host_pubkey'))))
+            dict(groups.borg_client | zip(groups.borg_client | map('extract', hostvars, 'borg_ssh_host_pubkey')))
           }}
       when: "'borg_server' in group_names"
       tags: borg_server
