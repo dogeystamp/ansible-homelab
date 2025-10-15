@@ -72,3 +72,9 @@
     owner: root
     group: root
     mode: "u=rw,g=r,o=r"
+
+- name: Start Borg systemd timer
+  ansible.builtin.systemd_service:
+    name: "borgbk.timer"
+    enabled: true
+    state: started
