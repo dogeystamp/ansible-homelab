@@ -29,14 +29,19 @@
     group: "{{ borg_client_user.group }}"
     mode: "u=rw,g=,o="
 
-- name: Save Borg SSH keypair for future use
+- name: Save Borg SSH pubkey for future use
+  ansible.builtin.set_fact:
+    borg_ssh_host_pubkey: "{{ borg_client_user.ssh_public_key | trim }}"
+
+- name: Aggregate Borg SSH pubkeys
   ansible.builtin.set_fact: {
     borg_ssh_pubkeys:
       "{{ hostvars.localhost.borg_ssh_pubkeys | default({})
-      | combine({ inventory_hostname : borg_client_user.ssh_public_key | trim }) }}"
+      | combine({ item : hostvars[item].borg_ssh_host_pubkey }) }}"
   }
   delegate_to: localhost
   delegate_facts: true
+  with_items: "{{ groups[borg_client] }}"
 
 - name: Deploy Borg client passphrase
   ansible.builtin.template:
