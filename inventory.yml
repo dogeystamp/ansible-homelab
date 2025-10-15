@@ -7,7 +7,8 @@ hypervisors:
       nftables_external_listens_tcp:
         - 80
         - 443
-        - 2499
+      nftables_internal_listens_tcp:
+        - 2498  # forgejo ssh
 
 
 # Virtual machines
@@ -42,7 +43,8 @@ domains:
       nftables_preset: "service"
       nftables_internal_listens_tcp:
         - 4533 # navidrome
-        - 3000 # forgejo
+        - 3000 # forgejo http
+        - 2498 # forgejo ssh
         - 8001 # xandikos
 
     harena-ii:
