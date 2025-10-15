@@ -33,3 +33,7 @@
       - fish
       - virtiofsd
     state: present
+
+- name: Set timezone
+  community.general.timezone:
+    name: "{{ timezone }}"

@@ -53,6 +53,11 @@ bastion_vpn_ip: "10.55.55.1"
 lan_subnet: "192.168.0.0/24"
 
 
+# Default TZ for all servers; overwrite in hostvars if needed
+# Run `man timezone`, and look in /usr/share/zoneinfo for more information
+timezone: America/Toronto
+
+
 # Vault options (see group_vars/vault-template.yml)
 borg_passphrases: "{{ vault_borg_passphrases }}"
 borg_client_hosts: "{{ vault_borg_client_hosts }}"
