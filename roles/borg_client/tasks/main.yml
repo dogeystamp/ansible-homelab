@@ -64,3 +64,11 @@
     owner: root
     group: root
     mode: "u=rw,g=r,o=r"
+
+- name: Deploy Borg systemd timer
+  ansible.builtin.template:
+    src: borgbk.timer.j2
+    dest: "/etc/systemd/system/borgbk.timer"
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"

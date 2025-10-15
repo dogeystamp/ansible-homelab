@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Borg backup
+
+[Timer]
+# daily refers to midnigiht
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=3h
+
+[Install]
+WantedBy=timers.target
