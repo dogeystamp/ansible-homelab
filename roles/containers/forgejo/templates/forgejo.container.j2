@@ -9,7 +9,6 @@ PublishPort={{ ansible_host }}:2498:22
 User={{ forgejo_uid }}
 Group={{ forgejo_gid }}
 Volume={{ forgejo_data_path }}:/data
-Volume=/etc/timezone:/etc/timezone:ro
 Volume=/etc/localtime:/etc/localtime:ro
 RunInit=true
 Environment=FORGEJO__service__DISABLE_REGISTRATION=true
@@ -18,8 +17,6 @@ Environment=FORGEJO__server__SSH_DOMAIN={{ forgejo_domain }}
 Environment=FORGEJO__server__SSH_PORT=2498
 Environment=FORGEJO__server__ROOT_URL=https://{{ forgejo_domain }}/
 Environment=FORGEJO__CRON_0x2E_UPDATE_CHECKER__ENABLED=false
-Environment=EMAIL=xandikos@{{ domain_main }}
-Environment=DEFAULTS=no
 
 [Install]
 WantedBy=multiuser.target default.target
