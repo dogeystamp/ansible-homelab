@@ -14,8 +14,8 @@
 # forgejo doesn't like running as root, so we have it run as our user
 - name: Get user UID/GID
   ansible.builtin.set_fact:
-    forgejo_uid: "{{ forgejo_user.uid }}"
-    forgejo_gid: "{{ forgejo_user.group }}"
+    forgejo_uid: "{{ container_user.uid }}"
+    forgejo_gid: "{{ container_user.group }}"
 
 - name: Setup podman bind mounts
   ansible.builtin.include_role:
