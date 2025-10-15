@@ -77,11 +77,20 @@
       when: "'borg_server' in group_names"
       tags: borg_server
 
-    - name: "Compile Borg pubkey list"
+    - name: "Compile Borg pubkey list (servers)"
+      ansible.builtin.set_fact:
+        borg_ssh_pubkeys_servers: |
+          {{
+            dict(groups.borg_client | zip(groups.borg_client | zip(groups.borg_client | map('extract', hostvars, 'borg_ssh_host_pubkey'))))
+          }}
+      when: "'borg_server' in group_names"
+      tags: borg_server
+
+    - name: "Compile Borg pubkey list (devices)"
       ansible.builtin.set_fact:
         borg_ssh_pubkeys: |
           {{
-            borg_ssh_pubkeys | default({}) | combine(hostvars.localhost.borg_ssh_pubkeys)
+            borg_ssh_pubkeys | default({}) | combine(borg_ssh_pubkeys_servers)
           }}
       when: "'borg_server' in group_names"
       tags: borg_server
