@@ -55,6 +55,14 @@ git.{{ domain_main }} {
 
 {% if groups["matrix"] | length > 0 %}
 {{ matrix_domain }} {
+	header {
+		Strict-Transport-Security "max-age=63072000"
+		X-Frame-Options "DENY"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "interest-cohort=()"
+	}
+
 	handle /.well-known/matrix/client {
     respond `{
         "m.homeserver": {
@@ -78,14 +86,6 @@ git.{{ domain_main }} {
   }
 
 	handle {
-		header {
-			Strict-Transport-Security "max-age=63072000"
-			X-Frame-Options "DENY"
-			X-Content-Type-Options "nosniff"
-			Referrer-Policy "no-referrer"
-			Permissions-Policy "interest-cohort=()"
-		}
-
 		reverse_proxy {{ hostvars[groups.matrix[0]].ansible_host }}:8002
 	}
 }
