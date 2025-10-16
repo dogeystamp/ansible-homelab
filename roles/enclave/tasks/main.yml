@@ -9,11 +9,12 @@
     group: root
 
 - name: Create enclave mount point
-  path: "{{ enclave_mountpoint }}"
-  state: directory
-  owner: root
-  group: root
-  mode: "u=rwx,g=rx,o=rx"
+  ansible.builtin.file:
+    path: "{{ enclave_mountpoint }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "u=rwx,g=rx,o=rx"
 
 - name: Create enclave manager user
   ansible.builtin.user:
