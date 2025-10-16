@@ -3,7 +3,7 @@
 {{ ansible_user }} ALL=(ALL:ALL) NOPASSWD: ALL
 root ALL=(ALL:ALL) ALL
 
-{% if enclave_enabled %}
+{% if enclave_enabled is defined and enclave_enabled %}
 enclave ALL=(ALL:root) NOPASSWD: /root/unlock_enclave.sh
 {% endif %}
 
