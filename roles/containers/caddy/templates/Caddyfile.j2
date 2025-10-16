@@ -64,6 +64,8 @@ git.{{ domain_main }} {
 	}
 
 	handle /.well-known/matrix/client {
+    header Content-Type application/json
+    header Access-Control-Allow-Origin *
     respond `{
         "m.homeserver": {
             "base_url": "https://{{ matrix_domain }}"
@@ -72,17 +74,17 @@ git.{{ domain_main }} {
             "url": "https://{{ matrix_domain }}"
         }
     }` 200 {
-        header Content-Type application/json
-        header Access-Control-Allow-Origin *
-    }
+			close
+		}
 	}
 
   handle /.well-known/matrix/server {
+      header Content-Type application/json
       respond `{
           "m.server": "{{ matrix_domain }}:443"
       }` 200 {
-          header Content-Type application/json
-      }
+				close
+			}
   }
 
 	handle {
