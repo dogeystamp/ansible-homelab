@@ -3,6 +3,10 @@
 {{ ansible_user }} ALL=(ALL:ALL) NOPASSWD: ALL
 root ALL=(ALL:ALL) ALL
 
+{% if enclave_enabled %}
+enclave ALL=(ALL:root) NOPASSWD: /root/unlock_enclave.sh
+{% endif %}
+
 Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 Defaults always_set_home
 Defaults env_reset
