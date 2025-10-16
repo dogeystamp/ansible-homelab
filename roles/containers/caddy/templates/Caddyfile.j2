@@ -52,3 +52,41 @@ git.{{ domain_main }} {
 	reverse_proxy {{ hostvars[groups.forgejo[0]].ansible_host }}:3000
 }
 {% endif %}
+
+{% if groups["matrix"] | length > 0 %}
+{{ matrix_domain }} {
+	handle /.well-known/matrix/client {
+    respond `{
+        "m.homeserver": {
+            "base_url": "https://{{ matrix_domain }}"
+        },
+        "org.matrix.msc3575.proxy": {
+            "url": "https://{{ matrix_domain }}"
+        }
+    }` 200 {
+        header Content-Type application/json
+        header Access-Control-Allow-Origin *
+    }
+	}
+
+  handle /.well-known/matrix/server {
+      respond `{
+          "m.server": "{{ matrix_domain }}:443"
+      }` 200 {
+          header Content-Type application/json
+      }
+  }
+
+	handle {
+		header {
+			Strict-Transport-Security "max-age=63072000"
+			X-Frame-Options "DENY"
+			X-Content-Type-Options "nosniff"
+			Referrer-Policy "no-referrer"
+			Permissions-Policy "interest-cohort=()"
+		}
+
+		reverse_proxy {{ hostvars[groups.matrix[0]].ansible_host }}:8002
+	}
+}
+{% endif %}

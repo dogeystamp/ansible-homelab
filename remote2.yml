@@ -129,3 +129,12 @@
       vars:
         forgejo_data_path: "/vmdisk/forgejo"
         forgejo_domain: "git.{{ domain_main }}"
+
+    - name: Deploy Matrix
+      ansible.builtin.import_role:
+        name: matrix
+      when: "'matrix' in group_names"
+      tags: matrix
+      vars:
+        matrix_data_path: "/vmdisk/matrix"
+        matrix_domain: "m.{{ domain_main }}"

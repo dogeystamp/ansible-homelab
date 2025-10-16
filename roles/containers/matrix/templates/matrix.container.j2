@@ -1,0 +1,24 @@
+[Unit]
+Description=Continuwuity Matrix server
+After=network-online.target
+
+[Container]
+Image=forgejo.ellis.link/continuwuation/continuwuity:latest
+PublishPort={{ ansible_host }}:8002:6167
+User={{ matrix_uid }}
+Group={{ matrix_gid }}
+Volume={{ matrix_data_path }}:/var/lib/continuwuity
+RunInit=true
+Environment=CONTINUWUITY_SERVER_NAME={{ matrix_domain }}
+Environment=CONTINUWUITY_DATABASE_PATH=/var/lib/continuwuity
+Environment=CONTINUWUITY_PORT=6167
+Environment=CONTINUWUITY_MAX_REQUEST_SIZE=20000000
+Environment=CONTINUWUITY_ALLOW_CHECK_FOR_UPDATES=false
+Environment=CONTINUWUITY_ALLOW_FEDERATION=true
+Environment=CONTINUWUITY_ALLOW_PUBLIC_ROOM_DIRECTORY_OVER_FEDERATION=false
+Environment=CONTINUWUITY_ALLOW_PROFILE_LOOKUP_FEDERATION_REQUESTS=false
+Environment=CONTINUWUITY_TRUSTED_SERVERS=["beeper.com","envs.net","tchncs.de","matrix.org"]
+Environment=CONTINUWUITY_ADDRESS=0.0.0.0
+
+[Install]
+WantedBy=multiuser.target default.target

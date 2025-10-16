@@ -1,0 +1,14 @@
+---
+argument_specs:
+  main:
+    short_description: "Continuwuity container."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      matrix_data_path:
+        description: "Bind-mount path for Matrix data; this will be created by the role."
+        type: "path"
+        required: true
+      matrix_domain:
+        description: "Domain to use for Matrix"
+        type: "str"
+        required: true

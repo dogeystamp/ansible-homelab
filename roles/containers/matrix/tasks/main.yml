@@ -1,0 +1,39 @@
+---
+- name: Setup user
+  ansible.builtin.include_role:
+    name: container_setup
+  vars:
+    podman_user: "{{ matrix_user }}"
+
+- name: Get user information
+  ansible.builtin.user:
+    name: "{{ matrix_user }}"
+  register: container_user
+
+- name: Setup podman bind mounts
+  ansible.builtin.include_role:
+    name: container_mounts
+  vars:
+    podman_user: "{{ matrix_user }}"
+    podman_mounts:
+      - path: "{{ matrix_data_path }}"
+        uid: "{{ matrix_uid }}"
+        gid: "{{ matrix_gid }}"
+
+- name: Deploy container unit
+  ansible.builtin.template:
+    src: "matrix.container.j2"
+    dest: "{{ container_user.home }}/.config/containers/systemd/matrix.container"
+    mode: "u=rw,g=,o="
+    owner: "{{ matrix_user }}"
+    group: "{{ matrix_user }}"
+  register: container_unit
+
+- name: Finalize podman setup
+  ansible.builtin.include_role:
+    name: container_finalize
+  vars:
+    podman_user: "{{ matrix_user }}"
+    podman_unit_names:
+      - matrix
+  when: container_unit.changed
