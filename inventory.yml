@@ -37,7 +37,7 @@ domains:
     oriens:
       ansible_host: 10.55.55.4
       libvirt_mac_address: "52:54:00:00:00:04"
-      libvirt_memory_mib: 768
+      libvirt_memory_mib: 1280
       libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
       libvirt_enable_vmdisk: true
       nftables_preset: "service"
