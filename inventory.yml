@@ -84,6 +84,7 @@ borg_client:
       borg_paths:
         - /vmdisk/xandikos
         - /vmdisk/navidrome_data
+        - /vmdisk/forgejo
       borg_excludes:
         - "-/vmdisk/navidrome_data/cache"
     harena-ii:
