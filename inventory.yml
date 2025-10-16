@@ -3,6 +3,7 @@ hypervisors:
   hosts:
     urbs:
       enclave_enabled: true
+      enclave_luks_partuuid: cb86dac3-9d31-c941-9f3b-45ec5a00d763
       ansible_host: 192.168.0.5
       nftables_preset: "bastion"
       nftables_external_listens_tcp:
@@ -48,6 +49,16 @@ domains:
         - 10001 # forgejo ssh
         - 8001 # xandikos
         - 8002 # matrix http
+
+    meridies:
+      ansible_host: 10.55.55.6
+      libvirt_vm_directory: "/edisk/vm"
+      libvirt_autostart: false
+      libvirt_mac_address: "52:54:00:00:00:06"
+      libvirt_memory_mib: 1024
+      libvirt_enable_vmdisk: true
+      libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
+      nftables_preset: "service"
 
     harena-ii:
       ansible_host: 10.55.55.5

@@ -25,6 +25,7 @@ libvirt_vm_directory: "/disk/data/vm"
 
 disk_dev: "/dev/sda1"
 
+enclave_mountpoint: "/edisk"
 
 # Ansible connection parameters
 ansible_user: "{{ admin_username }}"
@@ -75,3 +76,5 @@ wireguard_quick_clients: "{{ vault_wireguard_quick_clients }}"
 navidrome_tx_pubkeys: "{{ vault_navidrome_tx_pubkeys }}"
 
 borg_tx_pubkeys: "{{ vault_borg_tx_pubkeys }}"
+
+enclave_ssh_pubkeys: "{{ vault_enclave_ssh_pubkeys }}"

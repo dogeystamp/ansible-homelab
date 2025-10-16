@@ -1,0 +1,33 @@
+---
+argument_specs:
+  main:
+    short_description: "Setup encrypted 'enclave' decryption scripts."
+    # this role exists because the main disk is decrypted using a keyfile,
+    # which kind of defeats the point of the encryption. if anyone gets physical
+    # access to the server, they can just read the keyfile.
+    #
+    # the intention for this enclave is that the decryption password will be
+    # remotely provided, so that it actually is secure at rest. to re-encrypt
+    # the enclave, shutdown the entire machine.
+    #
+    # note that due to bootstrapping reasons, you must manually partition and
+    # format the encrypted enclave, and also decrypt and mount it manually
+    # prior to running the remote1 playbook. then, later, you can use the script
+    # deployed here to decrypt it rapidly.
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      enclave_luks_partuuid:
+        description: "UUID of the encrypted partition."
+        type: "str"
+        required: true
+
+      enclave_mountpoint:
+        description: "Mount point for enclave disk."
+        type: "path"
+        required: true
+
+      enclave_ssh_pubkeys:
+        description: "SSH public keys allowed to decrypt the enclave."
+        type: "list"
+        elements: "str"
+        default: []

@@ -1,0 +1,33 @@
+---
+
+- name: Deploy enclave decryption script
+  ansible.builtin.template:
+    src: unlock_enclave.sh.j2
+    dest: "/root/unlock_enclave.sh"
+    mode: "u=rwx,g=,o="
+    owner: root
+    group: root
+
+- name: Create enclave mount point
+  path: "{{ enclave_mountpoint }}"
+  state: directory
+  owner: root
+  group: root
+  mode: "u=rwx,g=rx,o=rx"
+
+- name: Create enclave manager user
+  ansible.builtin.user:
+    name: enclave
+    create_home: true
+    shell: "/bin/sh"
+    system: true
+  register: enclave_user
+
+- name: Add SSH authorized keys to enclave manager
+  ansible.posix.authorized_key:
+    user: "{{ enclave_user.name }}"
+    state: present
+    exclusive: true
+    key: "{{ item }}"
+    key_options: 'command="sudo /root/unlock_enclave.sh",restrict'
+  with_items: "{{ enclave_ssh_pubkeys }}"

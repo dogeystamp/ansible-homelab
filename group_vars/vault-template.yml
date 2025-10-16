@@ -31,3 +31,7 @@ vault_navidrome_tx_pubkeys:
 # List of SSH public keys with read-only rsync access to all Borg backups
 vault_borg_tx_pubkeys:
   - "ssh-ed25519 AAA..."
+
+# List of SSH public keys that can wake up the encrypted enclave
+vault_enclave_ssh_pubkeys:
+  - "ssh-ed25519 AAA..."

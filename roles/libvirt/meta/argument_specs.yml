@@ -15,7 +15,7 @@ argument_specs:
           - "VM's hostname."
         type: "str"
         required: true
-      libvit_vm_directory:
+      libvirt_vm_directory:
         description: "Directory to store VM information in. (The VM user's home directory will be created here.)"
         type: "path"
         default: "/var/lib/vms"

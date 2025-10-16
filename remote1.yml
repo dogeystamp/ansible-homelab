@@ -14,6 +14,10 @@
       ansible.builtin.include_role:
         name: disks
 
+    - name: Set up encrypted enclave
+      ansible.builtin.include_role:
+        name: enclave
+
     - name: Read controller SSH public key
       set_fact:
         controller_ssh_pubkey: "{{ lookup('file', controller_ssh_pubkey_path )}}"
@@ -73,6 +77,8 @@
         loop_var: current_domain
       vars:
         libvirt_vm_name: "{{ current_domain }}"
+        libvirt_vm_directory: "{{ hostvars[current_domain].libvirt_vm_directory }}"
+        libvirt_autostart: "{{ hostvars[current_domain].libvirt_autostart }}"
         libvirt_mac_address: "{{ hostvars[current_domain].libvirt_mac_address }}"
         libvirt_vpn_addresses:
           - "{{ hostvars[current_domain].ansible_host }}/24" # note the /24 refers to the VPN subnet

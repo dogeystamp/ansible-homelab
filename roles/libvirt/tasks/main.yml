@@ -222,7 +222,7 @@
       - enable
       - "--now"
       - "vm-wakeup.service"
-  when: systemd_service.changed
+  when: systemd_service.changed and libvirt_autostart
   changed_when: true
 
 - name: Enable linger for user

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+cryptsetup luksOpen /dev/disk/by-partuuid/{{ enclave_luks_partuuid }} edisk
+mount /dev/mapper/edisk {{ enclave_mountpoint }}
+
+set +e
+
+# TODO: wake up VMs here
