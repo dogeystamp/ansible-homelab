@@ -75,6 +75,10 @@ forgejo:
   hosts:
     oriens:
 
+matrix:
+  hosts:
+    oriens:
+
 haproxy:
   hosts:
     urbs:
