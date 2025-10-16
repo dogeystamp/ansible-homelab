@@ -137,4 +137,3 @@
       tags: matrix
       vars:
         matrix_data_path: "/vmdisk/matrix"
-        matrix_domain: "{{ matrix_domain }}"
