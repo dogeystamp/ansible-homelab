@@ -78,7 +78,7 @@
       vars:
         libvirt_vm_name: "{{ current_domain }}"
         libvirt_vm_directory: "{{ hostvars[current_domain].libvirt_vm_directory }}"
-        libvirt_autostart: "{{ hostvars[current_domain].libvirt_autostart }}"
+        libvirt_autostart: "{{ hostvars[current_domain].libvirt_autostart | default(true) }}"
         libvirt_mac_address: "{{ hostvars[current_domain].libvirt_mac_address }}"
         libvirt_vpn_addresses:
           - "{{ hostvars[current_domain].ansible_host }}/24" # note the /24 refers to the VPN subnet
