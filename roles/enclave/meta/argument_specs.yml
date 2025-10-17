@@ -31,3 +31,9 @@ argument_specs:
         type: "list"
         elements: "str"
         default: []
+
+      enclave_vms:
+        description: "Start these virtual machines when enclave is unlocked."
+        type: "list"
+        elements: "str"
+        default: []

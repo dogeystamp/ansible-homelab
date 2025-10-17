@@ -4,6 +4,8 @@ hypervisors:
     urbs:
       enclave_enabled: true
       enclave_luks_partuuid: cb86dac3-9d31-c941-9f3b-45ec5a00d763
+      enclave_vms:
+        - "meridies"
       ansible_host: 192.168.0.5
       nftables_preset: "bastion"
       nftables_external_listens_tcp:

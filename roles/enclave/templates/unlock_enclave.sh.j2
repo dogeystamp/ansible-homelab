@@ -5,6 +5,6 @@ set -e
 cryptsetup luksOpen /dev/disk/by-partuuid/{{ enclave_luks_partuuid }} edisk
 mount /dev/mapper/edisk {{ enclave_mountpoint }}
 
-set +e
-
-# TODO: wake up VMs here
+{% for enc_vm in enclave_vms %}
+run0 -u {{ enc_vm }} virsh start {{ enc_vm }}
+{% endfor %}
