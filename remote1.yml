@@ -17,6 +17,7 @@
     - name: Set up encrypted enclave
       ansible.builtin.include_role:
         name: enclave
+      tags: enclave
 
     - name: Read controller SSH public key
       set_fact:
