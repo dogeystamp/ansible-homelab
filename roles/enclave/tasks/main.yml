@@ -30,5 +30,5 @@
     state: present
     exclusive: true
     key: "{{ item }}"
-    key_options: 'command="sudo /root/unlock_enclave.sh",restrict'
+    key_options: 'command="sudo /root/unlock_enclave.sh",restrict,pty'
   with_items: "{{ enclave_ssh_pubkeys }}"
