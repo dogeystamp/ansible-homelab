@@ -15,7 +15,7 @@
         name: disks
 
     - name: Set up encrypted enclave
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: enclave
       tags: enclave
 
