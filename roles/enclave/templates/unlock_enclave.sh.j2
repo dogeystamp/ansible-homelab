@@ -2,9 +2,12 @@
 
 set -e
 
+echo Preparing to decrypt disk.
 cryptsetup luksOpen /dev/disk/by-partuuid/{{ enclave_luks_partuuid }} edisk
+echo Mounting disk.
 mount /dev/mapper/edisk {{ enclave_mountpoint }}
 
 {% for enc_vm in enclave_vms %}
+echo Waking up {{ enc_vm }}.
 run0 -u {{ enc_vm }} virsh start {{ enc_vm }}
 {% endfor %}
