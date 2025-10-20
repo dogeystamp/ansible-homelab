@@ -32,6 +32,13 @@ vault_navidrome_tx_pubkeys:
 vault_borg_tx_pubkeys:
   - "ssh-ed25519 AAA..."
 
+# List of SSH public keys that can write to the Paperless document consumption directory
+vault_paperless_tx_pubkeys:
+  - "ssh-ed25519 AAA..."
+
+# random string goes here
+vault_paperless_secret: "alskdjflkau489f2u1980472jnklcxngkldfhugh903euf"
+
 # List of SSH public keys that can wake up the encrypted enclave
 vault_enclave_ssh_pubkeys:
   - "ssh-ed25519 AAA..."

@@ -61,6 +61,8 @@ domains:
       libvirt_enable_vmdisk: true
       libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
       nftables_preset: "service"
+      nftables_internal_listens_tcp:
+        - 8003 # paperless http
 
     harena-ii:
       ansible_host: 10.55.55.5
@@ -92,6 +94,10 @@ forgejo:
 matrix:
   hosts:
     oriens:
+
+paperless:
+  hosts:
+    meridies:
 
 haproxy:
   hosts:

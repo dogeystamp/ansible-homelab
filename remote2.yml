@@ -137,3 +137,11 @@
       tags: matrix
       vars:
         matrix_data_path: "/vmdisk/matrix"
+
+    - name: Deploy Paperless
+      ansible.builtin.import_role:
+        name: paperless
+      when: "'paperless' in group_names"
+      tags: paperless
+      vars:
+        matrix_data_path: "/vmdisk/paperless"
