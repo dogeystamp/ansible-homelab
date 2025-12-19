@@ -138,10 +138,23 @@
       vars:
         matrix_data_path: "/vmdisk/matrix"
 
+    - name: Create Paperless directory
+      ansible.builtin.file:
+        path: "/vmdisk/paperless"
+        state: directory
+        owner: root
+        group: root
+        mode: "u=rwx,g=rx,o=rx"
+      when: "'paperless' in group_names"
+
     - name: Deploy Paperless
       ansible.builtin.import_role:
         name: paperless
       when: "'paperless' in group_names"
       tags: paperless
       vars:
-        matrix_data_path: "/vmdisk/paperless"
+        domain_paperless: "{{ domain_paperless }}"
+        paperless_data_path: "/vmdisk/paperless/data"
+        paperless_cons_path: "/vmdisk/paperless/cons"
+        paperless_media_path: "/vmdisk/paperless/media"
+        paperless_export_path: "/vmdisk/paperless/export"
