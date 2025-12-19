@@ -7,9 +7,24 @@
     fstype: virtiofs
   when: libvirt_enable_vmdisk
 
+- name: Setup fstab / mount ext
+  ansible.posix.mount:
+    path: /ext
+    src: /dev/vdb
+    state: mounted
+    fstype: ext4
+  when: libvirt_enable_ext
+
 - name: Make vmdisk world-readable
   ansible.builtin.file:
     path: /vmdisk
     state: directory
     mode: "u=rwx,g=rx,o=rx"
   when: libvirt_enable_vmdisk
+
+- name: Make ext part world-readable
+  ansible.builtin.file:
+    path: /ext
+    state: directory
+    mode: "u=rwx,g=rx,o=rx"
+  when: libvirt_enable_ext

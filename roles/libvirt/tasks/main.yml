@@ -74,12 +74,34 @@
   ansible.builtin.set_fact:
     vm_image_path: "{{ vm_dir.path }}/{{ libvirt_clean_image | basename }}"
 
+- name: Get ext image path
+  ansible.builtin.set_fact:
+    ext_image_path: "{{ vm_dir.path }}/{{ libvirt_clean_ext_image | basename }}"
+
 - name: Check if VM image already exists
   ansible.builtin.stat:
     path: "{{ vm_image_path }}"
     get_checksum: false  # checksumming large files is inconvenient
     get_mime: false
   register: vm_image
+
+- name: Check if ext image already exists
+  ansible.builtin.stat:
+    path: "{{ ext_image_path }}"
+    get_checksum: false  # checksumming large files is inconvenient
+    get_mime: false
+  register: ext_image
+
+- name: Copy clean ext disk image
+  ansible.builtin.copy:
+    src: "{{ libvirt_clean_ext_image }}"
+    remote_src: true
+    dest: "{{ ext_image_path }}"
+    owner: "{{ vm_user.uid }}"
+    group: root
+    force: false
+    mode: "u=rw,g=,o="
+  when: "libvirt_enable_ext and not ext_image.stat.exists"
 
 - name: List existing VMs
   community.libvirt.virt:

@@ -23,6 +23,13 @@ argument_specs:
         description: "An original unmodified qcow2 image (already on the remote host) to copy to VMs."
         type: "path"
         required: true
+      libvirt_clean_ext_image:
+        description: "Disk image (already on the remote host) for the /ext filesystem on VMs."
+        type: "path"
+      libvirt_enable_ext:
+        description: "Enable the /ext filesystem on this machine."
+        type: "bool"
+        default: false
       libvirt_mac_address:
         description:
           - "MAC address to assign to this VM."
