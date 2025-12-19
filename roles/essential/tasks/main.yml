@@ -4,6 +4,11 @@
     name: "{{ inventory_hostname }}"
   when: inventory_hostname != 'localhost'
 
+- name: Deploy hosts file
+  ansible.builtin.template:
+    src:  "hosts.j2"
+    path: "/etc/hosts"
+
 - name: Disable root login
   ansible.builtin.user:
     name: root
