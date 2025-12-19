@@ -1,3 +1,5 @@
 ---
 paperless_tx_pubkeys: []
 paperless_user: paperless
+paperless_uid: 0
+paperless_gid: 0
