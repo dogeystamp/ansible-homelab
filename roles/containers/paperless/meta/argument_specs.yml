@@ -1,0 +1,40 @@
+---
+argument_specs:
+  main:
+    short_description: "Paperless container."
+    author: "dogeystamp <dogeystamp@disroot.org>"
+    options:
+      domain_paperless:
+        description: "Domain to use for Paperless."
+        type: "str"
+        required: true
+
+      paperless_data_path:
+        description: "Bind-mount path for data; this will be created by the role."
+        type: "path"
+        required: true
+
+      paperless_media_path:
+        description: "Bind-mount path for media; this will be created by the role."
+        type: "path"
+        required: true
+
+      paperless_export_path:
+        description: "Bind-mount path for exports; this will be created by the role."
+        type: "path"
+        required: true
+
+      paperless_cons_path:
+        description: "Bind-mount path for consumed documents; this will be created by the role."
+        type: "path"
+        required: true
+
+      paperless_tx_pubkeys:
+        description: "SSH public keys for the Paperless document transfer user."
+        type: "list"
+        elements: "str"
+
+      paperless_secret:
+        description: "Secret key for Paperless, can be any character sequence."
+        type: "str"
+        required: true

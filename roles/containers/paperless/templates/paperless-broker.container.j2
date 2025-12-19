@@ -1,0 +1,13 @@
+[Unit]
+Description=Paperless Redis container.
+After=network-online.target
+
+[Container]
+Image=docker.io/library/redis:7
+User=314
+Group=314
+Volume=redisdata:/data
+RunInit=true
+
+[Install]
+WantedBy=multiuser.target default.target

@@ -77,4 +77,7 @@ navidrome_tx_pubkeys: "{{ vault_navidrome_tx_pubkeys }}"
 
 borg_tx_pubkeys: "{{ vault_borg_tx_pubkeys }}"
 
+paperless_tx_pubkeys: "{{ vault_paperless_tx_pubkeys }}"
+paperless_secret: "{{ vault_paperless_secret }}"
+
 enclave_ssh_pubkeys: "{{ vault_enclave_ssh_pubkeys }}"
