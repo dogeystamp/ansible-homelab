@@ -51,7 +51,6 @@ domains:
         - 10001 # forgejo ssh
         - 8001 # xandikos
         - 8002 # matrix http
-        - 8003 # paperless http
 
     meridies:
       ansible_host: 10.55.55.6
@@ -72,6 +71,8 @@ domains:
       libvirt_enable_vmdisk: true
       libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
       nftables_preset: "service"
+      nftables_internal_listens_tcp:
+        - 8003 # paperless http
 
 
 # Categories of services
