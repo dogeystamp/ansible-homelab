@@ -51,6 +51,7 @@ domains:
         - 10001 # forgejo ssh
         - 8001 # xandikos
         - 8002 # matrix http
+        - 8003 # paperless http
 
     meridies:
       ansible_host: 10.55.55.6

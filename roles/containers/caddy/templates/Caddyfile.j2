@@ -37,6 +37,14 @@ cal.{{ domain_main }} {
 }
 {% endif %}
 
+{% if groups["paperless"] | length > 0 %}
+{{ domain_paperless }} {
+	import internal
+
+	reverse_proxy {{ hostvars[groups.paperless[0]].ansible_host }}:8003
+}
+{% endif %}
+
 {% if groups["navidrome"] | length > 0 %}
 mus.{{ domain_main }} {
 	import internal
