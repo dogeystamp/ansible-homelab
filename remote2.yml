@@ -153,7 +153,6 @@
       when: "'paperless' in group_names"
       tags: paperless
       vars:
-        domain_paperless: "{{ domain_paperless }}"
         paperless_data_path: "/vmdisk/paperless/data"
         paperless_cons_path: "/vmdisk/paperless/cons"
         paperless_media_path: "/vmdisk/paperless/media"
