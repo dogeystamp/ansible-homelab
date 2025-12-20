@@ -89,6 +89,7 @@
         libvirt_enable_vmdisk: "{{ hostvars[current_domain].libvirt_enable_vmdisk | default(false) }}"
         libvirt_agent_user: "{{ admin_username }}"
         libvirt_agent_pubkey: "{{ controller_ssh_pubkey }}"
+        libvirt_enable_ext: "{{ hostvars[current_domain].libvirt_enable_ext | default(false) }}"
         libvirt_clean_image: "{{ hostvars[current_domain].libvirt_clean_image | default(libvirt_clean_image_default) }}"
         libvirt_clean_ext_image: "{{ hostvars[current_domain].libvirt_clean_ext_image | default(libvirt_clean_ext_image_default) }}"
 
