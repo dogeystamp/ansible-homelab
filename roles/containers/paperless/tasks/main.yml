@@ -109,7 +109,7 @@
   ansible.builtin.include_role:
     name: container_finalize
   vars:
-    podman_user: "{{ navidrome_user }}"
+    podman_user: "{{ container_user.name }}"
     podman_unit_names:
       - paperless-network
       - paperless
