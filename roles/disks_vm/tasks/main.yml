@@ -10,7 +10,7 @@
 - name: Setup fstab / mount ext
   ansible.posix.mount:
     path: /ext
-    src: /dev/vdb
+    src: /dev/vdb1
     state: mounted
     fstype: ext4
   when: libvirt_enable_ext
