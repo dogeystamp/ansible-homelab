@@ -13,7 +13,7 @@ Volume={{ paperless_data_path }}:/usr/src/paperless/data
 Volume={{ paperless_media_path }}:/usr/src/paperless/media
 Volume={{ paperless_export_path }}:/usr/src/paperless/export
 Volume={{ paperless_cons_path }}:/usr/src/paperless/consume
-Environment=PAPERLESS_REDIS=redis://paperless-broker:6379
+Environment=PAPERLESS_REDIS=redis://systemd-paperless-broker:6379
 Environment=PAPERLESS_URL=https://{{ domain_paperless }}
 Environment=PAPERLESS_OCR_USER_ARGS='{"continue_on_soft_render_error": true}'
 Environment=PAPERLESS_OCR_PAGES=1
