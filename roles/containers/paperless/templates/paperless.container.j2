@@ -8,6 +8,7 @@ Image=ghcr.io/paperless-ngx/paperless-ngx:latest
 PublishPort={{ ansible_host }}:8003:8000
 User={{ paperless_uid }}
 Group={{ paperless_gid }}
+Network=paperless.network
 Volume={{ paperless_data_path }}:/usr/src/paperless/data
 Volume={{ paperless_media_path }}:/usr/src/paperless/media
 Volume={{ paperless_export_path }}:/usr/src/paperless/export
