@@ -44,7 +44,7 @@
       <driver name='qemu' type='qcow2'/>
 		  <source file='{{ ext_image_path }}'/>
       <target dev='vdb' bus='virtio'/>
-      <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+      <address type='pci' domain='0x0000' bus='0x04' slot='0x01' function='0x0'/>
     </disk>
 {% endif %}
     <controller type='usb' index='0' model='qemu-xhci' ports='15'>
