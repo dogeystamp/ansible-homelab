@@ -7,3 +7,7 @@ argument_specs:
       libvirt_enable_vmdisk:
         type: "bool"
         description: If enabled, mount the 'vmdisk' disk within the VM.
+
+      libvirt_enable_ext:
+        type: "bool"
+        description: If enabled, mount the 'ext' disk within the VM.
