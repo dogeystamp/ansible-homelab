@@ -21,7 +21,7 @@ domains:
     harena-ii:
       ansible_host: 10.55.55.5
       libvirt_mac_address: "52:54:00:00:00:05"
-      libvirt_memory_mib: 368
+      libvirt_memory_mib: 768
       libvirt_enable_vmdisk: true
       libvirt_enable_ext: true
       libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
