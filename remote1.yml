@@ -90,6 +90,7 @@
         libvirt_agent_user: "{{ admin_username }}"
         libvirt_agent_pubkey: "{{ controller_ssh_pubkey }}"
         libvirt_clean_image: "{{ hostvars[current_domain].libvirt_clean_image | default(libvirt_clean_image_default) }}"
+        libvirt_clean_ext_image: "{{ hostvars[current_domain].libvirt_clean_ext_image | default(libvirt_clean_ext_image_default) }}"
 
     - name: "Compile peer list (VPN ONE): virtual machines"
       ansible.builtin.set_fact:
