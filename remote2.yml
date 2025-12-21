@@ -157,3 +157,4 @@
         paperless_cons_path: "/vmdisk/paperless/cons"
         paperless_media_path: "/vmdisk/paperless/media"
         paperless_export_path: "/vmdisk/paperless/export"
+        podman_storage_path: "/ext/podman/paperless"
