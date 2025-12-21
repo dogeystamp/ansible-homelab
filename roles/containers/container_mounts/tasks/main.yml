@@ -5,6 +5,23 @@
       - acl
     state: present
 
+- name: Create storage dir
+  ansible.builtin.file:
+    path: "{{ podman_storage_path }}"
+    state: directory
+    owner: "{{ podman_user }}"
+    group: root
+    mode: "u=rwx,g=,o="
+
+- name: Deploy storage.conf
+  ansible.builtin.template:
+    src: "storage.conf.j2"
+    dest: "~{{ podman_user }}/.config/containers/storage.conf"
+    owner: "{{ podman_user }}"
+    group: "root"
+    mode: "u=rw,g=,o="
+  when: "podman_storage_path is defined"
+
 - name: Check for existence of bind directories
   ansible.builtin.stat:
     path: "{{ item.path }}"

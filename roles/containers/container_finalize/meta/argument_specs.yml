@@ -13,8 +13,3 @@ argument_specs:
         description: "List of systemd user units to start."
         type: "list"
         elements: "str"
-
-      podman_storage_path:
-        description: "Directory to store container images (can't be NFS/virtiofs). This role will create the directory and set its permissions."
-        type: "path"
-        required: false

@@ -9,6 +9,11 @@ argument_specs:
         type: "str"
         required: true
 
+      podman_storage_path:
+        description: "Directory to store container images (can't be NFS/virtiofs). This role will create the directory and set its permissions."
+        type: "path"
+        required: false
+
       podman_mounts:
         description: "List of bind mounts. These will have their permissions set so that containers can read them."
         type: "list"
