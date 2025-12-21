@@ -100,7 +100,7 @@ matrix:
 
 paperless:
   hosts:
-    harena-ii:
+    meridies:
 
 haproxy:
   hosts:
