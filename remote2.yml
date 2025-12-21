@@ -104,6 +104,15 @@
         # on the borg server, borg is the only service running
         borg_home_dir: "/vmdisk"
 
+    - name: Create Podman storage directory
+      ansible.builtin.file:
+        path: "/ext/podman"
+        state: directory
+        owner: root
+        group: root
+        mode: "u=rwx,g=rx,o=rx"
+      when: "libvirt_enable_ext and 'domains' in group_names"
+
     - name: Deploy Xandikos
       ansible.builtin.import_role:
         name: xandikos
