@@ -12,6 +12,7 @@
     owner: "{{ podman_user }}"
     group: root
     mode: "u=rwx,g=,o="
+  when: "podman_storage_path is defined"
 
 - name: Deploy storage.conf
   ansible.builtin.template:
