@@ -17,9 +17,10 @@ Environment=PAPERLESS_REDIS=redis://systemd-paperless-broker:6379
 Environment=PAPERLESS_URL=https://{{ domain_paperless }}
 Environment=PAPERLESS_OCR_USER_ARGS='{"continue_on_soft_render_error": true}'
 Environment=PAPERLESS_OCR_PAGES=1
-Environment=PAPERLESS_TASK_WORKERS=2
-Environment=PAPERLESS_THREADS_PER_WORKER=2
+Environment=PAPERLESS_TASK_WORKERS=1
+Environment=PAPERLESS_THREADS_PER_WORKER=1
 Environment=PAPERLESS_WEBSERVER_WORKERS=1
+Environment=PAPERLESS_FILENAME_FORMAT={% raw %}{{ created_year}}/{{ correspondent }}/{{ asn }}_{{ title }}{% endraw %}
 Environment=PAPERLESS_ENABLE_NLTK=false
 Environment=USERMAP_UID={{ paperless_uid }}
 Environment=USERMAP_GID={{ paperless_gid }}
