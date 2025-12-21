@@ -112,6 +112,7 @@
         group: root
         mode: "u=rwx,g=rx,o=rx"
       when: "libvirt_enable_ext and 'domains' in group_names"
+      tags: podman_dir
 
     - name: Deploy Xandikos
       ansible.builtin.import_role:
