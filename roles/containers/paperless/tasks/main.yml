@@ -75,7 +75,7 @@
     recurse: true
     owner: "{{ paperless_tx_user.name }}"
     group: "{{ paperless_group.name }}"
-    mode: "u=rwX,g=rX,o="
+    mode: "u=rwX,g=rwX,o="
   when: paperless_tx_user.changed
 
 - name: Deploy container unit (main)
