@@ -121,6 +121,7 @@
       tags: xandikos
       vars:
         xandikos_data_path: "/vmdisk/xandikos"
+        podman_storage_path: "/ext/podman/xandikos"
 
     - name: Deploy Navidrome
       ansible.builtin.import_role:
@@ -130,6 +131,7 @@
       vars:
         navidrome_data_path: "/vmdisk/navidrome_data"
         navidrome_mus_path: "/vmdisk/navidrome_mus"
+        podman_storage_path: "/ext/podman/navidrome"
 
     - name: Deploy Forgejo
       ansible.builtin.import_role:
@@ -139,6 +141,7 @@
       vars:
         forgejo_data_path: "/vmdisk/forgejo"
         forgejo_domain: "git.{{ domain_main }}"
+        podman_storage_path: "/ext/podman/forgejo"
 
     - name: Deploy Matrix
       ansible.builtin.import_role:
@@ -147,6 +150,7 @@
       tags: matrix
       vars:
         matrix_data_path: "/vmdisk/matrix"
+        podman_storage_path: "/ext/podman/matrix"
 
     - name: Create Paperless directory
       ansible.builtin.file:

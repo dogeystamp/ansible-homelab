@@ -55,6 +55,7 @@ domains:
       libvirt_memory_mib: 1280
       libvirt_clean_image: "/disk/stat/vm/debian-13-nocloud-arm64.qcow2"
       libvirt_enable_vmdisk: true
+      libvirt_enable_ext: true
       nftables_preset: "service"
       nftables_internal_listens_tcp:
         - 4533 # navidrome
