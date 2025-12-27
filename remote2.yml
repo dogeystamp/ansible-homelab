@@ -114,14 +114,16 @@
       when: "libvirt_enable_ext and 'domains' in group_names"
       tags: podman_dir
 
-    - name: Deploy Xandikos
+    - name: Deploy Radicale
       ansible.builtin.import_role:
-        name: xandikos
-      when: "'xandikos' in group_names"
-      tags: xandikos
+        name: radicale
+      when: "'radicale' in group_names"
+      tags: radicale
       vars:
-        xandikos_data_path: "/vmdisk/xandikos"
-        podman_storage_path: "/ext/podman/xandikos"
+        radicale_data_path: "/vmdisk/radicale"
+        radicale_config_path: "/vmdisk/radicale_conf"
+        radicale_users: "{{ vault_radicale_users }}"
+        podman_storage_path: "/ext/podman/radicale"
 
     - name: Deploy Navidrome
       ansible.builtin.import_role:

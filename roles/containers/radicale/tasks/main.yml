@@ -1,0 +1,59 @@
+---
+- name: Setup user
+  ansible.builtin.include_role:
+    name: container_setup
+  vars:
+    podman_user: "{{ radicale_user }}"
+
+- name: Get user information
+  ansible.builtin.user:
+    name: "{{ radicale_user }}"
+  register: container_user
+
+- name: Setup podman bind mounts
+  ansible.builtin.include_role:
+    name: container_mounts
+  vars:
+    podman_user: "{{ radicale_user }}"
+    podman_mounts:
+      - path: "{{ radicale_data_path }}"
+        uid: "{{ radicale_uid }}"
+        gid: "{{ radicale_gid }}"
+      # TODO: config can't really be read if radicale_uid != 0.
+      - path: "{{ radicale_config_path }}"
+        uid: "{{ radicale_uid }}"
+        gid: "{{ radicale_gid }}"
+
+- name: Deploy configuration file
+  ansible.builtin.template:
+    src: "config.j2"
+    dest: "{{ radicale_config_path }}/config"
+    owner: "{{ container_user.name }}"
+    group: "{{ container_user.group }}"
+    mode: "u=r,g=,o="
+
+- name: Deploy users file
+  ansible.builtin.template:
+    src: "users.j2"
+    dest: "{{ radicale_config_path }}/users"
+    owner: "{{ container_user.name }}"
+    group: "{{ container_user.group }}"
+    mode: "u=r,g=,o="
+
+- name: Deploy container unit
+  ansible.builtin.template:
+    src: "radicale.container.j2"
+    dest: "{{ container_user.home }}/.config/containers/systemd/radicale.container"
+    mode: "u=rw,g=,o="
+    owner: "{{ radicale_user }}"
+    group: "{{ radicale_user }}"
+  register: container_unit
+
+- name: Finalize podman setup
+  ansible.builtin.include_role:
+    name: container_finalize
+  vars:
+    podman_user: "{{ container_user.name }}"
+    podman_unit_names:
+      - radicale
+  when: container_unit.changed

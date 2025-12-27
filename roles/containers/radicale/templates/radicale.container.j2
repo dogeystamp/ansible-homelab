@@ -1,0 +1,18 @@
+# see: https://github.com/tomsquest/docker-radicale/issues/122#issuecomment-2323388423
+
+[Unit]
+Description=Radicale calendar server
+After=network-online.target
+
+[Container]
+Image=docker.io/tomsquest/docker-radicale
+RunInit=true
+PublishPort={{ ansible_host }}:5232:5232
+ReadOnly=true
+User={{ radicale_uid }}
+Group={{ radicale_gid }}
+Volume={{ radicale_data_path }}:/data
+Volume={{ radicale_config_path }}:/config:ro
+
+[Install]
+WantedBy=multiuser.target default.target

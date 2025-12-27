@@ -58,10 +58,10 @@ domains:
       libvirt_enable_ext: true
       nftables_preset: "service"
       nftables_internal_listens_tcp:
-        - 4533 # navidrome
         - 3000 # forgejo http
+        - 4533 # navidrome
+        - 5232 # radicale
         - 10001 # forgejo ssh
-        - 8001 # xandikos
         - 8002 # matrix http
 
     meridies:
@@ -84,7 +84,7 @@ ingress:
   hosts:
     janua:
 
-xandikos:
+radicale:
   hosts:
     oriens:
 
@@ -112,7 +112,6 @@ borg_client:
   hosts:
     oriens:
       borg_paths:
-        - /vmdisk/xandikos
         - /vmdisk/navidrome_data
         - /vmdisk/forgejo
       borg_excludes:

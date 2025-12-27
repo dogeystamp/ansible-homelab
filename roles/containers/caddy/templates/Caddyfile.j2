@@ -24,16 +24,11 @@ http:// {
 	}
 }
 
-{% if groups["xandikos"] | length > 0 %}
+{% if groups["radicale"] | length > 0 %}
 cal.{{ domain_main }} {
 	import internal
 
-	basic_auth {
-		user {{ xandikos_pw_hash }}
-	}
-
-	# this is a hack; ideally, authentication happens on the same host as xandikos
-	reverse_proxy {{ hostvars[groups.xandikos[0]].ansible_host }}:8001
+	reverse_proxy {{ hostvars[groups.radicale[0]].ansible_host }}:5232
 }
 {% endif %}
 
