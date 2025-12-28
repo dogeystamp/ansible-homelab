@@ -8,9 +8,11 @@ After=network-online.target
 Image=docker.io/tomsquest/docker-radicale
 RunInit=true
 PublishPort={{ ansible_host }}:5232:5232
-ReadOnly=true
 User={{ radicale_uid }}
 Group={{ radicale_gid }}
+Environment=UID={{ radicale_uid }}
+Environment=GID={{ radicale_uid }}
+Environment=TAKE_FILE_OWNERSHIP=false
 Volume={{ radicale_data_path }}:/data
 Volume={{ radicale_config_path }}:/config:ro
 
