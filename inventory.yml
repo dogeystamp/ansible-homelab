@@ -114,8 +114,15 @@ borg_client:
       borg_paths:
         - /vmdisk/navidrome_data
         - /vmdisk/forgejo
+        - /vmdisk/radicale
+        - /home/medus/tabs
       borg_excludes:
         - "-/vmdisk/navidrome_data/cache"
+    meridies:
+      borg_paths:
+        - /vmdisk/paperless/data
+        - /vmdisk/paperless/media
+        - /vmdisk/paperless/export
     harena-ii:
       borg_paths:
         - /vmdisk/bwaa
