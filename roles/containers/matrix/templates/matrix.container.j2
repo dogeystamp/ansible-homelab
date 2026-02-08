@@ -4,6 +4,7 @@ After=network-online.target
 
 [Container]
 Image=forgejo.ellis.link/continuwuation/continuwuity:latest
+AutoUpdate=registry
 PublishPort={{ ansible_host }}:8002:6167
 User={{ matrix_uid }}
 Group={{ matrix_gid }}
