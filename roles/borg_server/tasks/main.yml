@@ -30,6 +30,7 @@
     create_home: true
     home: "{{ borg_home_dir }}/{{ item }}"
     shell: "/bin/sh"
+    umask: "0027"
   register: backup_users
   with_items: "{{ borg_client_hosts }}"
 
