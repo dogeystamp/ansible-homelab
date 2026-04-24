@@ -18,6 +18,22 @@
       when: "'domains' in group_names"
       tags: disks_vm
 
+    - name: "Workaround for podman issue #24796"
+      ansible.builtin.template:
+        source: network-dummy.service
+        dest: /etc/systemd/system/network-dummy.service
+        mode: "u=rw,g=,o="
+        owner: root
+        group: root
+      tags: podman_net
+
+    - name: "Workaround for podman issue #24796"
+      ansible.builtin.systemd_service:
+        name: network-dummy.service
+        state: started
+        enabled: true
+      tags: podman_net
+
     - name: Deploy Caddy
       ansible.builtin.import_role:
         name: caddy

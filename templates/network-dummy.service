@@ -1,0 +1,10 @@
+[Unit]
+Description=Force network-online.target to be active (podman issue #24796)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/echo Activating network-online.target
+
+[Install]
+WantedBy=multi-user.target
