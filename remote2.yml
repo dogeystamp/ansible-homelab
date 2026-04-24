@@ -25,6 +25,7 @@
         mode: "u=rw,g=,o="
         owner: root
         group: root
+      when: "'domains' in group_names"
       tags: podman_net
 
     - name: "Workaround for podman issue #24796"
@@ -32,6 +33,7 @@
         name: network-dummy.service
         state: started
         enabled: true
+      when: "'domains' in group_names"
       tags: podman_net
 
     - name: Deploy Caddy
