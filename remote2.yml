@@ -20,7 +20,7 @@
 
     - name: "Workaround for podman issue #24796"
       ansible.builtin.template:
-        source: network-dummy.service
+        src: network-dummy.service
         dest: /etc/systemd/system/network-dummy.service
         mode: "u=rw,g=,o="
         owner: root
