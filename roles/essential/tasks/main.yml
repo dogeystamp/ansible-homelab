@@ -31,6 +31,7 @@
     path: /etc/systemd/journald.conf
     regexp: "^#SystemMaxUse="
     line: "SystemMaxUse=50M"
+  ignore_errors: true
 
 - name: Configure sudoers
   ansible.builtin.template:
