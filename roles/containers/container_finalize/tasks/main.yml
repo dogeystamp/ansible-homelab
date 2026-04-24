@@ -20,6 +20,7 @@
       "/usr/bin/systemctl",
       "--user",
       "start",
+      "podman-auto-update.timer",
       ]
       + podman_unit_names
       }}
