@@ -4,6 +4,11 @@
 Description=Radicale calendar server
 After=network-online.target
 
+[Service]
+RestartSec=5s
+RestartSteps=10
+RestartMaxDelaySec=500s
+
 [Container]
 Image=docker.io/tomsquest/docker-radicale
 RunInit=true

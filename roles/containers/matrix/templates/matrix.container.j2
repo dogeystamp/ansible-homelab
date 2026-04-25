@@ -2,6 +2,11 @@
 Description=Continuwuity Matrix server
 After=network-online.target
 
+[Service]
+RestartSec=5s
+RestartSteps=10
+RestartMaxDelaySec=500s
+
 [Container]
 Image=forgejo.ellis.link/continuwuation/continuwuity:latest
 AutoUpdate=registry
