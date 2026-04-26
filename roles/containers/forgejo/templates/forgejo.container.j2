@@ -6,6 +6,8 @@ After=network-online.target
 RestartSec=5s
 RestartSteps=10
 RestartMaxDelaySec=500s
+MemoryHigh=256M
+MemoryMax=384M
 
 [Container]
 Image=codeberg.org/forgejo/forgejo:15-rootless

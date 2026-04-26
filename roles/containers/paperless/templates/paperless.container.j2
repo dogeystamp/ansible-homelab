@@ -7,6 +7,8 @@ After=paperless-broker.service
 RestartSec=5s
 RestartSteps=10
 RestartMaxDelaySec=500s
+MemoryHigh=768M
+MemoryMax=1024M
 
 [Container]
 Image=ghcr.io/paperless-ngx/paperless-ngx:latest
