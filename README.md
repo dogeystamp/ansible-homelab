@@ -110,6 +110,7 @@ The Controller should now be connected to the VPN.
 
 - Sign in as `imperator@controller`.
 - `ansible-playbook -J -i inventory.yml remote2.yml`
+- `ansible-playbook -J -i inventory.yml remote3.yml`
 
 This is the general procedure for first time usage of this playbook.
 
