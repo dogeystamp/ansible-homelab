@@ -157,3 +157,9 @@
   become_user: "{{ container_user.name }}"
   become: true
   register: systemd_service
+
+- name: Start export systemd timer
+  ansible.builtin.systemd_service:
+    name: "document-export.timer"
+    enabled: true
+    state: started
