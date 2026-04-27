@@ -158,8 +158,16 @@
   become: true
   register: systemd_service
 
-- name: Start export systemd timer
-  ansible.builtin.systemd_service:
-    name: "document-export.timer"
-    enabled: true
-    state: started
+- name: Enable export timer
+  ansible.builtin.command:
+    argv:
+      - machinectl
+      - shell
+      - "{{ container_user.name }}@"
+      - "/usr/bin/systemctl"
+      - "--user"
+      - enable
+      - "--now"
+      - "document-export.timer"
+  when: systemd_service.changed
+  changed_when: true
