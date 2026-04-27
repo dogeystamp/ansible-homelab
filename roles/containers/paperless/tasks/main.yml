@@ -115,3 +115,14 @@
       - paperless
       - paperless-broker
   when: container_unit.changed or container_broker_unit.changed or container_network_unit.changed
+
+- name: Deploy document export systemd user service
+  ansible.builtin.template:
+    src: document-export.service
+    dest: "~/.config/systemd/user/document-export.service"
+    owner: "{{ container_user.name }}"
+    group: "{{ container_user.name }}"
+    mode: u=rw,g=,o=
+  become_user: "{{ container_user.name }}"
+  become: true
+  register: systemd_service

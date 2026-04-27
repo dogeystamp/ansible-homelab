@@ -1,0 +1,10 @@
+[Unit]
+Description=Wake up rootless libvirt autostart VMs
+After=paperless.service
+
+[Service]
+ExecStart=podman exec -ti systemd-paperless document_exporter ../export --no-thumbnail
+Type=oneshot
+
+[Install]
+WantedBy=default.target
