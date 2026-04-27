@@ -116,6 +116,26 @@
       - paperless-broker
   when: container_unit.changed or container_broker_unit.changed or container_network_unit.changed
 
+- name: Create systemd user service directory
+  ansible.builtin.file:
+    path: "~/.config/systemd"
+    state: directory
+    owner: "{{ container_user.name }}"
+    group: "{{ container_user.name }}"
+    mode: u=rwx,g=,o=
+  become_user: "{{ container_user.name }}"
+  become: true
+
+- name: Create systemd user service directory
+  ansible.builtin.file:
+    path: "~/.config/systemd/user"
+    state: directory
+    owner: "{{ container_user.name }}"
+    group: "{{ container_user.name }}"
+    mode: u=rwx,g=,o=
+  become_user: "{{ container_user.name }}"
+  become: true
+
 - name: Deploy document export systemd user service
   ansible.builtin.template:
     src: document-export.service
