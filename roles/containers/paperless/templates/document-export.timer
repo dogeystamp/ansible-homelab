@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Paperless export
+
+[Timer]
+# daily refers to midnigiht
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=3h
+
+[Install]
+WantedBy=timers.target

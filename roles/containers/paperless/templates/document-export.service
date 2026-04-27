@@ -1,9 +1,9 @@
 [Unit]
-Description=Wake up rootless libvirt autostart VMs
+Description=Run Paperless-NGX backups
 After=paperless.service
 
 [Service]
-ExecStart=podman exec -ti systemd-paperless document_exporter ../export --no-thumbnail
+ExecStart=podman exec -ti systemd-paperless document_exporter ../export --no-thumbnail --no-progress-bar
 Type=oneshot
 
 [Install]

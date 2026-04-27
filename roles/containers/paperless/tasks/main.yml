@@ -146,3 +146,14 @@
   become_user: "{{ container_user.name }}"
   become: true
   register: systemd_service
+
+- name: Deploy document export systemd user timer
+  ansible.builtin.template:
+    src: document-export.timer
+    dest: "~/.config/systemd/user/document-export.timer"
+    owner: "{{ container_user.name }}"
+    group: "{{ container_user.name }}"
+    mode: u=rw,g=,o=
+  become_user: "{{ container_user.name }}"
+  become: true
+  register: systemd_service
