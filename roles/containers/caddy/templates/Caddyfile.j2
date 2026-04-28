@@ -57,7 +57,7 @@ git.{{ domain_main }} {
 {% endif %}
 
 {% if groups["matrix"] | length > 0 %}
-{{ matrix_domain }} {
+{{ matrix_server_domain }} {
 	header {
 		Strict-Transport-Security "max-age=63072000"
 		X-Frame-Options "DENY"
