@@ -6,8 +6,10 @@ mail-failure=root
 pid=/var/run/ddclient.pid
 
 # retrieving my IP address
-usev4=webv4
-webv4=https://dynamicdns.park-your-domain.com/getip
+# note: usev4 here makes ddclient not acknowledge a successful IP change,
+# resulting in it constantly changing IPs (tested on version 3.11.2).
+use=web
+web=https://dynamicdns.park-your-domain.com/getip
 
 # updating the dynamic DNS record
 protocol=namecheap
