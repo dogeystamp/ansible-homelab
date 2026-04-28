@@ -41,7 +41,9 @@
       ansible.builtin.import_role:
         name: caddy
       when: "'ingress' in group_names"
-      tags: caddy
+      tags:
+        - caddy
+        - containers
       vars:
         caddy_data_path: "/var/lib/caddy_c"
 
@@ -92,7 +94,9 @@
       ansible.builtin.import_role:
         name: radicale
       when: "'radicale' in group_names"
-      tags: radicale
+      tags:
+        - radicale
+        - containers
       vars:
         radicale_data_path: "/vmdisk/radicale"
         radicale_config_path: "/vmdisk/radicale_conf"
@@ -103,7 +107,9 @@
       ansible.builtin.import_role:
         name: navidrome
       when: "'navidrome' in group_names"
-      tags: navidrome
+      tags:
+        - navidrome
+        - containers
       vars:
         navidrome_data_path: "/vmdisk/navidrome_data"
         navidrome_mus_path: "/vmdisk/navidrome_mus"
@@ -113,7 +119,9 @@
       ansible.builtin.import_role:
         name: forgejo
       when: "'forgejo' in group_names"
-      tags: forgejo
+      tags:
+        - forgejo
+        - containers
       vars:
         forgejo_data_path: "/vmdisk/forgejo"
         forgejo_domain: "git.{{ domain_main }}"
@@ -124,7 +132,9 @@
       ansible.builtin.import_role:
         name: matrix
       when: "'matrix' in group_names"
-      tags: matrix
+      tags:
+        - matrix
+        - containers
       vars:
         matrix_data_path: "/vmdisk/matrix"
         podman_storage_path: "/ext/podman/matrix"
@@ -137,12 +147,17 @@
         group: root
         mode: "u=rwx,g=rx,o=rx"
       when: "'paperless' in group_names"
+      tags:
+        - paperless
+        - containers
 
     - name: Deploy Paperless
       ansible.builtin.import_role:
         name: paperless
       when: "'paperless' in group_names"
-      tags: paperless
+      tags:
+        - paperless
+        - containers
       vars:
         paperless_data_path: "/vmdisk/paperless/data"
         paperless_cons_path: "/vmdisk/paperless/cons"
