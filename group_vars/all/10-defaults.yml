@@ -68,6 +68,7 @@ borg_passphrases: "{{ vault_borg_passphrases }}"
 borg_client_hosts: "{{ vault_borg_client_hosts }}"
 borg_ssh_pubkeys: "{{ vault_borg_ssh_pubkeys }}"
 
+dyndns_host: "{{ vault_dyndns_host }}"
 dyndns_domain: "{{ vault_dyndns_domain }}"
 dyndns_password: "{{ vault_dyndns_password }}"
 

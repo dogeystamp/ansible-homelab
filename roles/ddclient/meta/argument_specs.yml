@@ -4,6 +4,11 @@ argument_specs:
     short_description: "Setup ddclient."
     author: "dogeystamp <dogeystamp@disroot.org>"
     options:
+      dyndns_host:
+        description: "The last line of ddclient.conf (idk how to explain)"
+        type: "str"
+        required: true
+
       dyndns_domain:
         description: "Domain to update DNS for."
         type: "str"
