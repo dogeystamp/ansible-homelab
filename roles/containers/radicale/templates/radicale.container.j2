@@ -8,6 +8,8 @@ After=network-online.target
 RestartSec=5s
 RestartSteps=10
 RestartMaxDelaySec=500s
+Restart=Always
+MemoryMax=128M
 
 [Container]
 Image=docker.io/tomsquest/docker-radicale
