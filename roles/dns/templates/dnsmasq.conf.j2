@@ -18,7 +18,7 @@ local=/{{ dns_localdomain }}/
 {% endif %}
 
 {% for entry in dns_domains %}
-host-record=,{{ entry.domain }},{{ entry.ip_addr }}
+host-record={{ entry.domain }},{{ entry.ip_addr }}
 {% endfor %}
 
 {% for entry in dns_domains_addr %}
