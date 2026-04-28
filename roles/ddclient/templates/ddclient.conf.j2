@@ -7,12 +7,12 @@ pid=/var/run/ddclient.pid
 
 # retrieving my IP address
 usev4=webv4
-webv4=dyamicdns.park-your-domain.com/getip
+webv4=https://dynamicdns.park-your-domain.com/getip
 
 # updating the dynamic DNS record
 protocol=namecheap
 ssl=yes
-server=dyamicdns.park-your-domain.com/getip
+server=dynamicdns.park-your-domain.com/getip
 login={{ dyndns_domain }}
 password='{{ dyndns_password }}'
 {{ dyndns_domain }}
