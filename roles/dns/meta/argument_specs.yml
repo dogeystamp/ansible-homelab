@@ -14,6 +14,17 @@ argument_specs:
         elements: "str"
         description: "Only listen on these network interfaces."
       dns_domains:
+        description: "List of domains to match exactly (--host-record)."
+        type: "list"
+        options:
+          domain:
+            type: "str"
+            required: true
+          ip_addr:
+            type: "str"
+            required: true
+      dns_domains_addr:
+        description: "List of domains to match by suffix (--address)"
         type: "list"
         options:
           domain:
