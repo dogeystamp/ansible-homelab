@@ -22,7 +22,7 @@ host-record=/{{ entry.domain }}/{{ entry.ip_addr }}
 {% endfor %}
 
 {% for entry in dns_domains_addr %}
-address=/{{ entry.domain }}/{{ entry.ip_addr }}
+address={{ entry.domain }},{{ entry.ip_addr }}
 {% endfor %}
 
 {% for interface in dns_listen_interfaces %}
