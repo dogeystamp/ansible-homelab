@@ -57,41 +57,21 @@ git.{{ domain_main }} {
 {% endif %}
 
 {% if groups["matrix"] | length > 0 %}
-{{ matrix_server_domain }} {
-	header {
-		Strict-Transport-Security "max-age=63072000"
-		X-Frame-Options "DENY"
-		X-Content-Type-Options "nosniff"
-		Referrer-Policy "no-referrer"
-		Permissions-Policy "interest-cohort=()"
-	}
+{{ matrix_domain }} {
+    header {
+        Strict-Transport-Security "max-age=63072000"
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "no-referrer"
+        Permissions-Policy "interest-cohort=()"
+    }
 
-	handle /.well-known/matrix/client {
-    header Content-Type application/json
-    header Access-Control-Allow-Origin *
-    respond `{
-        "m.homeserver": {
-            "base_url": "https://{{ matrix_domain }}"
-        },
-        "org.matrix.msc3575.proxy": {
-            "url": "https://{{ matrix_domain }}"
-        }
-    }` 200 {
-			close
-		}
-	}
-
-  handle /.well-known/matrix/server {
-      header Content-Type application/json
-      respond `{
-          "m.server": "{{ matrix_domain }}:443"
-      }` 200 {
-				close
-			}
-  }
-
-	handle {
-		reverse_proxy {{ hostvars[groups.matrix[0]].ansible_host }}:8002
-	}
+    handle {
+        reverse_proxy {{ hostvars[groups.matrix[0]].ansible_host }}:8002
+    }
 }
 {% endif %}
+
+{{ domain_main }} {
+    redir https://www.{{ domain_main }}{uri} permanent
+}
