@@ -60,6 +60,23 @@
             ip_addr: "{{ bastion_vpn_ip }}"
           - domain: ".{{ domain_main }}"  # match all subdomains
             ip_addr: "{{ bastion_vpn_ip }}"
+          # www and main domain are hosted on GitHub pages
+          - domain: "{{ domain_main }}"
+            ip_addr: "185.199.108.153"
+          - domain: "{{ domain_main }}"
+            ip_addr: "185.199.109.153"
+          - domain: "{{ domain_main }}"
+            ip_addr: "185.199.110.153"
+          - domain: "{{ domain_main }}"
+            ip_addr: "185.199.111.153"
+          - domain: "www.{{ domain_main }}"
+            ip_addr: "185.199.108.153"
+          - domain: "www.{{ domain_main }}"
+            ip_addr: "185.199.109.153"
+          - domain: "www.{{ domain_main }}"
+            ip_addr: "185.199.110.153"
+          - domain: "www.{{ domain_main }}"
+            ip_addr: "185.199.111.153"
 
     - name: Configure resolv.conf
       ansible.builtin.import_role:
