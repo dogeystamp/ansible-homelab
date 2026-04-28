@@ -59,7 +59,7 @@
           - domain: ".{{ domain_main }}"
             ip_addr: "{{ bastion_vpn_ip }}"
         dns_domains:
-          - domain: "{{ dyndns_domain }}"
+          - domain: "{{ dyndns_host }}"
             ip_addr: "{{ bastion_vpn_ip }}"
           # www and main domain are hosted on GitHub pages
           - domain: "{{ domain_main }}"
