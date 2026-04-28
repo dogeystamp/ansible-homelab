@@ -1,13 +1,18 @@
-daemon=300
+# daemon settings
+daemon=300  # update frequency (seconds)
 syslog=yes
 mail=root
 mail-failure=root
 pid=/var/run/ddclient.pid
-protocol=dyndns2
+
+# retrieving my IP address
 usev4=webv4
-webv4=https://ipv4.nsupdate.info/myip
-ssl=yes  # yes = use https for updates
-server=ipv4.nsupdate.info
+webv4=https://dyamicdns.park-your-domain.com/getip
+
+# updating the dynamic DNS record
+protocol=namecheap
+ssl=yes
+server=dyamicdns.park-your-domain.com/getip
 login={{ dyndns_domain }}
 password='{{ dyndns_password }}'
 {{ dyndns_domain }}
