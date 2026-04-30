@@ -70,7 +70,10 @@ table inet filter {
   chain forward {
     type filter hook forward priority filter; policy drop;
 
+{% if nftables_preset == "bastion" %}
     ct state { established, related } accept
+{% endif %}
+
     ip saddr @ipv4_vpn1 goto forward.internal
   }
 
