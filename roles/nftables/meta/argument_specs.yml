@@ -16,6 +16,10 @@ argument_specs:
           - "service"
           - "controller"
 
+      nftables_public_if:
+        description: "Public interface name on the bastion server (e.g. eth0)."
+        type: "str"
+
       nftables_internal_listens_tcp:
         description: "List of TCP ports / services to allow input for in the internal (VPN) network."
         type: "list"

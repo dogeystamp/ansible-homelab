@@ -13,6 +13,7 @@ hypervisors:
         - 443
       nftables_internal_listens_tcp:
         - 10001 # forgejo ssh
+      nftables_public_if: end0
 
 
 # Virtual machines

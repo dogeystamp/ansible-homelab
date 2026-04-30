@@ -70,6 +70,7 @@ table inet filter {
   chain forward {
     type filter hook forward priority filter; policy drop;
 
+    ct state { established, related } accept
     ip saddr @ipv4_vpn1 goto forward.internal
   }
 
@@ -87,7 +88,7 @@ table inet nat {
   chain postrouting {
     type nat hook postrouting priority 100;
 
-    meta iifname "wg1" masquerade
+    meta iifname "wg1" meta oifname {{ nftables_public_if | quote }} masquerade
   }
 }
 {% endif %}
