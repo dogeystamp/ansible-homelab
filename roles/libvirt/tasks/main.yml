@@ -33,7 +33,8 @@
     state: directory
     owner: "{{ vm_user.uid }}"
     group: root
-    mode: "u=rwx,g=,o="
+    # must be g=rx, o=rx since inside the VM, the OS is not the owner
+    mode: "u=rwx,g=rx,o=rx"
   register: vm_data_dir
 
 # WireGuard configuration is created and never deleted, because
