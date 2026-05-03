@@ -24,6 +24,13 @@ http:// {
 	}
 }
 
+(local) {
+	@external not client_ip {{ vpn1_subnet }} {{ lan_subnet }}
+	respond @external "nuh uh" 403 {
+		close
+	}
+}
+
 {% if groups["radicale"] | length > 0 %}
 cal.{{ domain_main }} {
 	import internal
@@ -50,7 +57,7 @@ mus.{{ domain_main }} {
 
 {% if groups["forgejo"] | length > 0 %}
 git.{{ domain_main }} {
-	import internal
+	import local
 
 	reverse_proxy {{ hostvars[groups.forgejo[0]].ansible_host }}:3000
 }
