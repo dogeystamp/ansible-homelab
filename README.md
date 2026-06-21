@@ -139,8 +139,14 @@ On Leap, do `sudo zypper up --no-recommends`.
 Sign in to the VM's user.
 
 ```
-virsh destroy $USER; virsh undefine --nvram $USER; rm -r ~/machine/; rm -r ~/.config; loginctl disable-linger
+virsh destroy $USER && virsh undefine --nvram $USER && rm -r ~/machine/ && rm -r ~/.config && loginctl disable-linger
 ```
 
 After, run `userdel -r [vm-user]` as root.
 The `-r` removes the home directory.
+
+To destroy a VM without deleting its data entirely:
+
+```
+virsh destroy $USER && virsh undefine --nvram $USER && mv ~/machine/ ~/machine$(date "+%s").bak && mv ~/.config ~/config$(date "+%s").bak && loginctl disable-linger
+```
