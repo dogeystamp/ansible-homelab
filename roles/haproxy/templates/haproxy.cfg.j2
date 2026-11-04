@@ -1,25 +1,30 @@
+global
+    user haproxy
+    group haproxy
+    chroot /var/lib/haproxy/jail
+
 defaults
-	log global
-	mode tcp
-	timeout connect 5s
-	timeout check 5s
-	timeout client 30s
-	timeout server 30s
+    log global
+    mode tcp
+    timeout connect 5s
+    timeout check 5s
+    timeout client 30s
+    timeout server 30s
 
 listen http
-	bind *:80
+    bind *:80
 {% for host in groups["ingress"] %}
-	server {{ host }} {{ hostvars[host]['ansible_host'] }}:8080  send-proxy-v2
+    server {{ host }} {{ hostvars[host]['ansible_host'] }}:8080  send-proxy-v2
 {% endfor %}
 
 listen https
-	bind *:443
+    bind *:443
 {% for host in groups["ingress"] %}
-	server {{ host }} {{ hostvars[host]['ansible_host'] }}:8443  send-proxy-v2
+    server {{ host }} {{ hostvars[host]['ansible_host'] }}:8443  send-proxy-v2
 {% endfor %}
 
 listen forgejo-ssh
-	bind *:10001
+    bind *:10001
 {% for host in groups["forgejo"] %}
-	server {{ host }} {{ hostvars[host]['ansible_host'] }}:10001
+    server {{ host }} {{ hostvars[host]['ansible_host'] }}:10001
 {% endfor %}

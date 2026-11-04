@@ -4,6 +4,14 @@
     name: haproxy
     state: present
 
+- name: Create HAProxy jail dir
+  ansible.builtin.file:
+    path: "/var/lib/haproxy/jail"
+    group: root
+    owner: root
+    mode: "u=rwx,g=,o="
+    state: directory
+
 - name: Deploy HAProxy configuration
   ansible.builtin.template:
     src: "haproxy.cfg.j2"
